@@ -2,6 +2,7 @@ all:
 	@echo "nothing is done when 'all' is done, try make help"
 help:	## show this help
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+
 .PHONY: venv
 venv: ## create a virtualenv and install dev dependencies
 	virtualenv venv
@@ -13,3 +14,7 @@ venv: ## create a virtualenv and install dev dependencies
 .PHONY: qa
 qa:	## launch QA tests
 	flake8 src
+
+.PHONY: build
+build: ## build vault server
+	pex blah
