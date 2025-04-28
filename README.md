@@ -1,1 +1,1 @@
-# otvl_dvoptls
+# otvl_dvoptls DevOps tools for otvl projects
