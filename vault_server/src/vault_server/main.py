@@ -1,9 +1,8 @@
-import sys
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
-def f():
-    pass
-
-
-if __name__ == "__main__":
-    sys.stderr.write("Starting vault server\n")
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
