@@ -1,3 +1,5 @@
+import os
+
 from cryptography.hazmat.primitives import serialization
 
 
@@ -9,6 +11,7 @@ def save_key_pem(key, path):
     )
     with open(path, 'wb') as f:
         f.write(kpem)
+    os.chmod(path, 0o600)
 
 
 def save_cert_pem(cert, path):
