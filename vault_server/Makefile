@@ -13,9 +13,9 @@ venv: ## create a virtualenv and install dev dependencies
 
 .PHONY: qa
 qa:	## launch QA tests
-	flake8 src
+	venv/bin/flake8 src
 
 .PHONY: run
 run: export PYTHONPATH=src
 run: ## run vault server
-	python -m vault_server
+	venv/bin/python -m vault_server

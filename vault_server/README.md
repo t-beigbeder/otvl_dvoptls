@@ -5,7 +5,11 @@ that can be retrieved from a provisioned VM from cloud-init.
 
 ## Development
 
-vitualenv venv
-pip install pip-tools
-pip-compile requirements-dev.in && pip-compile requirements.in
-pip install -r requirements.txt -r requirements-dev.txt 
+Initialize:
+
+    make venv
+
+### References
+
+- [cryptography Python library](https://cryptography.io/en/latest/)
+- 
