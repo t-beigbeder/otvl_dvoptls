@@ -18,6 +18,6 @@ uvicorn.run(
         ssl_certfile='/tmp/srv.otvl.c.pem',
         ssl_keyfile='/tmp/srv.otvl.k.pem',
         ssl_cert_reqs=ssl.CERT_REQUIRED,
-        #ssl_cert_reqs=ssl.CERT_NONE,
+        # ssl_cert_reqs=ssl.CERT_NONE,
         ssl_ca_certs="/tmp/fca.otvl.c.pem",
 )

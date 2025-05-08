@@ -172,5 +172,7 @@ def build_certs(pri_dir, pub_dir, dnsns, ips):
     save_cert_pem(ecert, f'{pub_dir}/cli.otvl.c.pem')
 
 
-build_certs('/tmp', '/tmp', ["localhost", "devalias"], [ipaddress.IPv4Address('192.168.0.1'), ipaddress.IPv4Address('127.0.0.1')])
+build_certs('/tmp', '/tmp',
+            ["localhost", "devalias"],
+            [ipaddress.IPv4Address('192.168.0.1'), ipaddress.IPv4Address('127.0.0.1')])
 pass
