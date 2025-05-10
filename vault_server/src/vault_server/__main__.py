@@ -1,15 +1,9 @@
-import ssl
 import argparse
+import ssl
 
 import uvicorn
-from fastapi import FastAPI
 
-app = FastAPI()
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+from vault_server import asgi
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--host", default="127.0.0.1")
@@ -22,12 +16,12 @@ parser.add_argument("--cas", default="/tmp/fca.otvl.c.pem")
 args = parser.parse_args()
 
 uvicorn.run(
-        app,
-        host=args.host,
-        port=args.port,
-        log_level=args.level,
-        ssl_certfile=args.cert,
-        ssl_keyfile=args.key,
-        ssl_cert_reqs=args.ccert,
-        ssl_ca_certs=args.cas,
+    asgi.app,
+    host=args.host,
+    port=args.port,
+    log_level=args.level,
+    ssl_certfile=args.cert,
+    ssl_keyfile=args.key,
+    ssl_cert_reqs=args.ccert,
+    ssl_ca_certs=args.cas,
 )

@@ -1,5 +1,4 @@
 import datetime
-import ipaddress
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
