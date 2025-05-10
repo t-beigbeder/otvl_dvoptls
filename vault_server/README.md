@@ -12,4 +12,3 @@ Initialize:
 ### References
 
 - [cryptography Python library](https://cryptography.io/en/latest/)
-- 
