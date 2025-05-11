@@ -5,10 +5,10 @@ import tempfile
 import time
 import unittest
 
-import uvicorn
 import requests
+import uvicorn
 
-from test_pki.__main__ import build_certs
+from pki_test import build_certs
 from vault_server import asgi
 
 
@@ -23,6 +23,7 @@ def _uvicorn(*args):
         host="127.0.0.1",
         port=5443,
         log_level="info",
+        log_config=None,
         ssl_certfile=f"{tdn}/srv.otvl.c.pem",
         ssl_keyfile=f"{tdn}/srv.otvl.k.pem",
         ssl_cert_reqs=ccert,

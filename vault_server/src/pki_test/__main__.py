@@ -1,7 +1,7 @@
-import ipaddress
 import argparse
+import ipaddress
 
-from test_pki import build_certs
+from pki_test import build_certs
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--cdir", default="/tmp")
