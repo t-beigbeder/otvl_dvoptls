@@ -5,8 +5,10 @@ from fastapi import FastAPI, Depends, status, Response, Request
 
 from vault_server import store as vault_store
 from vault_server.model import Host, Secret
+from vault_server.asgi import TlsMiddleware
 
 app = FastAPI()
+app.add_middleware(TlsMiddleware)
 logger = logging.getLogger(__name__)
 
 
