@@ -70,6 +70,20 @@ class TestServer(unittest.TestCase):
         except Exception as e:
             raise e
 
+    def test_server_error(self):
+        self._run_server()
+        time.sleep(1e-1)
+        tdn = self.td.name
+        ee = None
+        try:
+            requests.get(
+                "https://127.0.0.1:5443/healthcheck",
+                verify=f"{tdn}/fca.otvl.c.pem"
+            )
+        except Exception as e:
+            ee = e
+        self.assertIsNotNone(ee)
+
     def test_server_nocc(self):
         self.ccert = ssl.CERT_NONE
         self._run_server()
