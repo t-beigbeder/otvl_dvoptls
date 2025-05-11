@@ -1,7 +1,15 @@
 import ipaddress
+import argparse
 
 from test_pki import build_certs
 
-build_certs("/tmp", "/tmp",
-            ["localhost", "devalias"],
-            [ipaddress.IPv4Address("192.168.0.1"), ipaddress.IPv4Address("127.0.0.1")])
+parser = argparse.ArgumentParser()
+parser.add_argument("--cdir", default="/tmp")
+parser.add_argument("--kdir", default="/tmp")
+parser.add_argument("--host", nargs="*", default=["localhost"])
+parser.add_argument("-a", "--addr", nargs="*", default=["127.0.0.1"])
+args = parser.parse_args()
+addrs = []
+for addr in args.addr:
+    addrs.append(ipaddress.ip_address(addr))
+build_certs(args.kdir, args.cdir, args.host, addrs)
