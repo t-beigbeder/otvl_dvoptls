@@ -19,3 +19,8 @@ qa:	## launch QA tests
 run: export PYTHONPATH=src
 run: ## run vault server
 	venv/bin/python -m vault_server
+
+.PHONY: test
+test: export PYTHONPATH=src
+test: ## test vault server
+	venv/bin/python -m unittest discover -s src

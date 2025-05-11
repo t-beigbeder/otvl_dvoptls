@@ -1,31 +1,40 @@
 import ipaddress
 import multiprocessing
-import os
-import signal
 import ssl
-import sys
 import tempfile
 import time
 import unittest
 
 import uvicorn
+import requests
 
 from test_pki.__main__ import build_certs
 from vault_server import asgi
 
 
-def _uvicorn():
+def _uvicorn(*args):
+    td, ccert = args
+    tdn = td.name
+    add_args = dict()
+    if ccert == ssl.CERT_REQUIRED:
+        add_args["ssl_ca_certs"] = f"{tdn}/fca.otvl.c.pem"
     uvicorn.run(
         asgi.app,
         host="127.0.0.1",
         port=5443,
         log_level="info",
+        ssl_certfile=f"{tdn}/srv.otvl.c.pem",
+        ssl_keyfile=f"{tdn}/srv.otvl.k.pem",
+        ssl_cert_reqs=ccert,
+        **add_args
     )
 
 
 class TestServer(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.td = None
+        self.sp = None
         self.ccert = ssl.CERT_REQUIRED
 
     def setUp(self):
@@ -35,18 +44,42 @@ class TestServer(unittest.TestCase):
                     [ipaddress.IPv4Address("127.0.0.1")])
 
     def tearDown(self):
-        time.sleep(1)
-        sys.stderr.write("TestServer.tearDown\n")
-        os.kill(self.p.pid, signal.SIGTERM)
-        self.p.join()
+        time.sleep(1e-1)
+        if self.sp is not None:
+            self.sp.terminate()
+            self.sp.join()
+        self.td.cleanup()
 
     def _run_server(self):
-        self.p = multiprocessing.Process(target=_uvicorn)
-        self.p.start()
+        self.sp = multiprocessing.Process(
+            target=_uvicorn,
+            args=(self.td, self.ccert,))
+        self.sp.start()
 
     def test_server_basic(self):
         self._run_server()
+        time.sleep(1e-1)
+        tdn = self.td.name
+        try:
+            resp = requests.get(
+                "https://127.0.0.1:5443/healthcheck",
+                cert=(f"{tdn}/cli.otvl.c.pem", f"{tdn}/cli.otvl.k.pem"),
+                verify=f"{tdn}/fca.otvl.c.pem"
+            )
+            self.assertEqual(resp.status_code, 200)
+        except Exception as e:
+            raise e
 
     def test_server_nocc(self):
         self.ccert = ssl.CERT_NONE
         self._run_server()
+        time.sleep(1e-1)
+        tdn = self.td.name
+        try:
+            resp = requests.get(
+                "https://127.0.0.1:5443/healthcheck",
+                verify=f"{tdn}/fca.otvl.c.pem"
+            )
+            self.assertEqual(resp.status_code, 200)
+        except Exception as e:
+            raise e
