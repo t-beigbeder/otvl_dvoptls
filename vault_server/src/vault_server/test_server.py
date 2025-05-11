@@ -9,7 +9,7 @@ import requests
 import uvicorn
 
 from pki_test import build_certs
-from vault_server import asgi
+from vault_server import fa_app
 
 
 def _uvicorn(*args):
@@ -19,7 +19,7 @@ def _uvicorn(*args):
     if ccert == ssl.CERT_REQUIRED:
         add_args["ssl_ca_certs"] = f"{tdn}/fca.otvl.c.pem"
     uvicorn.run(
-        asgi.app,
+        fa_app.app,
         host="127.0.0.1",
         port=5443,
         log_level="info",

@@ -3,7 +3,7 @@ import ssl
 
 import uvicorn
 
-from vault_server import asgi
+from vault_server import fa_app
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--host", default="127.0.0.1")
@@ -28,7 +28,7 @@ else:
     )
 
 uvicorn.run(
-    asgi.app,
+    fa_app.app,
     host=args.host,
     port=args.port,
     log_level=args.level,
