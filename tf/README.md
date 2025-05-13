@@ -10,7 +10,7 @@ concerning openstack client installation.
 
 Set OS_* env variables according to
 [documentation](https://docs.openstack.org/python-openstackclient/3.4.1/man/openstack.html#environment-variables),
-then check:
+then check, eg:
 
     openstack flavor list
 
@@ -23,9 +23,7 @@ Avoid storing 300 MB for aws plugin (if applicable) per tf launch
 
 ## Deploy using IaC
 
-    cd otvl/prod
-    cp values.auto.tfvars.sample values.auto.tfvars
-    vi values.auto.tfvars.sample
+    cd otvl/prod/xxx
     tofu init
     tofu apply
 

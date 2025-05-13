@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"compute","Source":"../../modules/svault/compute","Dir":"../../modules/svault/compute"},{"Key":"compute.instances","Source":"../../../../modules/instances","Dir":"../../../modules/instances"},{"Key":"network","Source":"../../modules/svault/network","Dir":"../../modules/svault/network"}]}
