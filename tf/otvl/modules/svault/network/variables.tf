@@ -14,12 +14,12 @@ variable "sproxy_sg_name" {
   description = "The security group name for external access"
   type        = string
 }
-variable "sproxy_port" {
-  description = "The UDP port of bssms proxy"
-  type = string
+variable "svault_port" {
+  description = "The port of secure vault server"
+  type        = string
 }
 variable "sproxy_ssh_exposed" {
   description = "does the sproxy server expose SSH"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }

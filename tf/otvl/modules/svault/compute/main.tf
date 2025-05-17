@@ -19,7 +19,7 @@ module "instances" {
   rops_repo          = ""
   install_env        = ""
   sproxy_int_address = ""
-  bssms_proxy_port   = var.bssms_proxy_port
+  svault_port        = var.svault_port
   instances_attrs = [
     merge(
       var.instance_attr,
@@ -28,6 +28,5 @@ module "instances" {
       }
     )
   ]
-  go_version         = var.go_version
   user_data_template = "${path.module}/cloud-config.yaml"
 }

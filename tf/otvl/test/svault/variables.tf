@@ -30,14 +30,6 @@ variable "dot_branch" {
   description = "Git branch devopstools"
   type        = string
 }
-variable "go_version" {
-  description = "Version of the go runtime"
-  type        = string
-}
-variable "bssms_proxy_port" {
-  description = "The UDP port of bssms proxy"
-  type = string
-}
 variable "instance_attr" {
   description = "Attributes for instance to create"
   type = object({
@@ -54,8 +46,13 @@ variable "instance_attr" {
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
+variable "svault_port" {
+  description = "The port of secure vault server"
+  type        = string
+  default     = "443"
+}
 variable "sproxy_ssh_exposed" {
   description = "does the svault server expose SSH"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }

@@ -38,12 +38,8 @@ variable "dot_branch" {
 #   description = "The IPv4 local address of the bastion"
 #   type = string
 # }
-variable "bssms_proxy_port" {
-  description = "The UDP port of bssms proxy"
-  type = string
-}
-variable "go_version" {
-  description = "Version of the go runtime"
+variable "svault_port" {
+  description = "The port of secure vault server"
   type        = string
 }
 variable "instance_attr" {

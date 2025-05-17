@@ -6,7 +6,6 @@ write_files:
       export CI_LIP4=${tf_loc_ip_v4}
       export CI_DOT_REPO=${tf_dot_repo}
       export CI_DOT_BRANCH=${tf_dot_branch}
-      export CI_GOV=${tf_go_version}
       export HOME=/root
       echo `date`: command $0 is starting
       apt-get update && \
@@ -30,7 +29,7 @@ write_files:
       [Unit]
       Description=Runs bssms proxy
       [Service]
-      ExecStart=/usr/local/bin/bssms px -la 0.0.0.0:${tf_bssms_proxy_port} --host `hostname` -ut
+      ExecStart=/usr/local/bin/bssms px -la 0.0.0.0:${tf_svault_port} --host `hostname` -ut
       WorkingDirectory=/root
       [Install]
       WantedBy=multi-user.target

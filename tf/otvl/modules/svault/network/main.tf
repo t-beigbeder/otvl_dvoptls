@@ -47,8 +47,8 @@ resource "openstack_networking_secgroup_rule_v2" "ext_sproxy_quic" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "udp"
-  port_range_min    = var.sproxy_port
-  port_range_max    = var.sproxy_port
+  port_range_min    = var.svault_port
+  port_range_max    = var.svault_port
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.ext.id
 }
