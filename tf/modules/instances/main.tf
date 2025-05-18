@@ -43,7 +43,7 @@ resource "openstack_compute_instance_v2" "instances" {
     tf_rops_repo            = var.rops_repo
     tf_install_env          = var.install_env
     tf_prik                 = var.instances_attrs[count.index].secrets_pri_key
-    tf_bssms_proxy_hostname = var.sproxy_int_address
+    tf_svault_hostname = var.svault_int_address
     tf_svault_port          = var.svault_port
   }))
 

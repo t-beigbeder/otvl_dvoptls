@@ -46,8 +46,8 @@ variable "install_env" {
   description = "Environment to install"
   type        = string
 }
-variable "sproxy_int_address" {
-  description = "The internal address of the bssms proxy, hostname or IP"
+variable "svault_int_address" {
+  description = "The internal address of the secure vault server, hostname or IP"
   type        = string
 }
 variable "svault_port" {

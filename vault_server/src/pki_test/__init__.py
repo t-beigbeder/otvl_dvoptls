@@ -97,7 +97,7 @@ def build_int_ca(rkey, rcert):
     return ikey, icert
 
 
-def build_ecert(ikey, icert, dnsns, ips):
+def build_ecert(ikey, icert, dnsns, ips, days):
     ekey = ec.generate_private_key(ec.SECP256R1())
     is_server = len(dnsns) + len(ips) > 0
     cn = ",".join(dnsns) if is_server else "client"
@@ -118,7 +118,7 @@ def build_ecert(ikey, icert, dnsns, ips):
     ).not_valid_before(
         datetime.datetime.now(datetime.timezone.utc)
     ).not_valid_after(
-        datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=10)
+        datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=days)
     ).add_extension(
         x509.SubjectAlternativeName(sans),
         critical=False,
@@ -155,7 +155,7 @@ def build_ecert(ikey, icert, dnsns, ips):
     return ekey, ecert
 
 
-def build_certs(pri_dir, pub_dir, dnsns, ips):
+def build_certs(pri_dir, pub_dir, dnsns, ips, days):
     rkey, rcert = build_root_ca()
     save_key_pem(rkey, f"{pri_dir}/rca.otvl.k.pem")
     save_cert_pem(rcert, f"{pub_dir}/rca.otvl.c.pem")
@@ -163,9 +163,9 @@ def build_certs(pri_dir, pub_dir, dnsns, ips):
     save_key_pem(ikey, f"{pri_dir}/ica.otvl.k.pem")
     save_cert_pem(icert, f"{pub_dir}/ica.otvl.c.pem")
     cat(f"{pub_dir}/fca.otvl.c.pem", f"{pub_dir}/rca.otvl.c.pem", f"{pub_dir}/ica.otvl.c.pem")
-    ekey, ecert = build_ecert(ikey, icert, dnsns, ips)
+    ekey, ecert = build_ecert(ikey, icert, dnsns, ips, days)
     save_key_pem(ekey, f"{pri_dir}/srv.otvl.k.pem")
     save_cert_pem(ecert, f"{pub_dir}/srv.otvl.c.pem")
-    ekey, ecert = build_ecert(ikey, icert, [], [])
+    ekey, ecert = build_ecert(ikey, icert, [], [], days)
     save_key_pem(ekey, f"{pri_dir}/cli.otvl.k.pem")
     save_cert_pem(ecert, f"{pub_dir}/cli.otvl.c.pem")

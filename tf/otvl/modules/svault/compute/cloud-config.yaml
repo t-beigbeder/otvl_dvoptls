@@ -9,13 +9,12 @@ write_files:
       export HOME=/root
       echo `date`: command $0 is starting
       apt-get update && \
-      apt-get install -y --no-install-recommends git jq yq curl fail2ban python3-systemd && \
+      apt-get install -y --no-install-recommends git virtualenv fail2ban python3-systemd && \
       mkdir -p /root/clinit /root/locgit && cd /root/locgit && \
-      curl -L https://go.dev/dl/go$CI_GOV.linux-amd64.tar.gz -o go.tgz && \
-      rm -rf /usr/local/go && tar -C /usr/local -xzf go.tgz && rm go.tgz && \
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
-      cd otvl_devops_tools/src/go/bssms/ && /usr/local/go/bin/go build -o /usr/local/bin ./... && \
-      cd  /root/clinit && rm -rf otvl_devops_tools && rm -rf /usr/local/go && \
+      cd otvl_dvoptls/vault_server && virtualenv venv && \
+      venv/bin/pip install -r requirements.txt && \
+      venv/bin/python
       systemctl daemon-reload && \
       systemctl enable bssms_proxy && \
       systemctl start bssms_proxy && \
@@ -27,13 +26,14 @@ write_files:
     permissions: '0750'
   - content: |
       [Unit]
-      Description=Runs bssms proxy
+      Description=Runs svault server
       [Service]
-      ExecStart=/usr/local/bin/bssms px -la 0.0.0.0:${tf_svault_port} --host `hostname` -ut
-      WorkingDirectory=/root
+      Environment="PYTHONPATH=src"
+      ExecStart=venv/bin/python -m vault_server --log-config src/vault_server/log_config.yml
+      WorkingDirectory=/root/locgit/otvl_dvoptls/vault_server
       [Install]
       WantedBy=multi-user.target
-    path: /etc/systemd/system/bssms_proxy.service
+    path: /etc/systemd/system/svault_server.service
     permissions: '0644'
   - content: |
       [DEFAULT]
