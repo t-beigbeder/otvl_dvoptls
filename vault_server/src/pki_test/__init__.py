@@ -155,17 +155,54 @@ def build_ecert(ikey, icert, dnsns, ips, days):
     return ekey, ecert
 
 
-def build_certs(pri_dir, pub_dir, dnsns, ips, days):
+def build_self_signed(dnsns, ips, days):
+    ekey = ec.generate_private_key(ec.SECP256R1())
+    cn = ",".join(dnsns) + ",self-signed"
+    subject = x509.Name([
+        x509.NameAttribute(NameOID.ORGANIZATION_NAME, "otvl"),
+        x509.NameAttribute(NameOID.COMMON_NAME, cn),
+    ])
+    sans = [x509.DNSName(dnsn) for dnsn in dnsns]
+    sans.extend([x509.IPAddress(ip) for ip in ips])
+    ecert = x509.CertificateBuilder().subject_name(
+        subject
+    ).issuer_name(
+        subject
+    ).public_key(
+        ekey.public_key()
+    ).serial_number(
+        x509.random_serial_number()
+    ).not_valid_before(
+        datetime.datetime.now(datetime.timezone.utc)
+    ).not_valid_after(
+        datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=days)
+    ).add_extension(
+        x509.SubjectAlternativeName(sans),
+        critical=False,
+    ).sign(ekey, hashes.SHA256())
+    return ekey, ecert
+
+
+def build_certs(pri_dir, pub_dir, dnsns, ips, days, pass_file):
+    password = None
+    if pass_file is not None:
+        with open(pass_file, "r") as f:
+            for line in f:
+                password = line[:-1] if line.endswith("\n") else line
+                break
     rkey, rcert = build_root_ca()
-    save_key_pem(rkey, f"{pri_dir}/rca.otvl.k.pem")
+    save_key_pem(rkey, f"{pri_dir}/rca.otvl.k.pem", None)
     save_cert_pem(rcert, f"{pub_dir}/rca.otvl.c.pem")
     ikey, icert = build_int_ca(rkey, rcert)
-    save_key_pem(ikey, f"{pri_dir}/ica.otvl.k.pem")
+    save_key_pem(ikey, f"{pri_dir}/ica.otvl.k.pem", None)
     save_cert_pem(icert, f"{pub_dir}/ica.otvl.c.pem")
     cat(f"{pub_dir}/fca.otvl.c.pem", f"{pub_dir}/rca.otvl.c.pem", f"{pub_dir}/ica.otvl.c.pem")
     ekey, ecert = build_ecert(ikey, icert, dnsns, ips, days)
-    save_key_pem(ekey, f"{pri_dir}/srv.otvl.k.pem")
+    save_key_pem(ekey, f"{pri_dir}/srv.otvl.k.pem", password)
     save_cert_pem(ecert, f"{pub_dir}/srv.otvl.c.pem")
+    sskey, sscert = build_self_signed(dnsns, ips, days)
+    save_key_pem(sskey, f"{pri_dir}/slf.otvl.k.pem", None)
+    save_cert_pem(sscert, f"{pub_dir}/slf.otvl.c.pem")
     ekey, ecert = build_ecert(ikey, icert, [], [], days)
-    save_key_pem(ekey, f"{pri_dir}/cli.otvl.k.pem")
+    save_key_pem(ekey, f"{pri_dir}/cli.otvl.k.pem", None)
     save_cert_pem(ecert, f"{pub_dir}/cli.otvl.c.pem")

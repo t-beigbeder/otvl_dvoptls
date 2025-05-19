@@ -14,10 +14,9 @@ write_files:
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
       cd otvl_dvoptls/vault_server && virtualenv venv && \
       venv/bin/pip install -r requirements.txt && \
-      venv/bin/python
       systemctl daemon-reload && \
-      systemctl enable bssms_proxy && \
-      systemctl start bssms_proxy && \
+      systemctl enable svault_server && \
+      systemctl start svault_server && \
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0
@@ -29,8 +28,10 @@ write_files:
       Description=Runs svault server
       [Service]
       Environment="PYTHONPATH=src"
-      ExecStart=venv/bin/python -m vault_server --log-config src/vault_server/log_config.yml
+      ExecStart=venv/bin/python -m vault_server -u 9080 --log-config src/vault_server/log_config.yml
       WorkingDirectory=/root/locgit/otvl_dvoptls/vault_server
+      Restart=always
+      RestartSec=20s
       [Install]
       WantedBy=multi-user.target
     path: /etc/systemd/system/svault_server.service
