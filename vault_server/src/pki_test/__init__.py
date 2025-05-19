@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.x509.oid import NameOID
 
+from utils import files
 from utils.certs import save_key_pem, save_cert_pem
 from utils.files import cat
 
@@ -186,6 +187,7 @@ def build_self_signed(dnsns, ips, days):
 def build_certs(pri_dir, pub_dir, dnsns, ips, days, pass_file):
     password = None
     if pass_file is not None:
+        password = files.read_pass_file(pass_file)
         with open(pass_file, "r") as f:
             for line in f:
                 password = line[:-1] if line.endswith("\n") else line

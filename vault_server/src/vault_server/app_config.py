@@ -1,6 +1,6 @@
 class AppConfig:
     def __init__(self, **kwargs):
-        self.ssl_keyfile_password = kwargs.pop("ssl_keyfile_password")
+        self.pass_file = kwargs.pop("pass_file", None)
 
 
 config = None

@@ -4,6 +4,7 @@ import ssl
 
 import uvicorn
 
+from utils import files
 from vault_server import fa_app
 from vault_server.app_config import NewAppConfig
 
@@ -22,11 +23,11 @@ parser.add_argument("--cas", default="/tmp/fca.otvl.c.pem")
 parser.add_argument("--no-ssl", default=False, action="store_true")
 args = parser.parse_args()
 
-acd = {"ssl_keyfile_password": None}
+acd = {"pass_file": None}
 if args.no_ssl:
     add_args = dict()
 elif args.pass_file is not None and not os.path.exists(args.pass_file):
-    acd["ssl_keyfile_password"] = args.pass_file
+    acd["pass_file"] = args.pass_file
     add_args = dict(
         ssl_certfile=args.self_cert,
         ssl_keyfile=args.self_key,
@@ -35,7 +36,7 @@ else:
     add_args = dict(
         ssl_certfile=args.cert,
         ssl_keyfile=args.key,
-        ssl_keyfile_password=args.pass_file,
+        ssl_keyfile_password=files.read_pass_file(args.pass_file),
         ssl_cert_reqs=args.no_ccert,
         ssl_ca_certs=args.cas,
     )
