@@ -1,6 +1,7 @@
 import ipaddress
 import multiprocessing
 import ssl
+import sys
 import tempfile
 import time
 import unittest
@@ -18,6 +19,7 @@ def _uvicorn(*args):
     add_args = dict()
     if ccert == ssl.CERT_REQUIRED:
         add_args["ssl_ca_certs"] = f"{tdn}/fca.otvl.c.pem"
+    sys.stderr.write("\nuvicorn start\n")
     uvicorn.run(
         fa_app.app,
         host="127.0.0.1",
@@ -29,6 +31,7 @@ def _uvicorn(*args):
         ssl_cert_reqs=ccert,
         **add_args
     )
+    sys.stderr.write("\nuvicorn stop\n")
 
 
 class TestServer(unittest.TestCase):
@@ -42,7 +45,8 @@ class TestServer(unittest.TestCase):
         self.td = tempfile.TemporaryDirectory(self.id().split('.')[-1])
         build_certs(self.td.name, self.td.name,
                     ["localhost"],
-                    [ipaddress.IPv4Address("127.0.0.1")])
+                    [ipaddress.IPv4Address("127.0.0.1")],
+                    1, None)
 
     def tearDown(self):
         time.sleep(1e-1)

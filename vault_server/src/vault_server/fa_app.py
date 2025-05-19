@@ -1,19 +1,16 @@
-import asyncio
 import logging
 import os
 import signal
-import sys
-import time
 from contextlib import asynccontextmanager
 from typing import Annotated
 
 from fastapi import FastAPI, Depends, status, Response, Request, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-from vault_server import store as vault_store
-from vault_server.model import Host, Secret
 from vault_server import app_config
+from vault_server import store as vault_store
 from vault_server.asgi import TlsMiddleware
+from vault_server.model import Host, Secret
 from vault_server.secu import is_admin, server_digest, is_host
 
 
@@ -22,7 +19,7 @@ async def lifespan(app: FastAPI):
     if app_config.config.pass_file is not None:
         logger.info(f"Using self-signed certificate until {app_config.config.pass_file} is provisioned")
     else:
-        logger.info(f"Using PKI SSL key file")
+        logger.info("Using PKI SSL key file")
     yield
 
 
