@@ -6,7 +6,7 @@ import uvicorn
 
 from utils import files
 from vault_server import fa_app
-from vault_server.app_config import NewAppConfig
+from vault_server.app_config import new_app_config
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--host", default="127.0.0.1")
@@ -21,9 +21,10 @@ parser.add_argument("--pass-file")
 parser.add_argument("--no-ccert", default=ssl.CERT_REQUIRED, action="store_const", const=ssl.CERT_NONE)
 parser.add_argument("--cas", default="/tmp/fca.otvl.c.pem")
 parser.add_argument("--no-ssl", default=False, action="store_true")
+parser.add_argument("--admin-digest", default="04efdddb07ba603cc25b1c93115fbb2a9fc4b4093eeb2faee9cb226f0b02c6a8")
 args = parser.parse_args()
 
-acd = {"pass_file": None}
+acd = {"pass_file": None, "admin_digest": args.admin_digest}
 if args.no_ssl:
     add_args = dict()
 elif args.pass_file is not None and not os.path.exists(args.pass_file):
@@ -41,7 +42,7 @@ else:
         ssl_ca_certs=args.cas,
     )
 
-NewAppConfig(**acd)
+new_app_config(**acd)
 uvicorn.run(
     fa_app.app,
     host=args.host,
