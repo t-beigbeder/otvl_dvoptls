@@ -11,6 +11,7 @@ import uvicorn
 
 from pki_test import build_certs
 from vault_server import fa_app
+from vault_server.app_config import new_app_config
 
 
 def _uvicorn(*args):
@@ -20,6 +21,7 @@ def _uvicorn(*args):
     if ccert == ssl.CERT_REQUIRED:
         add_args["ssl_ca_certs"] = f"{tdn}/fca.otvl.c.pem"
     sys.stderr.write("\nuvicorn start\n")
+    new_app_config({})
     uvicorn.run(
         fa_app.app,
         host="127.0.0.1",
@@ -60,6 +62,10 @@ class TestServer(unittest.TestCase):
             target=_uvicorn,
             args=(self.td, self.ccert,))
         self.sp.start()
+
+    def test_only_server(self):
+        self._run_server()
+        time.sleep(3600)
 
     def test_server_basic(self):
         self._run_server()
