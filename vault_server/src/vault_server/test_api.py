@@ -5,8 +5,8 @@ from fastapi import status
 from fastapi.testclient import TestClient
 
 from . import store
-from .fa_app import app
 from .app_config import new_app_config
+from .fa_app import app
 from .model import Host, Secret
 
 client = TestClient(app)
@@ -25,7 +25,7 @@ class TestApi(unittest.TestCase):
 
     def test_create_host_base(self):
         h1 = Host(name="h1", password="p1")
-        rsp = client.post("/host", auth=("localhost", "p") ,content=h1.model_dump_json())
+        rsp = client.post("/host", auth=("localhost", "p"), content=h1.model_dump_json())
         self.assertEqual(status.HTTP_201_CREATED, rsp.status_code)
         self.assertIn("h1", store.get())
         h2 = Host(name="h2", password="p2")

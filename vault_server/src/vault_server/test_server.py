@@ -1,7 +1,6 @@
 import ipaddress
 import multiprocessing
 import ssl
-import sys
 import tempfile
 import time
 import unittest
