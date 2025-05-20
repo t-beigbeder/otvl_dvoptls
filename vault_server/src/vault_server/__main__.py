@@ -34,10 +34,11 @@ elif args.pass_file is not None and not os.path.exists(args.pass_file):
         ssl_keyfile=args.self_key,
     )
 else:
+    skp = files.read_pass_file(args.pass_file) if args.pass_file else None
     add_args = dict(
         ssl_certfile=args.cert,
         ssl_keyfile=args.key,
-        ssl_keyfile_password=files.read_pass_file(args.pass_file),
+        ssl_keyfile_password=skp,
         ssl_cert_reqs=args.no_ccert,
         ssl_ca_certs=args.cas,
     )

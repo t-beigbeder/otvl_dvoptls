@@ -20,8 +20,7 @@ def _uvicorn(*args):
     add_args = dict()
     if ccert == ssl.CERT_REQUIRED:
         add_args["ssl_ca_certs"] = f"{tdn}/fca.otvl.c.pem"
-    sys.stderr.write("\nuvicorn start\n")
-    new_app_config({})
+    new_app_config(admin_digest="8ab70636e423eed09f1cb41b288f8f94d6afb823ef82b08e2ce10dfdf0a55adf")
     uvicorn.run(
         fa_app.app,
         host="127.0.0.1",
@@ -33,7 +32,6 @@ def _uvicorn(*args):
         ssl_cert_reqs=ccert,
         **add_args
     )
-    sys.stderr.write("\nuvicorn stop\n")
 
 
 class TestServer(unittest.TestCase):
@@ -65,7 +63,7 @@ class TestServer(unittest.TestCase):
 
     def test_only_server(self):
         self._run_server()
-        time.sleep(3600)
+        time.sleep(0.1)
 
     def test_server_basic(self):
         self._run_server()
