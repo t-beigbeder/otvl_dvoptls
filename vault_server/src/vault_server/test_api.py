@@ -55,7 +55,21 @@ class TestApi(unittest.TestCase):
         self.assertIn("value", gs1)
         self.assertEqual(s1.value, gs1["value"])
 
-    def test_add_existing_secret(self):
+    def test_update_host(self):
+        self.assertNotIn("h1", store.get())
+        h1 = Host(name="h1", password="p1")
+        rsp = client.post("/host", auth=("localhost", "p"), content=h1.model_dump_json())
+        self.assertEqual(status.HTTP_201_CREATED, rsp.status_code)
+        h1d = Host(name="h1", password="p1d")
+        rsp = client.post("/host?force=1", auth=("localhost", "p"), content=h1d.model_dump_json())
+        self.assertEqual(status.HTTP_200_OK, rsp.status_code)
+        s1 = Secret(key="s1", value="value1")
+        rsp = client.post("/host/h1/secret", auth=("localhost", "p"), content=s1.model_dump_json())
+        self.assertEqual(status.HTTP_201_CREATED, rsp.status_code)
+        rsp = client.get("/host/h1/secret/s1", auth=("h1", "p1d"))
+        self.assertEqual(status.HTTP_200_OK, rsp.status_code)
+
+    def test_update_secret(self):
         h1 = Host(name="h1", password="p1")
         rsp = client.post("/host", auth=("localhost", "p"), content=h1.model_dump_json())
         self.assertEqual(status.HTTP_201_CREATED, rsp.status_code)

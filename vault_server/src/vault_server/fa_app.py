@@ -58,15 +58,17 @@ async def store_ssl_keyfile_password(req: Request, rsp: Response):
 async def create_host(host: Host,
                       store: Annotated[dict, Depends(vault_store.store)],
                       creds: Annotated[HTTPBasicCredentials, Depends(security)],
-                      rsp: Response):
+                      rsp: Response,
+                      force: bool | None = None):
     if not is_admin(creds):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="only admin can do that")
-    if host.name in store:
+    if host.name in store and not force:
         rsp.status_code = status.HTTP_409_CONFLICT
         return
+    present = host.name in store
     store[host.name] = {"_hex_digest": server_digest(host)}
     logger.info(f"Creating new host {host.name} digest {store[host.name]['_hex_digest']}")
-    rsp.status_code = status.HTTP_201_CREATED
+    rsp.status_code = status.HTTP_201_CREATED if not present else status.HTTP_200_OK
 
 
 @app.post("/host/{name}/secret")
