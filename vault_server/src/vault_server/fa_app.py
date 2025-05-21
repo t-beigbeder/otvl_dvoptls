@@ -73,22 +73,24 @@ async def create_host(host: Host,
 async def add_secret(name: str, secret: Secret,
                      store: Annotated[dict, Depends(vault_store.store)],
                      creds: Annotated[HTTPBasicCredentials, Depends(security)],
-                     rsp: Response):
+                     rsp: Response,
+                     force: bool | None = None):
     if not is_admin(creds):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="only admin can do that")
     if name not in store:
         rsp.status_code = status.HTTP_404_NOT_FOUND
         return
-    if secret.key in store[name]:
+    if secret.key in store[name] and not force:
         rsp.status_code = status.HTTP_409_CONFLICT
         return
+    present = secret.key in store[name]
     store[name][secret.key] = secret.value
-    rsp.status_code = status.HTTP_201_CREATED
+    rsp.status_code = status.HTTP_201_CREATED if not present else status.HTTP_200_OK
 
 
 @app.get("/host/{name}/secret/{key}")
 async def get_secret(name: str, key: str,
-                     store: Annotated[dict, Depends(vault_store.store)], req: Request,
+                     store: Annotated[dict, Depends(vault_store.store)],
                      creds: Annotated[HTTPBasicCredentials, Depends(security)],
                      rsp: Response):
     if name not in store:
