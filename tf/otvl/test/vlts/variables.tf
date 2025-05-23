@@ -52,7 +52,7 @@ variable "svault_port" {
   default     = "443"
 }
 variable "sproxy_ssh_exposed" {
-  description = "does the svault server expose SSH"
+  description = "does the vlts server expose SSH"
   type        = bool
   default     = false
 }

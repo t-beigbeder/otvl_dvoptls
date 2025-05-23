@@ -7,8 +7,8 @@
     },
     {
       "Key": "compute",
-      "Source": "../../modules/svault/compute",
-      "Dir": "../../modules/svault/compute"
+      "Source": "../../modules/vlts/compute",
+      "Dir": "../../modules/vlts/compute"
     },
     {
       "Key": "compute.instances",
@@ -17,8 +17,8 @@
     },
     {
       "Key": "network",
-      "Source": "../../modules/svault/network",
-      "Dir": "../../modules/svault/network"
+      "Source": "../../modules/vlts/network",
+      "Dir": "../../modules/vlts/network"
     }
   ]
 }

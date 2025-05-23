@@ -1,1 +1,0 @@
-lops_dir/computing-svault.auto.tfvars

@@ -12,7 +12,7 @@ terraform {
 }
 
 module "network" {
-  source             = "../../modules/svault/network"
+  source             = "../../modules/vlts/network"
   ext_net_name       = var.ext_net_name
   loc_net_name       = var.loc_net_name
   sproxy_sg_name     = var.sproxy_sg_name
@@ -21,7 +21,7 @@ module "network" {
 }
 
 module "compute" {
-  source        = "../../modules/svault/compute"
+  source        = "../../modules/vlts/compute"
   ext_net_id    = module.network.ext_net_id
   loc_net_id    = module.network.loc_net_id
   loc_subnet_id = module.network.loc_subnet_id

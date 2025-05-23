@@ -25,7 +25,7 @@ write_files:
     permissions: '0750'
   - content: |
       [Unit]
-      Description=Runs svault server
+      Description=Runs vlts server
       [Service]
       Environment="PYTHONPATH=src"
       ExecStart=venv/bin/python -m vault_server -u 9080 --log-config src/vault_server/log_config.yml
