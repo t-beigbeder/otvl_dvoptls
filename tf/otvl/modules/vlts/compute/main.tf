@@ -13,6 +13,7 @@ module "instances" {
   loc_subnet_id  = var.loc_subnet_id
   external_sg_id = var.vlts_sg_id
   vlts_int_address   = ""
+  vlts_port = var.vlts_port
   ssh_key_name   = var.ssh_key_name
   ssh_pub        = var.ssh_pub
   dot_repo       = var.dot_repo

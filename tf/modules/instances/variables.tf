@@ -50,6 +50,10 @@ variable "vlts_int_address" {
   description = "The internal address of the vlts, hostname or IP"
   type        = string
 }
+variable "vlts_port" {
+  description = "The HTTPS port of vlts"
+  type        = number
+}
 variable "instances_attrs" {
   description = "Attributes for instances to create"
   type = list(object({

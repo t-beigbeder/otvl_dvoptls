@@ -23,22 +23,12 @@ resource "openstack_networking_secgroup_v2" "ext" {
   name = var.vlts_sg_name
 }
 
-resource "openstack_networking_secgroup_rule_v2" "ext_http" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 80
-  port_range_max    = 80
-  remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = openstack_networking_secgroup_v2.ext.id
-}
-
 resource "openstack_networking_secgroup_rule_v2" "ext_https" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"
-  port_range_min    = 443
-  port_range_max    = 443
+  port_range_min    = var.vlts_port
+  port_range_max    = var.vlts_port
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.ext.id
 }

@@ -46,7 +46,11 @@ variable "instance_attr" {
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
-
+variable "vlts_port" {
+  description = "The HTTPS port of vlts"
+  type        = number
+  default     = 9443
+}
 variable "vlts_ssh_exposed" {
   description = "does the vlts server expose SSH"
   type        = bool

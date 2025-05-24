@@ -3,6 +3,7 @@ write_files:
   - content: |
       #!/bin/sh
       export CI_LHN=${tf_loc_hostname}
+      export CI_VLTS_PORT=${tf_vlts_port}
       export CI_LIP4=${tf_loc_ip_v4}
       export CI_DOT_REPO=${tf_dot_repo}
       export CI_DOT_BRANCH=${tf_dot_branch}

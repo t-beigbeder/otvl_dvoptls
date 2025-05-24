@@ -44,6 +44,7 @@ resource "openstack_compute_instance_v2" "instances" {
     tf_install_env   = var.install_env
     tf_prik          = var.instances_attrs[count.index].secrets_pri_key
     tf_vlts_hostname = var.vlts_int_address
+    tf_vlts_port = var.vlts_port
   }))
 
   security_groups = []

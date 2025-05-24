@@ -45,3 +45,7 @@ variable "instance_attr" {
     flavor_name = string
   })
 }
+variable "vlts_port" {
+  description = "The HTTPS port of vlts"
+  type        = number
+}
