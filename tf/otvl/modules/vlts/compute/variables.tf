@@ -14,8 +14,8 @@ variable "loc_subnet_id" {
   description = "The local subnet id"
   type        = string
 }
-variable "sproxy_sg_id" {
-  description = "sproxy sg id"
+variable "vlts_sg_id" {
+  description = "vlts sg id"
   type        = string
 }
 variable "ssh_key_name" {
@@ -32,14 +32,6 @@ variable "dot_repo" {
 }
 variable "dot_branch" {
   description = "Git branch devopstools"
-  type        = string
-}
-# variable "bastion_loc_ip_v4" {
-#   description = "The IPv4 local address of the bastion"
-#   type = string
-# }
-variable "svault_port" {
-  description = "The port of secure vault server"
   type        = string
 }
 variable "instance_attr" {

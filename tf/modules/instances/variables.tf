@@ -46,12 +46,8 @@ variable "install_env" {
   description = "Environment to install"
   type        = string
 }
-variable "svault_int_address" {
-  description = "The internal address of the secure vault server, hostname or IP"
-  type        = string
-}
-variable "svault_port" {
-  description = "The port of secure vault server"
+variable "vlts_int_address" {
+  description = "The internal address of the vlts, hostname or IP"
   type        = string
 }
 variable "instances_attrs" {

@@ -15,8 +15,8 @@ write_files:
       cd otvl_dvoptls/vault_server && virtualenv venv && \
       venv/bin/pip install -r requirements.txt && \
       systemctl daemon-reload && \
-      systemctl enable svault_server && \
-      systemctl start svault_server && \
+      systemctl enable vlts_server && \
+      systemctl start vlts_server && \
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0
@@ -34,7 +34,7 @@ write_files:
       RestartSec=20s
       [Install]
       WantedBy=multi-user.target
-    path: /etc/systemd/system/svault_server.service
+    path: /etc/systemd/system/vlts_server.service
     permissions: '0644'
   - content: |
       [DEFAULT]
