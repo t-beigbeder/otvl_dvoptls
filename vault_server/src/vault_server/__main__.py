@@ -21,7 +21,7 @@ parser.add_argument("--pass-file")
 parser.add_argument("--no-ccert", default=ssl.CERT_REQUIRED, action="store_const", const=ssl.CERT_NONE)
 parser.add_argument("--cas", default="/tmp/fca.otvl.c.pem")
 parser.add_argument("--no-ssl", default=False, action="store_true")
-parser.add_argument("--admin-digest", default="04efdddb07ba603cc25b1c93115fbb2a9fc4b4093eeb2faee9cb226f0b02c6a8")
+parser.add_argument("--admin-digest", default="a599f2542496826c7c8d63b1bd3989fc1a1ce4f750825ec6e7232b370b75c10d")
 args = parser.parse_args()
 
 acd = {"pass_file": None, "admin_digest": args.admin_digest}
