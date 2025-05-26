@@ -35,18 +35,7 @@ resource "openstack_compute_instance_v2" "instances" {
   image_name  = var.instances_attrs[count.index].image_name
   flavor_name = var.instances_attrs[count.index].flavor_name
   key_pair    = openstack_compute_keypair_v2.this.name
-  user_data = base64encode(templatefile(var.user_data_template, {
-    tf_loc_hostname  = var.instances_attrs[count.index].name,
-    tf_loc_ip_v4     = var.instances_attrs[count.index].ip_v4,
-    tf_dot_repo      = var.dot_repo
-    tf_dot_branch    = var.dot_branch
-    tf_rops_repo     = var.rops_repo
-    tf_install_env   = var.install_env
-    tf_prik          = var.instances_attrs[count.index].secrets_pri_key
-    tf_vlts_hostname = var.vlts_int_address
-    tf_vlts_port = var.vlts_port
-  }))
-
+  user_data = var.instances_attrs[count.index].user_data
   security_groups = []
   network {
     port = openstack_networking_port_v2.ext[count.index].id

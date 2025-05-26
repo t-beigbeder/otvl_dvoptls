@@ -26,34 +26,6 @@ variable "ssh_pub" {
   description = "The SSH public key to authorize in created instances"
   type        = string
 }
-variable "user_data_template" {
-  description = "Template file for user data to be provided to the instance"
-  type        = string
-}
-variable "dot_repo" {
-  description = "Git repo devopstools"
-  type        = string
-}
-variable "dot_branch" {
-  description = "Git branch devopstools"
-  type        = string
-}
-variable "rops_repo" {
-  description = "Git repo remote operations"
-  type        = string
-}
-variable "install_env" {
-  description = "Environment to install"
-  type        = string
-}
-variable "vlts_int_address" {
-  description = "The internal address of the vlts, hostname or IP"
-  type        = string
-}
-variable "vlts_port" {
-  description = "The HTTPS port of vlts"
-  type        = number
-}
 variable "instances_attrs" {
   description = "Attributes for instances to create"
   type = list(object({
@@ -63,6 +35,6 @@ variable "instances_attrs" {
     ip_v4           = string
     image_name      = string
     flavor_name     = string
-    secrets_pri_key = string
+    user_data = string
   }))
 }
