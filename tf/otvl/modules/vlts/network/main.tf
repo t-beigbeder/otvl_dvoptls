@@ -33,7 +33,7 @@ resource "openstack_networking_secgroup_rule_v2" "ext_https" {
   security_group_id = openstack_networking_secgroup_v2.ext.id
 }
 
-resource "openstack_networking_secgroup_rule_v2" "bastion_ssh" {
+resource "openstack_networking_secgroup_rule_v2" "ext_ssh" {
   count             = var.vlts_ssh_exposed ? 1 : 0
   direction         = "ingress"
   ethertype         = "IPv4"
@@ -44,7 +44,7 @@ resource "openstack_networking_secgroup_rule_v2" "bastion_ssh" {
   security_group_id = openstack_networking_secgroup_v2.ext.id
 }
 
-resource "openstack_networking_secgroup_rule_v2" "bastion_ssh6" {
+resource "openstack_networking_secgroup_rule_v2" "ext_ssh6" {
   count             = var.vlts_ssh_exposed ? 1 : 0
   direction         = "ingress"
   ethertype         = "IPv6"

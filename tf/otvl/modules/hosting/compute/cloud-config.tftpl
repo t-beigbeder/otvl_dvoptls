@@ -1,0 +1,32 @@
+#cloud-config
+write_files:
+  - content: |
+      #!/bin/sh
+      export CI_LHN=${tf_loc_hostname}
+      export CI_VLTS_PORT=${tf_vlts_port}
+      export CI_LIP4=${tf_loc_ip_v4}
+      export CI_DOT_REPO=${tf_dot_repo}
+      export CI_DOT_BRANCH=${tf_dot_branch}
+      export HOME=/root
+      echo `date`: command $0 is starting
+      apt-get update && \
+      apt-get install -y --no-install-recommends git virtualenv curl && \
+      mkdir -p /root/clinit /root/locgit && cd /root/locgit && \
+      git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
+      true || exit 1
+      echo `date`: command $0 is exiting
+      exit 0
+    path: /root/bin/otvl_cloud_init.sh
+    owner: root:root
+    permissions: '0750'
+  - content: |
+      ${tf_pki_cli_c}
+    path: /root/pki/cli.otvl.c.pem
+  - content: |
+      ${tf_pki_cli_k}
+    path: /root/pki/cli.otvl.k.pem
+  - content: |
+      ${tf_pki_fca_c}
+    path: /root/pki/fca.otvl.c.pem
+runcmd:
+  - [ /root/bin/otvl_cloud_init.sh ]
