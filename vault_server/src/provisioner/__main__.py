@@ -1,13 +1,6 @@
 import argparse
 import logging
-import os
-import ssl
 
-import uvicorn
-
-from utils import files
-from vault_server import fa_app
-from vault_server.app_config import new_app_config
 import app
 
 parser = argparse.ArgumentParser()
@@ -19,6 +12,7 @@ parser.add_argument("-k", "--key", default="/tmp/cli.otvl.k.pem")
 parser.add_argument("--cas", default="/tmp/fca.otvl.c.pem")
 parser.add_argument("--no-ssl", default=False, action="store_true")
 parser.add_argument("--creds-file")
+parser.add_argument("--hosts", nargs="*")
 args = parser.parse_args()
 
 logger = logging.getLogger('provisioner')
@@ -32,4 +26,3 @@ logger.addHandler(ch)
 logger.info("Starting provisioner")
 app.run(args)
 logger.info("Ending provisioner")
-

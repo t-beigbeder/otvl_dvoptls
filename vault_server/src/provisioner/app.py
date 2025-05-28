@@ -1,21 +1,19 @@
 import argparse
 import logging
-import http.client
-import ssl
 
 import requests
 
+from utils import files
+
 logger = logging.getLogger('provisioner')
 
+
 def run(args: argparse.Namespace):
+    for host in args.hosts:
+        pass
     auth = None
     if args.creds_file:
-        with open(args.creds_file) as f:
-            line = f.readline()
-            if line.endswith('\n'):
-                line = line[:-1]
-            auth = line.split(':')
-    logger.info("run")
+        auth = files.read_creds_file(args.creds_file)
     result = requests.get(
         f"https://{args.server}:{args.port}/healthcheck",
         cert=(args.cert, args.key),
