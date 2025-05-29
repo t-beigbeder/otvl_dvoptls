@@ -20,6 +20,6 @@ def read_creds_file(path):
                 line = line[:-1]
             auth = line.split(':')
             if len(auth) == 2:
-                return auth
+                return tuple(auth)
             break
         return "", ""

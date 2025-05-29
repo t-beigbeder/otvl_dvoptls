@@ -4,13 +4,16 @@ import logging
 import requests
 
 from utils import files
+from provisioner import host_secrets
 
 logger = logging.getLogger('provisioner')
 
 
 def run(args: argparse.Namespace):
+    hcreds = {}
     for host in args.hosts:
-        pass
+        pw, ek = host_secrets.host_credentials(host)
+        hcreds[host] = {"password": pw, "ekey": ek}
     auth = None
     if args.creds_file:
         auth = files.read_creds_file(args.creds_file)
