@@ -1,7 +1,7 @@
 import os
 import uuid
 
-from utils import xdg, files
+from utils import xdg, files, aes
 
 
 def _suid(uid):
@@ -11,8 +11,9 @@ def _suid(uid):
 def host_credentials(host):
     path = f"{xdg.xdg_config_dir()}/{host}"
     if os.path.exists(path):
-        return _suid(files.read_pass_file(path))
-    uid = uuid.uuid4().hex
+        return tuple(files.read_pass_file(path).split(":"))
+    password = uuid.uuid4().hex
+    token = aes.new_token()
     with open(path, "w") as f:
-        f.write(f"{uid}\n")
-    return _suid(uid)
+        f.write(f"{password}:{token}\n")
+    return password, token

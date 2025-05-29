@@ -6,7 +6,7 @@ from provisioner.host_secrets import host_credentials
 from utils import xdg
 
 
-class TestServer(unittest.TestCase):
+class TestHostSecrets(unittest.TestCase):
     def setUp(self):
         self.td = tempfile.TemporaryDirectory(self.id().split('.')[-1])
         os.environ["XDG_CONFIG_DIR"] = self.td.name
