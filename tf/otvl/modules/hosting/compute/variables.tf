@@ -34,15 +34,19 @@ variable "dot_branch" {
   description = "Git branch devopstools"
   type        = string
 }
-variable "rops_repo" {
-  description = "Git repo remote operations"
+variable "install_env" {
+  description = "Environment to install"
   type        = string
 }
 variable "vlts_hostname" {
-  description = "Host name of the vault server"
+  description = "The hostname or IP address of vlts"
   type        = string
 }
-variable "instance_attr" {
+variable "vlts_port" {
+  description = "The HTTPS port of vlts"
+  type        = number
+}
+variable "instance_attrs" {
   description = "Attributes for instance to create"
   type = object({
     name        = string

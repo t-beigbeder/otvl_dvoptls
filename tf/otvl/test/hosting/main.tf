@@ -15,7 +15,21 @@ module "network" {
   source           = "../../modules/hosting/network"
   ext_net_name     = var.ext_net_name
   loc_net_name     = var.loc_net_name
-  vlts_sg_name     = var.vlts_sg_name
-  vlts_port        = var.vlts_port
-  vlts_ssh_exposed = var.vlts_ssh_exposed
+  hosting_sg_name     = var.hosting_sg_name
+}
+
+module "compute" {
+  source        = "../../modules/hosting/compute"
+  ext_net_id    = module.network.ext_net_id
+  loc_net_id    = module.network.loc_net_id
+  loc_subnet_id = module.network.loc_subnet_id
+  hosting_sg_id    = module.network.hosting_sg_id
+  vlts_hostname = var.vlts_hostname
+  vlts_port     = var.vlts_port
+  ssh_key_name  = var.ssh_key_name
+  ssh_pub       = var.ssh_pub
+  dot_repo      = var.dot_repo
+  dot_branch    = var.dot_branch
+  install_env = var.install_env
+  instance_attrs = var.instances_attrs
 }

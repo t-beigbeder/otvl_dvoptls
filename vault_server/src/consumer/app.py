@@ -13,6 +13,8 @@ logger = logging.getLogger("consumer")
 
 
 def run(args: argparse.Namespace) -> bool:
+    if not args.creds_file:
+        args.creds_file = f"{xdg.xdg_config_dir()}/{args.host}"
     req_args = request_args(args, True)
     rsp = requests.get(base_url(args) + f"host/{args.host}/secret/secrets",
                        **req_args)

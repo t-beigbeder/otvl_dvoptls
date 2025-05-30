@@ -9,11 +9,10 @@ terraform {
 locals {
   user_data = base64encode(templatefile(
     "${path.module}/cloud-config.tftpl", {
-      tf_loc_hostname  = var.instance_attr.name,
-      tf_loc_ip_v4     = var.instance_attr.ip_v4,
+      tf_loc_hostname  = var.instance_attrs.name,
+      tf_loc_ip_v4     = var.instance_attrs.ip_v4,
       tf_dot_repo      = var.dot_repo
       tf_dot_branch    = var.dot_branch
-      tf_rops_repo     = ""
       tf_install_env   = ""
       tf_prik          = ""
       tf_vlts_hostname = ""
@@ -33,5 +32,5 @@ module "instances" {
   external_sg_id = var.vlts_sg_id
   ssh_key_name   = var.ssh_key_name
   ssh_pub        = var.ssh_pub
-  instances_attrs = [merge(var.instance_attr, { user_data : local.user_data })]
+  instances_attrs = [merge(var.instance_attrs, { user_data : local.user_data })]
 }

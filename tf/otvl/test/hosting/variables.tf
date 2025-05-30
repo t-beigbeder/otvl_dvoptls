@@ -10,7 +10,7 @@ variable "loc_net_name" {
   description = "The name of the local network"
   type        = string
 }
-variable "vlts_sg_name" {
+variable "hosting_sg_name" {
   description = "The security group name for external access"
   type        = string
 }
@@ -30,16 +30,25 @@ variable "dot_branch" {
   description = "Git branch devopstools"
   type        = string
 }
-variable "instance_attrs" {
-  description = "Attributes for instance to create"
-  type = object({
+variable "install_env" {
+  description = "Environment to install"
+  type        = string
+}
+variable "vlts_hostname" {
+  description = "The hostname or IP address of vlts"
+  type        = string
+}
+
+variable "instances_attrs" {
+  description = "Attributes for instances to create"
+  type = list(object({
     name        = string
     groups      = string
     otvl_meta   = string
     ip_v4       = string
     image_name  = string
     flavor_name = string
-  })
+  }))
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -50,9 +59,4 @@ variable "vlts_port" {
   description = "The HTTPS port of vlts"
   type        = number
   default     = 9443
-}
-variable "vlts_ssh_exposed" {
-  description = "does the vlts server expose SSH"
-  type        = bool
-  default     = false
 }

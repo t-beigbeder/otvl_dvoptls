@@ -3,16 +3,28 @@ write_files:
   - content: |
       #!/bin/sh
       export CI_LHN=${tf_loc_hostname}
-      export CI_VLTS_PORT=${tf_vlts_port}
       export CI_LIP4=${tf_loc_ip_v4}
       export CI_DOT_REPO=${tf_dot_repo}
       export CI_DOT_BRANCH=${tf_dot_branch}
+      export CI_INSTALL_ENV=${tf_install_env}
+      export CI_VLTS_HOSTNAME=${tf_vlts_hostname}
+      export CI_VLTS_PORT=${tf_vlts_port}
       export HOME=/root
       echo `date`: command $0 is starting
       apt-get update && \
       apt-get install -y --no-install-recommends git virtualenv curl && \
-      mkdir -p /root/clinit /root/locgit && cd /root/locgit && \
+      mkdir -p /root/clinit /root/locgit /root/.config/otvl_vlts && \
+      chmod 700 /root/.config/otvl_vlts && \
+      echo ${tf_vlts_password}:${tf_vlts_token} > /root/.config/otvl_vlts/${tf_loc_hostname} && \
+      cd /root/locgit && \
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
+      cd otvl_dvoptls/vault_server && virtualenv /root/venv && \
+      /root/venv/bin/pip install -r requirements.txt && \
+      /root/venv/bin/python -m consumer \
+        -s ${CI_VLTS_HOSTNAME} -p ${CI_VLTS_PORT} \
+        -c /root/pki/cli.otvl.c.pem -k /root/pki/cli.otvl.k.pem \
+        --cas /root/pki/fca.otvl.c.pem \
+        --host h1 && \
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0

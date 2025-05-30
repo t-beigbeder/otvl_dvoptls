@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-import app
+from provisioner import app
 from utils.vlts_client import client_argparser
 
 parser = argparse.ArgumentParser()

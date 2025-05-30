@@ -34,7 +34,11 @@ variable "dot_branch" {
   description = "Git branch devopstools"
   type        = string
 }
-variable "instance_attr" {
+variable "vlts_port" {
+  description = "The HTTPS port of vlts"
+  type        = number
+}
+variable "instance_attrs" {
   description = "Attributes for instance to create"
   type = object({
     name        = string
@@ -44,8 +48,4 @@ variable "instance_attr" {
     image_name  = string
     flavor_name = string
   })
-}
-variable "vlts_port" {
-  description = "The HTTPS port of vlts"
-  type        = number
 }
