@@ -8,6 +8,10 @@ terraform {
       source  = "terraform-provider-openstack/openstack"
       version = "~> 3.0.0"
     }
+    sops = {
+      source  = "carlpett/sops"
+      version = "~> 1.1.1"
+    }
   }
 }
 
@@ -31,5 +35,5 @@ module "compute" {
   dot_repo      = var.dot_repo
   dot_branch    = var.dot_branch
   install_env = var.install_env
-  instance_attrs = var.instances_attrs
+  instances_attrs = var.instances_attrs
 }
