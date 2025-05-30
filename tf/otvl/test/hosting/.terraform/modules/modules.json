@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"network","Source":"../../modules/hosting/network","Dir":"../../modules/hosting/network"}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"compute","Source":"../../modules/hosting/compute","Dir":"../../modules/hosting/compute"},{"Key":"compute.instances","Source":"../../../../modules/instances","Dir":"../../../modules/instances"},{"Key":"network","Source":"../../modules/hosting/network","Dir":"../../modules/hosting/network"}]}

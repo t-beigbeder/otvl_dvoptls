@@ -46,14 +46,14 @@ variable "vlts_port" {
   description = "The HTTPS port of vlts"
   type        = number
 }
-variable "instance_attrs" {
+variable "instances_attrs" {
   description = "Attributes for instance to create"
-  type = object({
+  type = list(object({
     name        = string
     groups      = string
     otvl_meta   = string
     ip_v4       = string
     image_name  = string
     flavor_name = string
-  })
+  }))
 }
