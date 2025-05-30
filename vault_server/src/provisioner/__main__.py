@@ -2,16 +2,10 @@ import argparse
 import logging
 
 import app
+from utils.vlts_client import client_argparser
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-s", "--server", default="127.0.0.1")
-parser.add_argument("-p", "--port", default=9443, type=int)
-parser.add_argument("-l", "--level", default="INFO")
-parser.add_argument("-c", "--cert", default="/tmp/cli.otvl.c.pem")
-parser.add_argument("-k", "--key", default="/tmp/cli.otvl.k.pem")
-parser.add_argument("--cas", default="/tmp/fca.otvl.c.pem")
-parser.add_argument("--no-ssl", default=False, action="store_true")
-parser.add_argument("--creds-file")
+client_argparser(parser)
 parser.add_argument("--hosts", nargs="*", default=[])
 parser.add_argument("--force-host", default=False, action="store_true")
 parser.add_argument("--secrets-dir", default="lops_repo/vlts_secrets/otvl/prod")
