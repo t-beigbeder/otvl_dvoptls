@@ -12,8 +12,8 @@ write_files:
       export HOME=/root
       echo `date`: command $0 is starting
       apt-get update && \
-      apt-get install -y --no-install-recommends git virtualenv curl && \
-      mkdir -p /root/clinit /root/locgit /root/.config/otvl_vlts && \
+      apt-get install -y --no-install-recommends git virtualenv curl jq && \
+      mkdir -p /root/locgit /root/.config/otvl_vlts && \
       chmod 700 /root/.config/otvl_vlts && \
       echo ${tf_vlts_creds} > /root/.config/otvl_vlts/${tf_loc_hostname} && \
       cd /root/locgit && \
@@ -25,6 +25,9 @@ write_files:
         -c /root/pki/cli.otvl.c.pem -k /root/pki/cli.otvl.k.pem \
         --cas /root/pki/fca.otvl.c.pem \
         --host $CI_LHN && \
+      echo $CI_INSTALL_ENV > /root/.config/otvl_vlts/install_env && \
+      curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r .meta.groups > /root/.config/otvl_vlts/install_groups && \
+      /root/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0

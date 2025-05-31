@@ -1,0 +1,12 @@
+disp() {
+    echo >&2 "$@"
+}
+
+log() {
+    disp "`date -Iseconds`" "$@"
+}
+
+cmd() {
+    log running "$@"
+    "$@"
+}
