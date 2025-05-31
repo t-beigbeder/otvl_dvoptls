@@ -17,11 +17,11 @@ locals {
       tf_prik          = ""
       tf_vlts_hostname = ""
       tf_vlts_port     = var.vlts_port
-      tf_pki_srv_c     = indent(6, file("${path.root}/pki_dir/test/srv.otvl.c.pem"))
-      tf_pki_srv_k     = indent(6, file("${path.root}/pki_dir/test/srv.otvl.k.pem"))
-      tf_pki_slf_c     = indent(6, file("${path.root}/pki_dir/test/slf.otvl.c.pem"))
-      tf_pki_slf_k     = indent(6, file("${path.root}/pki_dir/test/slf.otvl.k.pem"))
-      tf_pki_fca_c     = indent(6, file("${path.root}/pki_dir/test/fca.otvl.c.pem"))
+      tf_pki_srv_c = indent(6, file("${path.root}/pki_dir/test/srv.otvl.c.pem"))
+      tf_pki_srv_k = indent(6, file("${path.root}/pki_dir/test/srv.otvl.k.pem"))
+      tf_pki_slf_c = indent(6, file("${path.root}/pki_dir/test/slf.otvl.c.pem"))
+      tf_pki_slf_k = indent(6, file("${path.root}/pki_dir/test/slf.otvl.k.pem"))
+      tf_pki_fca_c = indent(6, file("${path.root}/pki_dir/test/fca.otvl.c.pem"))
     }))
 }
 module "instances" {

@@ -42,3 +42,25 @@ resource "openstack_networking_secgroup_rule_v2" "ext_https" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.ext.id
 }
+
+resource "openstack_networking_secgroup_rule_v2" "ext_ssh" {
+  count             = var.hosting_ssh_exposed ? 1 : 0
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 22
+  port_range_max    = 22
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = openstack_networking_secgroup_v2.ext.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "ext_ssh6" {
+  count             = var.hosting_ssh_exposed ? 1 : 0
+  direction         = "ingress"
+  ethertype         = "IPv6"
+  protocol          = "tcp"
+  port_range_min    = 22
+  port_range_max    = 22
+  remote_ip_prefix  = "::/0"
+  security_group_id = openstack_networking_secgroup_v2.ext.id
+}

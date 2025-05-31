@@ -60,3 +60,8 @@ variable "vlts_port" {
   type        = number
   default     = 9443
 }
+variable "hosting_ssh_exposed" {
+  description = "do the computing hosts expose SSH"
+  type        = bool
+  default     = false
+}

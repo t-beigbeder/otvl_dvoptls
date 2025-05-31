@@ -20,7 +20,7 @@ write_files:
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
       cd otvl_dvoptls/vault_server && virtualenv /root/venv && \
       /root/venv/bin/pip install -r requirements.txt && \
-      /root/venv/bin/python -m consumer \
+      PYTHONPATH=src /root/venv/bin/python -m consumer \
         -s $CI_VLTS_HOSTNAME -p $CI_VLTS_PORT \
         -c /root/pki/cli.otvl.c.pem -k /root/pki/cli.otvl.k.pem \
         --cas /root/pki/fca.otvl.c.pem \

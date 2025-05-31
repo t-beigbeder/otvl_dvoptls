@@ -21,15 +21,15 @@ module "network" {
 }
 
 module "compute" {
-  source        = "../../modules/vlts/compute"
-  ext_net_id    = module.network.ext_net_id
-  loc_net_id    = module.network.loc_net_id
-  loc_subnet_id = module.network.loc_subnet_id
-  vlts_sg_id    = module.network.vlts_sg_id
-  vlts_port     = var.vlts_port
-  ssh_key_name  = var.ssh_key_name
-  ssh_pub       = var.ssh_pub
-  dot_repo      = var.dot_repo
-  dot_branch    = var.dot_branch
+  source         = "../../modules/vlts/compute"
+  ext_net_id     = module.network.ext_net_id
+  loc_net_id     = module.network.loc_net_id
+  loc_subnet_id  = module.network.loc_subnet_id
+  vlts_sg_id     = module.network.vlts_sg_id
+  vlts_port      = var.vlts_port
+  ssh_key_name   = var.ssh_key_name
+  ssh_pub        = var.ssh_pub
+  dot_repo       = var.dot_repo
+  dot_branch     = var.dot_branch
   instance_attrs = var.instance_attrs
 }
