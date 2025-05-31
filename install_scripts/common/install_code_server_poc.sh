@@ -26,12 +26,13 @@ EOF
 
 }
 
-installf2b() {
-  ls badfile && \
+install_csp() {
+  log running "curl -fsSL https://code-server.dev/install.sh | sh"
+  curl -fsSL https://code-server.dev/install.sh | sh && \
   true
   return $?
 }
 
 log $0 starting
-installf2b || fat $0 failed
+install_csp || fat $0 failed
 log $0 stopping
