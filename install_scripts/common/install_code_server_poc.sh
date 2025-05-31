@@ -30,6 +30,7 @@ install_csp() {
   log running "curl -fsSL https://code-server.dev/install.sh | sh"
   curl -fsSL https://code-server.dev/install.sh | sh && \
   cmd useradd guest -s /bin/bash && \
+  cmd mkdir /home/guest/.ssh && \
   cmd systemctl enable --now code-server@guest && \
   cmd cp -rp /home/debian/.ssh /home/guest/ && \
   cmd chown -R guest:guest /home/guest/.ssh && \
