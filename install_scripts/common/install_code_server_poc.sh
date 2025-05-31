@@ -27,10 +27,7 @@ EOF
 }
 
 installf2b() {
-  apt-get install -y --no-install-recommends fail2ban python3-systemd && \
-  patch_fail2ban_install && \
-  systemctl restart fail2ban && \
-  systemctl status fail2ban && \
+  ls badfile && \
   true
   return $?
 }
