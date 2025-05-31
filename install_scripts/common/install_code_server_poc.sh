@@ -29,6 +29,12 @@ EOF
 install_csp() {
   log running "curl -fsSL https://code-server.dev/install.sh | sh"
   curl -fsSL https://code-server.dev/install.sh | sh && \
+  cmd useradd guest -s /bin/bash && \
+  cmd systemctl enable --now code-server@guest && \
+  cmd cp -rp /home/debian/.ssh /home/guest && \
+  cmd chown -R guest:guest /home/guest/.ssh && \
+  cmd su - guest -c "sed -i.bak 's/auth: password/auth: none/' .config/code-server/config.yaml" && \
+  cmd systemctl restart code-server@guest && \
   true
   return $?
 }
