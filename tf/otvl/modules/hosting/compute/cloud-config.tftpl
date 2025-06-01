@@ -34,6 +34,7 @@ write_files:
       /root/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
       true || exit 1
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then systemctl restart fail2ban ; fi
+      # FIXME: if instance configured w/o ssh, disable external port
       echo `date`: command $0 is exiting
       exit 0
     path: /root/bin/otvl_cloud_init.sh
