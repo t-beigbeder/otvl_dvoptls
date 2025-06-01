@@ -6,18 +6,21 @@ write_files:
       export CI_LIP4=${tf_loc_ip_v4}
       export CI_DOT_REPO=${tf_dot_repo}
       export CI_DOT_BRANCH=${tf_dot_branch}
+      export CI_SSH_EXPOSED=${tf_ssh_exposed}
       export CI_INSTALL_ENV=${tf_install_env}
       export CI_VLTS_HOSTNAME=${tf_vlts_hostname}
       export CI_VLTS_PORT=${tf_vlts_port}
       export HOME=/root
+      export pkgl="git virtualenv curl jq"
+      if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban" ; fi
       echo `date`: command $0 is starting
       apt-get update && \
-      apt-get install -y --no-install-recommends git virtualenv curl jq && \
+      apt-get install -y --no-install-recommends $pkgl && \
       mkdir -p /root/locgit /root/.config/otvl_vlts && \
       chmod 700 /root/.config/otvl_vlts && \
       echo ${tf_vlts_creds} > /root/.config/otvl_vlts/${tf_loc_hostname} && \
       cd /root/locgit && \
-      sleep 5 && \
+      curl -I $CI_DOT_REPO --retry 3 --retry-all --connect-timeout 2 && \
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
       cd otvl_dvoptls/vault_server && virtualenv /root/venv && \
       /root/venv/bin/pip install -r requirements.txt && \
@@ -30,11 +33,26 @@ write_files:
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r .meta.groups > /root/.config/otvl_vlts/install_groups && \
       /root/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
       true || exit 1
+      if [ "$CI_SSH_EXPOSED" = "1" ] ; then systemctl restart fail2ban ; fi
       echo `date`: command $0 is exiting
       exit 0
     path: /root/bin/otvl_cloud_init.sh
     owner: root:root
     permissions: '0750'
+  - content: |
+      [DEFAULT]
+      # Debian 12 has no log files, just journalctl
+      backend = systemd
+      # "bantime" is the number of seconds that a host is banned.
+      bantime  = 1d
+      # "maxretry" is the number of failures before a host get banned.
+      maxretry = 5
+      # A host is banned if it has generated "maxretry" during the last "findtime"
+      findtime  = 1h
+      [sshd]
+      enabled = true
+    path: /etc/fail2ban/jail.local
+    permissions: '0644'
   - content: |
       ${tf_pki_cli_c}
     path: /root/pki/cli.otvl.c.pem

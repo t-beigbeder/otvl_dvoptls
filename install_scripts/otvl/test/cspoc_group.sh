@@ -7,7 +7,6 @@ sd=`dirname $rp`
 ## endpre
 
 doit() {
-  cmd $sd/../../common/install_f2b.sh && \
   cmd $sd/../../common/install_code_server_poc.sh && \
   true
   return $?
