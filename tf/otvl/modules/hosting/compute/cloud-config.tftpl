@@ -12,16 +12,20 @@ write_files:
       export CI_VLTS_PORT=${tf_vlts_port}
       export HOME=/root
       export pkgl="git virtualenv curl jq"
-      if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban" ; fi
+      if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
       echo `date`: command $0 is starting
       apt-get update && \
       apt-get install -y --no-install-recommends $pkgl && \
-      mkdir -p /root/locgit /root/.config/otvl_vlts && \
+      true || exit 1
+      if [ "$CI_SSH_EXPOSED" = "1" ] ; then systemctl restart fail2ban ; fi
+
+      mkdir -p /home/debian/locgit /root/.config/otvl_vlts && \
       chmod 700 /root/.config/otvl_vlts && \
       echo ${tf_vlts_creds} > /root/.config/otvl_vlts/${tf_loc_hostname} && \
-      cd /root/locgit && \
+      cd /home/debian/locgit && \
       curl -I $CI_DOT_REPO --retry 3 --retry-all --connect-timeout 2 && \
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
+      chown -R debian:debian otvl_dvoptls && \
       cd otvl_dvoptls/vault_server && virtualenv /root/venv && \
       /root/venv/bin/pip install -r requirements.txt && \
       PYTHONPATH=src /root/venv/bin/python -m consumer \
@@ -31,15 +35,13 @@ write_files:
         --host $CI_LHN && \
       echo $CI_INSTALL_ENV > /root/.config/otvl_vlts/install_env && \
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r .meta.groups > /root/.config/otvl_vlts/install_groups && \
-      /root/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
+      /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
       true || exit 1
-      if [ "$CI_SSH_EXPOSED" = "1" ] ; then systemctl restart fail2ban ; fi
-      # FIXME: if instance configured w/o ssh, disable external port
       echo `date`: command $0 is exiting
       exit 0
-    path: /root/bin/otvl_cloud_init.sh
-    owner: root:root
-    permissions: '0750'
+    path: /home/debian/bin/otvl_cloud_init.sh
+    owner: debian:debian
+    permissions: '0700'
   - content: |
       [DEFAULT]
       # Debian 12 has no log files, just journalctl
@@ -64,4 +66,4 @@ write_files:
       ${tf_pki_fca_c}
     path: /root/pki/fca.otvl.c.pem
 runcmd:
-  - [ /root/bin/otvl_cloud_init.sh ]
+  - [ /home/debian/bin/otvl_cloud_init.sh ]
