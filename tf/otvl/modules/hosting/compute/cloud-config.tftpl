@@ -11,7 +11,7 @@ write_files:
       export CI_VLTS_HOSTNAME=${tf_vlts_hostname}
       export CI_VLTS_PORT=${tf_vlts_port}
       export HOME=/root
-      export pkgl="git virtualenv curl jq"
+      export pkgl="git virtualenv curl jq make"
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
       echo `date`: command $0 is starting
       apt-get update && \
@@ -39,7 +39,7 @@ write_files:
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0
-    path: /home/debian/bin/otvl_cloud_init.sh
+    path: /root/bin/otvl_cloud_init.sh
     owner: debian:debian
     permissions: '0700'
   - content: |
@@ -66,4 +66,4 @@ write_files:
       ${tf_pki_fca_c}
     path: /root/pki/fca.otvl.c.pem
 runcmd:
-  - [ /home/debian/bin/otvl_cloud_init.sh ]
+  - [ /root/bin/otvl_cloud_init.sh ]
