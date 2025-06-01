@@ -18,6 +18,10 @@ variable "hosting_sg_id" {
   description = "The hosting sg id"
   type        = string
 }
+variable "hosting_ssh_exposed" {
+  description = "do the computing hosts expose SSH"
+  type        = bool
+}
 variable "ssh_key_name" {
   description = "The SSH key name to store the ssh_pub public key"
   type        = string
@@ -55,6 +59,5 @@ variable "instances_attrs" {
     ip_v4       = string
     image_name  = string
     flavor_name = string
-    ssh_exposed = bool
   }))
 }
