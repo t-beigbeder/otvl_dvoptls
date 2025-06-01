@@ -1,0 +1,1 @@
+lops_dir/computing-hosting.auto.tfvars
