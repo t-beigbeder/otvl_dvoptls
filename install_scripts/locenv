@@ -61,4 +61,10 @@ loop() {
     done
 }
 
+get_secret() {
+    vk=$1
+    vv=`grep "${vk}:" /root/.config/otvl_vlts/${CI_LHN}.yaml | sed "s/${vk}://"`
+    return `echo $vv`
+}
+
 rrd=`realpath $sd/..`

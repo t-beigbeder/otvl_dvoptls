@@ -36,6 +36,7 @@ module "compute" {
   ssh_pub             = var.ssh_pub
   dot_repo            = var.dot_repo
   dot_branch          = var.dot_branch
+  lops_repo           = var.lops_repo
   install_env         = var.install_env
   instances_attrs     = var.instances_attrs
 }

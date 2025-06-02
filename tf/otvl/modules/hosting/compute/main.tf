@@ -17,15 +17,16 @@ locals {
         tf_loc_ip_v4     = ia.ip_v4
         tf_dot_repo      = var.dot_repo
         tf_dot_branch    = var.dot_branch
+        tf_lops_repo     = var.lops_repo
         tf_install_env   = var.install_env
         tf_vlts_hostname = var.vlts_hostname
         tf_vlts_port     = var.vlts_port
-        tf_vlts_creds    = trimspace(file(pathexpand("~/.config/otvl_vlts/${ia.name}")))
+        tf_vlts_creds = trimspace(file(pathexpand("~/.config/otvl_vlts/${ia.name}")))
         tf_ssh_exposed   = var.hosting_ssh_exposed ? "1" : "0"
-        tf_pki_cli_c     = indent(6, file("${path.root}/pki_dir/test/cli.otvl.c.pem"))
-        tf_pki_cli_k     = indent(6, file("${path.root}/pki_dir/test/cli.otvl.k.pem"))
-        tf_pki_fca_c     = indent(6, file("${path.root}/pki_dir/test/fca.otvl.c.pem"))
-    }))
+        tf_pki_cli_c = indent(6, file("${path.root}/pki_dir/test/cli.otvl.c.pem"))
+        tf_pki_cli_k = indent(6, file("${path.root}/pki_dir/test/cli.otvl.k.pem"))
+        tf_pki_fca_c = indent(6, file("${path.root}/pki_dir/test/fca.otvl.c.pem"))
+      }))
   ]
 }
 locals {

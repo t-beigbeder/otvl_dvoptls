@@ -30,6 +30,10 @@ variable "dot_branch" {
   description = "Git branch devopstools"
   type        = string
 }
+variable "lops_repo" {
+  description = "Git repo devopstools local operations"
+  type        = string
+}
 variable "install_env" {
   description = "Environment to install"
   type        = string

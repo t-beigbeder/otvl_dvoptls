@@ -56,8 +56,17 @@ provision_test_vlts() {
   PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts tcspoc7
 }
 
+launch_test_hosting() {
+  log launch_test_hosting
+  cd $rrd/tf/otvl/test/hosting
+  tofu apply
+  tofu output -json ipv4s
+}
+
 log $0 starting
 . $HOME/.osenvrc
 icmd "launch test vault server" launch_test_vlts n
 icmd "provision test secrets" provision_test_vlts n
+icmd "launch test hosting" launch_test_hosting n
+
 log $0 stopping
