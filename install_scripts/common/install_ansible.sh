@@ -25,6 +25,7 @@ install_ansible() {
   cmd patch_fail2ban_install && \
   cmd mkdir -p /home/debian/.config/.otvl/.secrets && \
   get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
+  get_secret ghp_creds > /home/debian/.git-credentials && \
   cd $sd/../../.. && \
   cmd git clone --single-branch $CI_LOPS_REPO && \
   cmd chown -R debian:debian /home/debian && \
