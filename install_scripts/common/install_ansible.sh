@@ -29,9 +29,8 @@ install_ansible() {
   cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
   cmd chown -R debian:debian /home/debian && \
   cd $sd/../../.. && \
-  cmd su - debian -c "git config --global credential.helper store"
-  cmd git clone --single-branch $CI_LOPS_REPO && \
-  cmd chown -R debian:debian /home/debian && \
+  cmd su - debian -c "git config --global credential.helper store" && \
+  cmd su - debian -c "git clone --single-branch $CI_LOPS_REPO" && \
   true
   return $?
 }
