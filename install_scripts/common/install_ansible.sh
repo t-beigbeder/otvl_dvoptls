@@ -26,9 +26,10 @@ install_ansible() {
   cmd mkdir -p /home/debian/.config/.otvl/.secrets && \
   get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
   get_secret ghp_creds > /home/debian/.git-credentials && \
-  cmd chmod -R go-rw /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
+  cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
   cmd chown -R debian:debian /home/debian && \
   cd $sd/../../.. && \
+  cmd su - debian -c "git config --global credential.helper store"
   cmd git clone --single-branch $CI_LOPS_REPO && \
   cmd chown -R debian:debian /home/debian && \
   true
