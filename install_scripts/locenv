@@ -24,3 +24,41 @@ cmd() {
     fi
     return $st
 }
+
+rans() {
+    vda=$1
+    read vans
+    if [ -z "$vans" -a "$vda" = "y" ] ; then
+        return 0
+    fi
+    if [ "$vans" = "y" ] ; then
+        return 0
+    fi
+    return 1
+}
+
+icmd() {
+    vmsg=$1
+    vf=$2
+    vda=$3
+    echo -n "Do you want to ${vmsg}? [$vda] > "
+    rans $vda || return 0
+    cmd $vf
+}
+
+loop() {
+    vmsg=$1
+    vf=$2
+    vto=$3
+    while [ "1" ] ; do
+        log "waiting $vmsg"
+        cmd $vf
+        if [ $? -eq 0 ] ; then
+            log "$vmsg ready, continue"
+            return 0
+        fi
+        sleep $vto
+    done
+}
+
+rrd=`realpath $sd/..`
