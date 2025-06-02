@@ -7,7 +7,7 @@ sd=`dirname $rp`
 ## endpre
 
 log $0 starting
-cmd su - debian -c $sd/common/install_ansible.sh || fat "while running $sd/common/install_ansible.sh"
+cmd $sd/common/install_ansible.sh || fat "while running $sd/common/install_ansible.sh"
 ins_env=`cat /root/.config/otvl_vlts/install_env`
 ins_grps=`cat /root/.config/otvl_vlts/install_groups`
 ins_root=${sd}/${ins_env}

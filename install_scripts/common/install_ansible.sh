@@ -27,7 +27,7 @@ install_ansible() {
   get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
   cd $sd/../../.. && \
   cmd git clone --single-branch $CI_LOPS_REPO && \
-  cmd chown -R debian:debian otvl_lops && \
+  cmd chown -R debian:debian /home/debian && \
   true
   return $?
 }
