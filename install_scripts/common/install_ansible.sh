@@ -28,7 +28,7 @@ install_ansible() {
   get_secret ghp_creds > /home/debian/.git-credentials && \
   cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
   cmd chown -R debian:debian /home/debian && \
-  cd $sd/../../.. && \
+  cd $sd/../.. && \
   cmd su - debian -c "git config --global credential.helper store" && \
   cmd su - debian -c "git clone --single-branch $CI_LOPS_REPO" && \
   true
