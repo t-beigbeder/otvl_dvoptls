@@ -53,7 +53,7 @@ provision_test_vlts() {
   pkd=$rrd/dvoptls/pki/test
   lrd=$rrd/lops_repo
   vopts="--server tvlts.otvl.org --creds-file $vpf -c $pkd/cli.otvl.c.pem -k $pkd/cli.otvl.k.pem --cas $pkd/fca.otvl.c.pem --force-host --secrets-dir $lrd/vlts_secrets/otvl/test"
-  PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts tcspoc7
+  PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts tcspoc7 t-sk3s-sv
 }
 
 launch_test_hosting() {

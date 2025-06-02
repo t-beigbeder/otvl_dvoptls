@@ -23,7 +23,8 @@ install_ansible() {
   cd $sd/../../ansible && \
   cmd make venv-ins && \
   cmd patch_fail2ban_install && \
-  get_secret ansible_vault_pass > $HOME/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
+  cmd mkdir -p /home/debian/.config/.otvl/.secrets && \
+  get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
   cd $sd/../../.. && \
   cmd git clone --single-branch $CI_LOPS_REPO && \
   cmd chown -R debian:debian otvl_lops && \
