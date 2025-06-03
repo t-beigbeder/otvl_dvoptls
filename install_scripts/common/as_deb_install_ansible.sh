@@ -20,7 +20,6 @@ EOF
 }
 
 gen_ansible_hosts() {
-  hf=".config/.otvl/hosts.yml"
   for g in `cat .config/.otvl/install_groups` ; do
     echo "$g:"
     echo "  hosts:"
@@ -44,7 +43,7 @@ as_deb_install_ansible() {
   cmd cat .ssh/id_lans.pub >> .ssh/authorized_keys && \
   cmd ssh -i .ssh/id_lans -o StrictHostKeyChecking=no localhost true && \
   cmd mkdir -p .config/.otvl/ansible && \
-  cmd gen_ansible_hosts && \
+  cmd gen_ansible_hosts > .config/.otvl/hosts.yml && \
   true
   return $?
 }
