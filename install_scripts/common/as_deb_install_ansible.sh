@@ -10,7 +10,10 @@ as_deb_install_ansible() {
   cd $sd/../../ansible && \
   cmd make venv-ins && \
   cmd git config --global credential.helper store && \
-  cmd cd $HOME/locgit && git clone --single-branch $1 && \
+  cmd curl -I $1 && \
+  cmd cd $HOME/locgit && \
+  cmd rm -r `basename $1` && \
+  cmd git clone --single-branch $1 && \
   true
   return $?
 }
