@@ -9,8 +9,8 @@ sd=`dirname $rp`
 as_deb_install_ansible() {
   cd $sd/../../ansible && \
   cmd make venv-ins && \
-  cmd "git config --global credential.helper store" && \
-  cmd "cd locgit && git clone --single-branch $1" && \
+  cmd git config --global credential.helper store && \
+  cmd cd locgit && git clone --single-branch $1 && \
   true
   return $?
 }
