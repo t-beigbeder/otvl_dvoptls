@@ -12,7 +12,7 @@ as_deb_install_ansible() {
   cmd git config --global credential.helper store && \
   cmd curl -I $1 && \
   cmd cd $HOME/locgit && \
-  cmd rm -r `basename $1` && \
+  cmd rm -rf `basename $1` && \
   cmd git clone --single-branch $1 && \
   true
   return $?
