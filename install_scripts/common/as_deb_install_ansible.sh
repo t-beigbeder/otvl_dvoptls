@@ -51,3 +51,5 @@ as_deb_install_ansible() {
 log $0 starting
 as_deb_install_ansible $1 || fat $0 failed
 log $0 stopping
+# cd $HOME/locgit/otvl_dvoptls && install_scripts/common/as_deb_install_ansible.sh https://github.com/t-beigbeder/otvl_lops
+# cd $HOME/locgit/otvl_dvoptls/ansible && venv/bin/ansible-playbook otvl_sk3s.yml -i ../lops_repo/ansible/otvl/test -i ~/.config/.otvl/hosts.yml
