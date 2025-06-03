@@ -12,6 +12,7 @@ ins_env=`cat /root/.config/otvl_vlts/install_env`
 ins_grps=`cat /root/.config/otvl_vlts/install_groups`
 ins_root=${sd}/${ins_env}
 for grp in $ins_grps ; do
+  if [ ! -f $ins_root/$grp.sh ] ; then continue ; fi
   cmd $ins_root/$grp.sh
   if [ $? -ne 0 ] ; then
     fat "while running $ins_root/$grp.sh"

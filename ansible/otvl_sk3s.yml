@@ -1,0 +1,25 @@
+# venv/bin/ansible-playbook otvl_sk3s.yml -i ../lops_repo/ansible/otvl/test -i hosts.yml
+# generate hosts.yml with localhost provisioned groups
+# run sudo debian ansible-playbook to install
+- hosts: "*"
+  gather_facts: False
+  tasks:
+    - name: Load default variables
+      include_vars:
+        dir: vars
+    - name: Combine default with inventory variables
+      set_fact:
+        cv: "{{ dv | combine(iv, recursive=True) }}"
+  tags: always
+
+- hosts: other_group
+  gather_facts: False
+  become: yes
+  roles:
+    - other_role
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: yes
+  roles:
+    - sk3s_server

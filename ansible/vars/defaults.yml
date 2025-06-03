@@ -1,0 +1,9 @@
+---
+dv:
+  debug: false
+  prod: true
+  config_paths:
+    delivery: /otvl/delivery
+    data: /otvl/data
+  to_test_d: in_defaults
+###

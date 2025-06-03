@@ -60,7 +60,18 @@ launch_test_hosting() {
   log launch_test_hosting
   cd $rrd/tf/otvl/test/hosting
   tofu apply
-  tofu output -json ipv4s
+}
+
+destroy_test_hosting() {
+  log destroy_test_hosting
+  cd $rrd/tf/otvl/test/hosting
+  tofu destroy
+}
+
+destroy_test_vlts() {
+  log destroy_test_vlts
+  cd $rrd/tf/otvl/test/vlts
+  tofu destroy
 }
 
 log $0 starting
@@ -68,5 +79,7 @@ log $0 starting
 icmd "launch test vault server" launch_test_vlts n
 icmd "provision test secrets" provision_test_vlts n
 icmd "launch test hosting" launch_test_hosting n
+icmd "destroy test hosting" destroy_test_hosting n
+icmd "destroy test vault server" destroy_test_vlts n
 
 log $0 stopping

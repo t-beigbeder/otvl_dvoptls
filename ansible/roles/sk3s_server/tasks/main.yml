@@ -1,0 +1,8 @@
+---
+# sk3s_server/tasks/main.yml
+
+- name: Here sk3s_server/tasks/main.yml
+  debug:
+    msg: "sk3s_server/tasks/main.yml {{ cv }}"
+
+###

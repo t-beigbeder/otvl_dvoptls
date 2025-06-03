@@ -1,0 +1,8 @@
+---
+# commons/tasks/check_vars.yml
+
+- name: Here commons/tasks/check_vars.yml
+  debug:
+    msg: "debug is {{ debug }}"
+
+###
