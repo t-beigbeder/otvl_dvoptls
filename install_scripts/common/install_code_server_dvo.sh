@@ -20,3 +20,4 @@ install_csp() {
 log $0 starting
 install_csp || fat $0 failed
 log $0 stopping
+# ssh -N -L 8080:127.0.0.1:8080 debian@ip
