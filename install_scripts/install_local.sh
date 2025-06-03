@@ -26,6 +26,8 @@ launch_test_vlts() {
   sudo su - -c bash -c "cp /tmp/t.$$ /etc/hosts"
   grep $vip4 /etc/hosts
   loop "test vault server first start" "wait_test_vlts_1st" 10
+  log wait for unsecure server shutdown
+  cmd sleep 2
   loop "test vault server restart" "wait_test_vlts_rst" 10
 }
 
