@@ -54,9 +54,9 @@ provision_test_vlts() {
   vpf=$rrd/dvoptls/secrets/test/va_pf
   pkd=$rrd/dvoptls/pki/test
   lrd=$rrd/lops_repo
-  lh=`ls $lrd/vlts_secrets/otvl/test | sed -e 's/.enc.yaml//'`
+  vlh=`ls $lrd/vlts_secrets/otvl/test | sed -e 's/.enc.yaml//'`
   vopts="--server tvlts.otvl.org --creds-file $vpf -c $pkd/cli.otvl.c.pem -k $pkd/cli.otvl.k.pem --cas $pkd/fca.otvl.c.pem --force-host --secrets-dir $lrd/vlts_secrets/otvl/test"
-  PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts tcspoc7 t-sk3s-sv
+  PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts $vlh
 }
 
 launch_test_hosting() {
