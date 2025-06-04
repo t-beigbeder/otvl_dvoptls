@@ -22,6 +22,10 @@ variable "hosting_ssh_exposed" {
   description = "do the computing hosts expose SSH"
   type        = bool
 }
+variable "hosting_cs_dvo" {
+  description = "do the computing hosts launch code-server for devops admin"
+  type        = bool
+}
 variable "ssh_key_name" {
   description = "The SSH key name to store the ssh_pub public key"
   type        = string

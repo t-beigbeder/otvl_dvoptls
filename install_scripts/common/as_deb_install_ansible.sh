@@ -6,6 +6,17 @@ sd=`dirname $rp`
 . $sd/../locenv
 ## endpre
 
+install_git_exfile() {
+  cat > $HOME/.gitignore <<EOF
+.idea/
+tmp/
+logs/
+__pycache__/
+build/
+EOF
+
+}
+
 install_ansible_config() {
   cat > ansible.cfg <<EOF
 [defaults]
@@ -30,7 +41,12 @@ gen_ansible_hosts() {
 as_deb_install_ansible() {
   cd $sd/../../ansible && \
   cmd make venv-ins && \
+  cmd install_git_exfile && \
   cmd git config --global credential.helper store && \
+  cmd git config --global core.excludesFile '~/.gitignore' && \
+  cmd git config --global core.editor 'vi' && \
+  cmd git config --global user.name 'dvo' && \
+  cmd git config --global user.email 'dvo@none.org' && \
   cmd curl -I $1 && \
   cmd cd $HOME/locgit && \
   cmd rm -rf `basename $1` && \

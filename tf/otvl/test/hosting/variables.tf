@@ -69,3 +69,8 @@ variable "hosting_ssh_exposed" {
   type        = bool
   default     = false
 }
+variable "hosting_cs_dvo" {
+  description = "do the computing hosts launch code-server for devops admin"
+  type        = bool
+  default     = false
+}
