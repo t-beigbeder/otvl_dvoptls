@@ -6,9 +6,11 @@ sd=`dirname $rp`
 . $sd/locenv
 ## endpre
 
+vrrd=`realpath $sd/..`
+
 launch_test_vlts() {
   log launch_test_vlts
-  cd $rrd/tf/otvl/test/vlts
+  cd $vrrd/tf/otvl/test/vlts
   tofu apply
   tofu output -json ipv4s
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
@@ -35,25 +37,25 @@ wait_test_vlts_1st() {
   log wait_test_vlts_1st
   cmd curl -k -I https://tvlts.otvl.org:9443/healthcheck --retry 3 --connect-timeout 1
   if [ $? -ne 0 ] ; then return 1 ; fi
-  cmd curl -k --data-binary @$rrd/dvoptls/secrets/test/pki_pf https://tvlts.otvl.org:9443/ssl_keyfile_password
+  cmd curl -k --data-binary @$vrrd/dvoptls/secrets/test/pki_pf https://tvlts.otvl.org:9443/ssl_keyfile_password
 }
 
 wait_test_vlts_rst() {
   log wait_test_vlts_rst
-  cd $rrd/vault_server
-  vpf=$rrd/dvoptls/secrets/test/va_pf
-  pkd=$rrd/dvoptls/pki/test
-  lrd=$rrd/lops_repo
+  cd $vrrd/vault_server
+  vpf=$vrrd/dvoptls/secrets/test/va_pf
+  pkd=$vrrd/dvoptls/pki/test
+  lrd=$vrrd/lops_repo
   vopts="--server tvlts.otvl.org --creds-file $vpf -c $pkd/cli.otvl.c.pem -k $pkd/cli.otvl.k.pem --cas $pkd/fca.otvl.c.pem --force-host --secrets-dir $lrd/vlts_secrets/otvl/test"
   PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts dummy
 }
 
 provision_test_vlts() {
   log provision_test_vlts
-  cd $rrd/vault_server
-  vpf=$rrd/dvoptls/secrets/test/va_pf
-  pkd=$rrd/dvoptls/pki/test
-  lrd=$rrd/lops_repo
+  cd $vrrd/vault_server
+  vpf=$vrrd/dvoptls/secrets/test/va_pf
+  pkd=$vrrd/dvoptls/pki/test
+  lrd=$vrrd/lops_repo
   vlh=`ls $lrd/vlts_secrets/otvl/test | sed -e 's/.enc.yaml//'`
   vopts="--server tvlts.otvl.org --creds-file $vpf -c $pkd/cli.otvl.c.pem -k $pkd/cli.otvl.k.pem --cas $pkd/fca.otvl.c.pem --force-host --secrets-dir $lrd/vlts_secrets/otvl/test"
   PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts $vlh
@@ -61,19 +63,19 @@ provision_test_vlts() {
 
 launch_test_hosting() {
   log launch_test_hosting
-  cd $rrd/tf/otvl/test/hosting
+  cd $vrrd/tf/otvl/test/hosting
   tofu apply
 }
 
 destroy_test_hosting() {
   log destroy_test_hosting
-  cd $rrd/tf/otvl/test/hosting
+  cd $vrrd/tf/otvl/test/hosting
   tofu destroy
 }
 
 destroy_test_vlts() {
   log destroy_test_vlts
-  cd $rrd/tf/otvl/test/vlts
+  cd $vrrd/tf/otvl/test/vlts
   tofu destroy
 }
 

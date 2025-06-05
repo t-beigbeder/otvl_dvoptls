@@ -6,6 +6,8 @@ sd=`dirname $rp`
 . $sd/../locenv
 ## endpre
 
+vrrd=`realpath $sd/../..`
+
 install_git_exfile() {
   cat > $HOME/.gitignore <<EOF
 .idea/
@@ -38,13 +40,17 @@ gen_ansible_hosts() {
   done
 }
 
-git_clone_or_checkout() {
+git_clone_or_pull() {
   vlrd="$HOME/locgit/`basename $1`"
-  cmd curl -I $1 && \
-  cmd cd $HOME/locgit && \
-  cmd rm -rf `basename $1` && \
-  cmd git clone --single-branch $1 && \
-  true
+  if [ -d $vlrd ] ; then
+    cmd cd $vlrd && \
+    cmd git pull
+  else
+    cmd curl -I $1 && \
+    cmd cd $HOME/locgit && \
+    cmd git clone --single-branch $1 && \
+    true
+  fi
   return $?
 }
 
@@ -57,10 +63,7 @@ as_deb_install_ansible() {
   cmd git config --global core.editor 'vi' && \
   cmd git config --global user.name 'dvo' && \
   cmd git config --global user.email 'dvo@none.org' && \
-  cmd curl -I $1 && \
-  cmd cd $HOME/locgit && \
-  cmd rm -rf `basename $1` && \
-  cmd git clone --single-branch $1 && \
+  cmd git_clone_or_pull $1 && \
   cd $sd/../../ansible && \
   cmd install_ansible_config && \
   cd && \

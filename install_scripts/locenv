@@ -67,4 +67,3 @@ get_secret() {
     echo $vv
 }
 
-rrd=`realpath $sd/..`
