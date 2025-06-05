@@ -21,4 +21,6 @@ for grp in $ins_grps ; do
     fat "while running $ins_root/$grp.sh"
   fi
 done
+cmd su - debian -c "$sd/common/as_deb_install_with_ansible.sh" || fat "while running "$sd/common/as_deb_install_with_ansible.sh"
+
 log $0 stopping

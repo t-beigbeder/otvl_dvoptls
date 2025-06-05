@@ -14,5 +14,5 @@ as_deb_install_with_ansible() {
 }
 
 log $0 starting
-as_deb_install_with_ansible $1 || fat $0 failed
+as_deb_install_with_ansible || fat $0 failed
 log $0 stopping
