@@ -73,7 +73,7 @@ as_deb_install_ansible() {
   cmd ssh -i .ssh/id_lans -o StrictHostKeyChecking=no localhost true && \
   cmd mkdir -p .config/.otvl/ansible && \
   cmd gen_ansible_hosts > .config/.otvl/hosts.yml && \
-  cmd ${rrd}/lops_repo/scripts/install_dvo_plus && \
+  cmd ${rrd}/lops_repo/scripts/install_dvo_plus.sh && \
   true
   return $?
 }
