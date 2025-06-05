@@ -16,6 +16,7 @@ install_ansible() {
   cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
   cmd chown -R debian:debian /home/debian && \
   cmd su - debian -c "$sd/as_deb_install_ansible.sh $CI_LOPS_REPO" && \
+  cmd su - debian -c "$sd/as_deb_install_with_ansible.sh $CI_LOPS_REPO" && \
   true
   return $?
 }

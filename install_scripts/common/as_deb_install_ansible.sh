@@ -44,12 +44,10 @@ git_clone_or_pull() {
   vlrd="$HOME/locgit/`basename $1`"
   if [ -d $vlrd ] ; then
     cmd cd $vlrd && \
-    cmd pwd && \
     cmd git pull
   else
     cmd curl -I $1 && \
     cmd cd $HOME/locgit && \
-    cmd pwd && \
     cmd git clone --single-branch $1 && \
     true
   fi
