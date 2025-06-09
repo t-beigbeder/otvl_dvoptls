@@ -1,0 +1,31 @@
+---
+# docker/run/tasks/main.yml
+# see https://docs.docker.com/engine/install/debian/
+
+- name: Install prereqs packages for docker/run
+  ansible.builtin.apt:
+    pkg:
+      - ca-certificates
+    install_recommends: no
+    update_cache: "{{ cv.prod }}"
+
+- name: Download docker keys for apt
+  ansible.builtin.command: curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+  args:
+    creates: /etc/apt/keyrings/docker.asc
+
+- name: Add docker repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable
+    state: present
+
+- name: Install docker runtime and CLI
+  ansible.builtin.apt:
+    pkg:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    install_recommends: no
+
+###
