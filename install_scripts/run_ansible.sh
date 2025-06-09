@@ -7,7 +7,7 @@ sd=`dirname $rp`
 ## endpre
 
 run_ansible() {
-  cd $sd/../../ansible && \
+  cd $sd/../ansible && \
   cmd venv/bin/ansible-playbook otvl_sk3s.yml -i ../lops_repo/ansible/otvl/test -i ~/.config/.otvl/hosts.yml
   true
   return $?

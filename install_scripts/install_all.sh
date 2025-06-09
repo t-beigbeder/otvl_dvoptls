@@ -47,6 +47,8 @@ for grp in $ins_grps ; do
     fat "while running $ins_root/$grp.sh"
   fi
 done
-cmd su - debian -c "$sd/run_ansible.sh" || fat "while running "$sd/run_ansible.sh"
+cmd su - debian -c "$sd/run_ansible.sh" || fat "while running $sd/run_ansible.sh"
 
 log $0 stopping
+
+# CI_LOPS_REPO=https://github.com/t-beigbeder/otvl_dvoptls /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh
