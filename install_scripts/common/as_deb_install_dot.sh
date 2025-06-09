@@ -1,0 +1,49 @@
+#!/bin/sh
+
+## pre
+rp=`realpath $0`
+sd=`dirname $rp`
+. $sd/../locenv
+## endpre
+
+vrrd=`realpath $sd/../..`
+
+git_clone_or_pull() {
+  vlrd="$HOME/locgit/`basename $1`"
+  if [ -d $vlrd ] ; then
+    cmd cd $vlrd && \
+    cmd git pull
+  else
+    cmd curl -I $1 && \
+    cmd cd $HOME/locgit && \
+    cmd git clone --single-branch $1 && \
+    true
+  fi
+  return $?
+}
+
+gen_ansible_hosts() {
+  for g in `cat .config/.otvl/install_groups` ; do
+    echo "$g:"
+    echo "  hosts:"
+    echo "    localhost:"
+  done
+}
+
+as_deb_install_dot() {
+  cmd ${vrrd}/lops_repo/scripts/install_dot_custo.sh && \
+  cmd git_clone_or_pull $1 && \
+  cd && \
+  cmd mkdir -p .config/.otvl && \
+  cmd gen_ansible_hosts > .config/.otvl/hosts.yml && \
+  cd $sd/../../ansible && \
+  cmd make venv-ins && \
+  true
+  return $?
+}
+
+log $0 starting
+as_deb_install_dot $1 || fat $0 failed
+log $0 stopping
+# cd $HOME/locgit/otvl_dvoptls && install_scripts/common/as_deb_install_ansible.sh https://github.com/t-beigbeder/otvl_lops
+# cd $HOME/locgit/otvl_dvoptls/ansible && venv/bin/ansible-playbook otvl_sk3s.yml -i ../lops_repo/ansible/otvl/test -i ~/.config/.otvl/hosts.yml
