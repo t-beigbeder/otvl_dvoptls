@@ -15,7 +15,7 @@ install_dot() {
   cmd cp /root/.config/otvl_vlts/install_groups /home/debian/.config/.otvl/install_groups && \
   cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
   cmd chown -R debian:debian /home/debian && \
-  cmd su - debian -c "$sd/as_deb_install_dot.sh $CI_LOPS_REPO" && \
+  cmd su - debian -c "$sd/common/as_deb_install_dot.sh $CI_LOPS_REPO" && \
   true
   return $?
 }
