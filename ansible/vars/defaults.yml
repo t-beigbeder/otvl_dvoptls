@@ -5,5 +5,5 @@ dv:
   config_paths:
     delivery: /otvl/delivery
     data: /otvl/data
-  to_test_d: in_defaults
+  to_test_d: in_defaults dv
 ###
