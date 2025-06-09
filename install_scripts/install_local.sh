@@ -11,7 +11,7 @@ vrrd=`realpath $sd/..`
 launch_test_vlts() {
   log launch_test_vlts
   cd $vrrd/tf/otvl/test/vlts
-  tofu apply
+  tofu apply -auto-approve
   tofu output -json ipv4s
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
   for vip in $vipv4s ; do
@@ -64,7 +64,7 @@ provision_test_vlts() {
 launch_test_hosting() {
   log launch_test_hosting
   cd $vrrd/tf/otvl/test/hosting
-  tofu apply
+  tofu apply -auto-approve
 }
 
 destroy_test_hosting() {
