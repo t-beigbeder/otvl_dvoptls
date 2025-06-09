@@ -9,7 +9,7 @@
         cv: "{{ dv | combine(iv, recursive=True) }}"
   tags: always
 
-- hosts: docker_build_group
+- hosts: docker_run_group
   gather_facts: False
   become: yes
   roles:
