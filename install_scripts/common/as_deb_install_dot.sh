@@ -31,8 +31,9 @@ gen_ansible_hosts() {
 }
 
 as_deb_install_dot() {
-  cmd ${vrrd}/lops_repo/scripts/install_dot_custo.sh && \
+  cmd git config --global credential.helper store && \
   cmd git_clone_or_pull $1 && \
+  cmd ${vrrd}/lops_repo/scripts/install_dot_custo.sh && \
   cd && \
   cmd mkdir -p .config/.otvl && \
   cmd gen_ansible_hosts > .config/.otvl/hosts.yml && \
