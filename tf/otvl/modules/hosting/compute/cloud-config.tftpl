@@ -37,6 +37,7 @@ write_files:
         --cas /root/pki/fca.otvl.c.pem \
         --host $CI_LHN && \
       echo $CI_INSTALL_ENV > /root/.config/otvl_vlts/install_env && \
+      curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.otvl_meta' > /root/.config/otvl_vlts/install_otvl_meta && \
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.groups' > /root/.config/otvl_vlts/install_groups && \
       /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
       true || exit 1
