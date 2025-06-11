@@ -3,6 +3,10 @@
 
 - name: Here sk3s_server/tasks/main.yml
   debug:
-    msg: "sk3s_server/tasks/main.yml {{ cv }}"
+    msg: "sk3s_server/tasks/main.yml cv is {{ cv }}"
+
+- name: Here again sk3s_server/tasks/main.yml
+  debug:
+    msg: "sk3s_server/tasks/main.yml otvl_meta is {{ otvl_meta }}"
 
 ###

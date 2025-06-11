@@ -30,13 +30,21 @@ gen_ansible_hosts() {
   done
 }
 
+gen_ansible_group_vars() {
+  echo "otvl_meta:"
+  for p in `cat .config/.otvl/install_otvl_meta` ; do
+    echo "  $p: true"
+  done
+}
+
 as_deb_install_dot() {
   cmd git config --global credential.helper store && \
   cmd git_clone_or_pull $1 && \
   cmd ${vrrd}/lops_repo/scripts/install_dot_custo.sh && \
   cd && \
-  cmd mkdir -p .config/.otvl && \
+  cmd mkdir -p .config/.otvl/group_vars && \
   cmd gen_ansible_hosts > .config/.otvl/hosts.yml && \
+  cmd gen_ansible_group_vars > .config/.otvl/group_vars/all.yaml && \
   cd $sd/../../ansible && \
   cmd make venv-ins && \
   true
