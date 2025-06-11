@@ -7,6 +7,10 @@
     - name: Combine default with inventory variables
       set_fact:
         cv: "{{ dv | combine(iv, recursive=True) }}"
+    - name: Check vars
+      include_role:
+        name: commons
+        tasks_from: check_vars
   tags: always
 
 - hosts: docker_run_group

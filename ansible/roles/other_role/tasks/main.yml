@@ -1,8 +1,0 @@
----
-# other_role/tasks/main.yml
-
-- name: Here other_role/tasks/main.yml
-  debug:
-    msg: "other_role/tasks/main.yml {{ cv }}"
-
-###

@@ -5,5 +5,7 @@ dv:
   config_paths:
     delivery: /otvl/delivery
     data: /otvl/data
-  to_test_d: in_defaults dv
+  k3s:
+    # hostname of the api server in a simple cluster
+    # sc_api_server:
 ###

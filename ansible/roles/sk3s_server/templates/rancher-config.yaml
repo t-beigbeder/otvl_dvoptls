@@ -1,0 +1,2 @@
+tls-san:
+  - "{{ cv.k3s.sc_api_server }}"

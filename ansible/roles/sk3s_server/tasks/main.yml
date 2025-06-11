@@ -1,12 +1,15 @@
 ---
 # sk3s_server/tasks/main.yml
 
-- name: Here sk3s_server/tasks/main.yml
-  debug:
-    msg: "sk3s_server/tasks/main.yml cv is {{ cv }}"
+- name: Create rancher/k3s configuration directory
+  file:
+    path: "/etc/rancher/k3s"
+    state: directory
+    mode: 0755
 
-- name: Here again sk3s_server/tasks/main.yml
-  debug:
-    msg: "sk3s_server/tasks/main.yml otvl_meta is {{ otvl_meta }}"
+- name: Configure rancher/k3s TLS SAN in /etc/rancher/k3s/config.yaml
+  template:
+    src: rancher-config.yaml
+    dest: /etc/rancher/k3s/config.yaml
 
 ###
