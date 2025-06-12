@@ -5,6 +5,10 @@ dv:
   config_paths:
     delivery: /otvl/delivery
     data: /otvl/data
+  localhosts:
+    # fqdn: local-network-ip
+    # eg:
+    # t-k3s-sv-loc: "172.25.0.7"
   k3s:
     # hostname of the api server in a simple cluster
     # sc_api_server:
