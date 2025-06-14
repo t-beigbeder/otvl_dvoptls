@@ -54,7 +54,7 @@
     remote_src: true
     dest: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
     mode: "0644"
-  when: k3s_svc_create.changed
+  when: k3s_svc_create.changed or reg_del.changed
 
 - name: Adapt k3s cluster config localhost to api_server in {{ cv.config_paths.data }}/otvl/k3s/k3s.yaml
   ansible.builtin.replace:
@@ -69,7 +69,7 @@
     mode: 0700
   become: false
 
-- name: Configure kube clients on sc node
+- name: Configure kube clients on k3s single node
   ansible.builtin.copy:
     src: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
     remote_src: false

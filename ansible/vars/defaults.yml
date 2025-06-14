@@ -24,6 +24,12 @@ dv:
   opentofu:
     release_url: "https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_linux_amd64.tar.gz"
     sha: "19eda43eaa45bef3e21d87c58f31a6df73e8534ea30e78619a463bdfdb889cd2"
+  cert_manager:
+    # v1.18.0
+    release_url: "https://github.com/cert-manager/cert-manager/releases/download/v1.18.0/cert-manager.yaml"
+    sha: "b77844d683952ce529ea5f4ec249d32851a75a2819662ecc1d171ee218a51c56"
+    le_url: "https://acme-v02.api.letsencrypt.org/directory"
+    le_email: "acme@example.com"
   k3s:
     # hostname of the api server in a simple cluster
     # sc_api_server:

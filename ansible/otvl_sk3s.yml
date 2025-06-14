@@ -40,5 +40,18 @@
   become: yes
   roles:
     - k8s_client
+  tags: k8s
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: yes
+  roles:
     - sk3s_server
   tags: k3s
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: no
+  roles:
+    - cert_manager
+  tags: cm
