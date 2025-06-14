@@ -12,4 +12,18 @@ dv:
   k3s:
     # hostname of the api server in a simple cluster
     # sc_api_server:
+    # docker: true
+    traefik:
+      customize: true
+  ctr:
+    # release: ctr
+    # skip_hdeploy: false
+    # helm_uninstall: false
+    # uid: 2001
+    # fs_group: 2001
+    # ingress_host: ctr.example.com
+    # login: everybody
+    # password: knows
+    # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
+
 ###

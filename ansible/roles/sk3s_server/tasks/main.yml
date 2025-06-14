@@ -12,4 +12,39 @@
     src: rancher-config.yaml
     dest: /etc/rancher/k3s/config.yaml
 
+- name: Create otvl/k3s configuration yaml directory
+  file:
+    path: "{{ cv.config_paths.data }}/otvl/k3s"
+    state: directory
+    mode: 0755
+
+- name: Create k3s manifests directory
+  file:
+    path: /var/lib/rancher/k3s/server/manifests
+    state: directory
+    mode: 0755
+
+- name: Configure traefik ingress controller /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
+  template:
+    src: traefik-config.yaml
+    dest: /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
+  when: cv.k3s.traefik.customize
+
+- name: Install the k3s cluster if absent
+  shell: "curl -sfL https://get.k3s.io | sh -s - {{ '--docker' if cv.k3s.docker | default(true) }}"
+  args:
+    creates: /etc/systemd/system/k3s.service
+
+- name: Configure the k3s private registry /etc/rancher/k3s/registries.yaml
+  template:
+    src: registries.yaml
+    dest: /etc/rancher/k3s/registries.yaml
+  register: reg_del
+
+- name: Restart the k3s.service once registries.yaml delivered
+  systemd:
+    name: k3s.service
+    state: restarted
+  when: reg_del.changed
+  
 ###

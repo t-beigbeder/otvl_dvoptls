@@ -26,14 +26,9 @@
   roles:
     - docker/run
 
-- hosts: docker_run_group
-  gather_facts: False
-  become: yes
-  roles:
-    - docker/run
-
 - hosts: sk3s_group
   gather_facts: False
   become: yes
   roles:
     - sk3s_server
+  tags: k3s
