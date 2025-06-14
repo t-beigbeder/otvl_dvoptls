@@ -9,6 +9,21 @@ dv:
     # fqdn: local-network-ip
     # eg:
     # t-k3s-sv-loc: "172.25.0.7"
+  kubectl:
+    url: "https://dl.k8s.io/release/v1.33.1/bin/linux/amd64/kubectl"
+    sha: "5de4e9f2266738fd112b721265a0c1cd7f4e5208b670f811861f699474a100a3"
+  cmctl:
+    release_url: "https://github.com/cert-manager/cert-manager/releases/download/v1.12.17/cmctl-linux-amd64.tar.gz"
+    sha: "faa03a77059c617a9bb99516f500d4c9f62bf13f16bafb4ba2f2463b55716140"
+  helm:
+    release_url: "https://get.helm.sh/helm-v3.17.0-linux-amd64.tar.gz"
+    sha: "fb5d12662fde6eeff36ac4ccacbf3abed96b0ee2de07afdde4edb14e613aee24"
+  k9s:
+    release_url: "https://github.com/derailed/k9s/releases/download/v0.50.6/k9s_Linux_amd64.tar.gz"
+    sha: "5fc98f2dcf1d8fac6251f5a1ae1dc6fe7fe2b2d43b13bb3039e51ad492e2a70e"
+  opentofu:
+    release_url: "https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_linux_amd64.tar.gz"
+    sha: "19eda43eaa45bef3e21d87c58f31a6df73e8534ea30e78619a463bdfdb889cd2"
   k3s:
     # hostname of the api server in a simple cluster
     # sc_api_server:

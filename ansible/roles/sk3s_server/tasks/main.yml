@@ -34,6 +34,7 @@
   shell: "curl -sfL https://get.k3s.io | sh -s - {{ '--docker' if cv.k3s.docker | default(true) }}"
   args:
     creates: /etc/systemd/system/k3s.service
+  register: k3s_svc_create
 
 - name: Configure the k3s private registry /etc/rancher/k3s/registries.yaml
   template:
@@ -46,5 +47,34 @@
     name: k3s.service
     state: restarted
   when: reg_del.changed
-  
+
+- name: Make k3s cluster config copy readable
+  ansible.builtin.copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    remote_src: true
+    dest: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
+    mode: "0644"
+  when: k3s_svc_create.changed
+
+- name: Adapt k3s cluster config localhost to api_server in {{ cv.config_paths.data }}/otvl/k3s/k3s.yaml
+  ansible.builtin.replace:
+    path: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
+    regexp: "https://127.0.0.1:"
+    replace: "https://{{ cv.k3s.sc_api_server }}:"
+
+- name: Create kube config {{ remote_user_home }}/.kube
+  file:
+    path: "{{ remote_user_home }}/.kube"
+    state: directory
+    mode: 0700
+  become: false
+
+- name: Configure kube clients on sc node
+  ansible.builtin.copy:
+    src: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
+    remote_src: false
+    dest: "{{ remote_user_home }}/.kube/config"
+    mode: "0600"
+  become: false
+
 ###

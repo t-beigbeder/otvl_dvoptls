@@ -1,16 +1,25 @@
 - hosts: all
   gather_facts: False
   tasks:
-    - name: Load default variables
-      include_vars:
-        dir: vars
-    - name: Combine default with inventory variables
-      set_fact:
-        cv: "{{ dv | combine(iv, recursive=True) }}"
-    - name: Check vars
-      include_role:
-        name: commons
-        tasks_from: check_vars
+  - name: Load default variables
+    include_vars:
+      dir: vars
+  - name: Combine default with inventory variables
+    set_fact:
+      cv: "{{ dv | combine(iv, recursive=True) }}"
+  - name: Check vars
+    include_role:
+      name: commons
+      tasks_from: check_vars
+  tags: always
+
+- hosts: all
+  gather_facts: True
+  become: no
+  tasks:
+  - name: Define var for non-root remote_user
+    set_fact:
+      remote_user_home: "{{ ansible_env.HOME }}"
   tags: always
 
 - hosts: all
@@ -30,5 +39,6 @@
   gather_facts: False
   become: yes
   roles:
+    - k8s_client
     - sk3s_server
   tags: k3s

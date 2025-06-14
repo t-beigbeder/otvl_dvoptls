@@ -1,0 +1,47 @@
+---
+# k8s_client/tasks/main.yml
+
+- name: Install kubectl
+  include_role:
+    name: commons
+    tasks_from: install_from_url
+  vars:
+    url: "{{ cv.kubectl.url }}"
+    dload_name: "kubectl.1"
+    sha: "{{ cv.kubectl.sha }}"
+    binary_name: "kubectl"
+
+- name: Install cmctl
+  include_role:
+    name: commons
+    tasks_from: install_from_ghr
+  vars:
+    url: "{{ cv.cmctl.release_url }}"
+    tgz_name: "cmctl.1.tgz"
+    sha: "{{ cv.cmctl.sha }}"
+    binary_name: "cmctl"
+    binary_path: "."
+
+- name: Install helm on the bastion host
+  include_role:
+    name: commons
+    tasks_from: install_from_ghr
+  vars:
+    url: "{{ cv.helm.release_url }}"
+    tgz_name: "helm.2.tgz"
+    sha: "{{ cv.helm.sha }}"
+    binary_name: "helm"
+    binary_path: "linux-amd64"
+
+- name: Install k9s on the bastion host
+  include_role:
+    name: commons
+    tasks_from: install_from_ghr
+  vars:
+    url: "{{ cv.k9s.release_url }}"
+    tgz_name: "k9s.2.tgz"
+    sha: "{{ cv.k9s.sha }}"
+    binary_name: "k9s"
+    binary_path: "."
+
+###

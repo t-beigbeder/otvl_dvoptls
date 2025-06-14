@@ -8,3 +8,16 @@
     line: "{{ cv.localhosts[item] }} {{ item }}"
     state: present
   with_items: "{{ cv.localhosts }}"
+
+- name: Create server root directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "{{ cv.config_paths.data }}"
+    - "{{ cv.config_paths.delivery }}"
+
+###
