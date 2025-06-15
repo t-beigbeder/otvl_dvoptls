@@ -9,6 +9,26 @@ dv:
     # fqdn: local-network-ip
     # eg:
     # t-k3s-sv-loc: "172.25.0.7"
+  containerd:
+    # 1.6.32
+    release_url: "https://github.com/containerd/containerd/releases/download/v1.6.32/containerd-1.6.32-linux-amd64.tar.gz"
+    sha: "7acab4dda6edb7e8e0a6cfc3abd9f323db05a3d92a8a1842de8f6c9e28af501d"
+  runc:
+    # v1.1.13
+    release_url: "https://github.com/opencontainers/runc/releases/download/v1.1.13/runc.amd64"
+    sha: "bcfc299c1ab255e9d045ffaf2e324c0abaf58f599831a7c2c4a80b33f795de94"
+  cni_plugins:
+    # v1.5.0
+    release_url: "https://github.com/containernetworking/plugins/releases/download/v1.5.0/cni-plugins-linux-amd64-v1.5.0.tgz"
+    sha: "57a18478422cb321370e30a5ee6ce026321289cd9c94353ca697dddd7714f1a5"
+  nerdctl:
+    # 1.7.4
+    release_url: "https://github.com/containerd/nerdctl/releases/download/v1.7.4/nerdctl-1.7.4-linux-amd64.tar.gz"
+    sha: "71aee9d987b7fad0ff2ade50b038ad7e2356324edc02c54045960a3521b3e6a7"
+  buildkit:
+    # 0.14.1
+    release_url: "https://github.com/moby/buildkit/releases/download/v0.14.1/buildkit-v0.14.1.linux-amd64.tar.gz"
+    sha: "836208f50ab8856a91aa5bba455b8451bbe261318cbc92e9c0ca3e786135756c"
   kubectl:
     url: "https://dl.k8s.io/release/v1.33.1/bin/linux/amd64/kubectl"
     sha: "5de4e9f2266738fd112b721265a0c1cd7f4e5208b670f811861f699474a100a3"
