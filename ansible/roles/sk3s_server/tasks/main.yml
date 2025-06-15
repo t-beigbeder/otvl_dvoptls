@@ -1,6 +1,8 @@
 ---
 # sk3s_server/tasks/main.yml
 
+# FIXME: ip route add default via 91.134.11.1 dev ens3
+
 - name: Create rancher/k3s configuration directory
   file:
     path: "/etc/rancher/k3s"
