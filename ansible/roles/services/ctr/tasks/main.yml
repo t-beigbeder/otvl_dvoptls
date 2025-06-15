@@ -7,10 +7,10 @@
     tasks_from: helm_release
   vars:
     title: "the container registry"
-    chart_sp: "otvl/ctr"
+    chart_sp: "ctr"
     vf_template_sp: "ctr.yaml"
     release_name: "{{ cv.ctr.release }}"
     uninstall: "{{ cv.ctr.helm_uninstall | default(false) }}"
-  when: not (otvl.ctr.skip_hdeploy | default(false))
+  when: not cv.ctr.skip_hdeploy | default(false)
 
 ###

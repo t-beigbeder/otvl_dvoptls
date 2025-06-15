@@ -35,6 +35,7 @@ gen_ansible_group_vars() {
   for p in `cat .config/.otvl/install_otvl_meta` ; do
     echo "  $p: true"
   done
+  echo "install_env: `cat .config/.otvl/install_env`"
 }
 
 as_deb_install_dot() {
@@ -47,6 +48,7 @@ as_deb_install_dot() {
   cmd gen_ansible_group_vars > .config/.otvl/group_vars/all.yaml && \
   cd $sd/../../ansible && \
   cmd make venv-ins && \
+  cmd venv/bin/ansible-galaxy collection install kubernetes.core && \
   true
   return $?
 }

@@ -36,6 +36,7 @@ dv:
     # docker: true
     traefik:
       customize: true
+    default_namespace: "default"
   ctr:
     # release: ctr
     # skip_hdeploy: false
@@ -46,5 +47,7 @@ dv:
     # login: everybody
     # password: knows
     # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
+  traefik:
+    image: "traefik:v3.1"
 
 ###

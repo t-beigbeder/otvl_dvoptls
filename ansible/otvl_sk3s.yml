@@ -55,3 +55,10 @@
   roles:
     - cert_manager
   tags: cm
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: no
+  roles:
+    - services/ctr
+  tags: ctr

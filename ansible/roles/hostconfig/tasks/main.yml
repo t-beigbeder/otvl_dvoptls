@@ -20,4 +20,13 @@
     - "{{ cv.config_paths.data }}"
     - "{{ cv.config_paths.delivery }}"
 
+- name: Create non become root directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ remote_user_home }}/helm_values"
+  become: no
+
 ###

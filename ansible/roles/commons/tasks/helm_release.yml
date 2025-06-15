@@ -1,4 +1,4 @@
-# otvl/roles/commons/tasks/helm_release.yml
+# commons/tasks/helm_release.yml
 # install helm release from local repo and ansible template instanciated
 # vars:
 #   title: name what is to be deployed
@@ -9,38 +9,27 @@
 
 - name: set included vars
   set_fact:
-    hr_lvf: "{{ otvl.config_vars.devops_home }}/helm_values"
-    hr_lcc: "{{ otvl.config_vars.devops_home }}/helm_charts_cache"
+    hr_hvd: "{{ remote_user_home }}/helm_values"
 
-- name: Instantiate the template {{ vf_template_sp }} as a local values file {{ hr_lvf }}
+- name: Instantiate the template {{ vf_template_sp }} as a local values file {{ hr_hvd }}
   template:
-    src: "{{ otvl.config_vars.local_devops_home }}/locgit/otvl/otvl_devops_tools/src/ansible/otvl/templates/override/helm/{{ vf_template_sp }}"
-    dest: "{{ hr_lvf }}/{{ release_name }}.yaml"
-    owner: "{{ otvl.config_vars.devops_user }}"
-    group: "{{ otvl.config_vars.devops_user }}"
+    src: "{{ playbook_dir }}/../lops_repo/helm/{{ install_env }}/{{ vf_template_sp }}"
+    dest: "{{ hr_hvd }}/{{ release_name }}.yaml"
     mode: 0600
-
-- name: Synchronize the chart {{ chart_sp }} to the cache
-  copy:
-    src: "{{ otvl.config_vars.local_devops_home }}/locgit/otvl/otvl_devops_tools/src/helm/{{ chart_sp }}/"
-    dest: "{{ hr_lcc }}/{{ chart_sp }}/"
-    force: true
 
 - name: Uninstall {{ title }}
   kubernetes.core.helm:
     name: "{{ release_name }}"
-    release_namespace: "{{ otvl.k3s.default_namespace }}"
-    chart_ref: "{{ hr_lcc }}/{{ chart_sp }}"
+    release_namespace: "{{ cv.k3s.default_namespace }}"
+    chart_ref: "{{ playbook_dir }}/../helm/{{ chart_sp }}"
     state: absent
     wait: true
-  become_user: "{{ otvl.config_vars.devops_user }}"
   when: uninstall | default(false)
 
 - name: Install {{ title }}
   kubernetes.core.helm:
     name: "{{ release_name }}"
-    release_namespace: "{{ otvl.k3s.default_namespace }}"
-    chart_ref: "{{ hr_lcc }}/{{ chart_sp }}"
+    release_namespace: "{{ cv.k3s.default_namespace }}"
+    chart_ref: "{{ playbook_dir }}/../helm/{{ chart_sp }}"
     values_files:
-      - "{{ hr_lvf }}/{{ release_name }}.yaml"
-  become_user: "{{ otvl.config_vars.devops_user }}"
+      - "{{ hr_hvd }}/{{ release_name }}.yaml"
