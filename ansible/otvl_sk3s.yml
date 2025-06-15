@@ -29,20 +29,11 @@
     - hostconfig
   tags: hc
 
-#- hosts: docker_run_group
-#  gather_facts: False
-#  become: yes
-#  roles:
-#    - docker/run
-
 - hosts: docker_run_group
   gather_facts: False
   become: yes
   roles:
-    - containerd
-    - nerdctl
-    - buildkit
-  tags: dk
+    - docker/run
 
 - hosts: containerd_run_group
   gather_facts: False
