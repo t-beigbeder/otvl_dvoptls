@@ -57,6 +57,9 @@ resource "openstack_blockstorage_volume_v3" "volumes" {
   count = length(local.nfs_instances_indexes)
   name = var.instances_attrs[local.nfs_instances_indexes[count.index]].name
   size = var.instances_attrs[local.nfs_instances_indexes[count.index]].nfs_disk_size
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "openstack_blockstorage_volume_attach_v3" "volatts" {
