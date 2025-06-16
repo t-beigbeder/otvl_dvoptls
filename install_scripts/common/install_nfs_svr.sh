@@ -10,7 +10,7 @@ run_parted() {
   if [ "`lsblk -P -o NAME | grep $vdk | wc -l`" != "1" ] ; then
     return 0
   fi
-  cmd apt-get install -y --no-install-recommends parted && \
+  cmd apt-get install -y --no-install-recommends parted nfs-kernel-server && \
   cmd parted -s /dev/${vdk} mklabel msdos && \
   cmd parted -s -a optimal /dev/${vdk} mkpart primary ext4 0% 100% && \
   true
@@ -37,11 +37,21 @@ upd_fstab_and_mount() {
     return $?
 }
 
+upd_exp_and_run() {
+    if [ "`grep /data /etc/exports`" != "" ] ; then
+      return 0
+    fi
+    echo "/data 172.25.0.0/28(rw,sync,no_subtree_check)" >> /etc/exports && \
+    exportfs && \
+    true
+    return $?
+}
 log $0 starting
 vdk=`lsblk -P -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
 cmd run_parted && \
 cmd run_mkfs && \
 cmd mkdir -p /data && \
 cmd upd_fstab_and_mount && \
+cmd upd_exp_and_run && \
 true || fat $0 failed
 log $0 stopping
