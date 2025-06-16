@@ -42,7 +42,7 @@ upd_exp_and_run() {
       return 0
     fi
     echo "/data ${CI_LOC_CIDR}(rw,sync,no_subtree_check)" >> /etc/exports && \
-    exportfs && \
+    cmd exportfs -av && \
     true
     return $?
 }
