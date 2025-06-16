@@ -10,7 +10,6 @@ run_parted() {
   if [ "`lsblk -P -o NAME | grep $vdk | wc -l`" != "1" ] ; then
     return 0
   fi
-  cmd apt-get install -y --no-install-recommends parted nfs-kernel-server && \
   cmd parted -s /dev/${vdk} mklabel msdos && \
   cmd parted -s -a optimal /dev/${vdk} mkpart primary ext4 0% 100% && \
   true
@@ -52,6 +51,7 @@ if [ -z "$CI_LOC_CIDR" ] ; then
   fat "variable CI_LOC_CIDR is unset"
 fi
 vdk=`lsblk -P -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
+cmd apt-get install -y --no-install-recommends parted nfs-kernel-server && \
 cmd run_parted && \
 cmd run_mkfs && \
 cmd mkdir -p /data && \

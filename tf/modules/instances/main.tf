@@ -58,7 +58,7 @@ resource "openstack_blockstorage_volume_v3" "volumes" {
   name = var.instances_attrs[local.nfs_instances_indexes[count.index]].name
   size = var.instances_attrs[local.nfs_instances_indexes[count.index]].nfs_disk_size
   lifecycle {
-    prevent_destroy = false
+    prevent_destroy = true
   }
 }
 

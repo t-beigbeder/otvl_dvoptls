@@ -70,7 +70,7 @@ launch_test_hosting() {
 destroy_test_hosting() {
   log destroy_test_hosting
   cd $vrrd/tf/otvl/test/hosting
-  tofu destroy
+  tofu destroy -exclude module.compute.module.instances.openstack_blockstorage_volume_v3.volumes
 }
 
 destroy_test_vlts() {
