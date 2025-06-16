@@ -12,6 +12,7 @@ write_files:
       export CI_VLTS_HOSTNAME=${tf_vlts_hostname}
       export CI_VLTS_PORT=${tf_vlts_port}
       export CI_CS_DVO=${tf_cs_dvo}
+      export CI_NFS_SVR=${tf_is_nfs_server}
       export HOME=/root
       export pkgl="git virtualenv curl jq make"
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
