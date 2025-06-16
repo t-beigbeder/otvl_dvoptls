@@ -46,6 +46,7 @@ upd_exp_and_run() {
     true
     return $?
 }
+
 log $0 starting
 vdk=`lsblk -P -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
 cmd run_parted && \
