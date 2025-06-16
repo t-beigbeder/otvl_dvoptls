@@ -48,3 +48,19 @@ resource "openstack_compute_instance_v2" "instances" {
     "otvl_meta" = var.instances_attrs[count.index].otvl_meta
   }
 }
+
+locals {
+  nfs_instances_indexes = [for ii, ia in var.instances_attrs: ii if ia.is_nfs_server]
+}
+
+resource "openstack_blockstorage_volume_v3" "volumes" {
+  count = length(local.nfs_instances_indexes)
+  name = var.instances_attrs[local.nfs_instances_indexes[count.index]].name
+  size = var.instances_attrs[local.nfs_instances_indexes[count.index]].nfs_disk_size
+}
+
+resource "openstack_blockstorage_volume_attach_v3" "volatts" {
+  count = length(local.nfs_instances_indexes)
+  host_name = var.instances_attrs[local.nfs_instances_indexes[count.index]].name
+  volume_id = openstack_blockstorage_volume_v3.volumes[count.index].id
+}

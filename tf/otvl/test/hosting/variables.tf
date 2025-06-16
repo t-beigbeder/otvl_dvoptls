@@ -46,12 +46,14 @@ variable "vlts_hostname" {
 variable "instances_attrs" {
   description = "Attributes for instances to create"
   type = list(object({
-    name        = string
-    groups      = string
-    otvl_meta   = string
-    ip_v4       = string
-    image_name  = string
-    flavor_name = string
+    name          = string
+    groups        = string
+    otvl_meta     = string
+    ip_v4         = string
+    image_name    = string
+    flavor_name   = string
+    is_nfs_server = optional(bool, false)
+    nfs_disk_size = optional(number, 0)
   }))
 }
 
