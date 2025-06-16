@@ -29,4 +29,34 @@
     - "{{ remote_user_home }}/helm_values"
   become: no
 
+- name: "Create otvl_default_route shell script"
+  copy:
+    src: ulb/otvl_default_route.sh
+    dest: /usr/local/bin/otvl_default_route.sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: "Create otvl_default_route systemd service file"
+  copy:
+    src: systemd/otvl_default_route.service
+    dest: /etc/systemd/system/otvl_default_route.service
+    owner: root
+    group: root
+    mode: 0644
+  register: odrs_config
+
+- name: Create and run systemd service for otvl_default_route
+  block:
+    - name: Enable otvl_default_route systemd service
+      systemd:
+        name: "otvl_default_route"
+        enabled: yes
+    - name: Restart otvl_default_route systemd service
+      systemd:
+        name: "otvl_default_route"
+        state: restarted
+        daemon_reload: yes
+  when: odrs_config.changed
+
 ###
