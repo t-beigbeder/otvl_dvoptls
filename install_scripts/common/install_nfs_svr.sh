@@ -41,13 +41,16 @@ upd_exp_and_run() {
     if [ "`grep /data /etc/exports`" != "" ] ; then
       return 0
     fi
-    echo "/data 172.25.0.0/28(rw,sync,no_subtree_check)" >> /etc/exports && \
+    echo "/data ${CI_LOC_CIDR}(rw,sync,no_subtree_check)" >> /etc/exports && \
     exportfs && \
     true
     return $?
 }
 
 log $0 starting
+if [ -z "$CI_LOC_CIDR" ] ; then
+  fat "variable CI_LOC_CIDR is unset"
+fi
 vdk=`lsblk -P -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
 cmd run_parted && \
 cmd run_mkfs && \

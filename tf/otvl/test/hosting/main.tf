@@ -28,6 +28,7 @@ module "compute" {
   ext_net_id          = module.network.ext_net_id
   loc_net_id          = module.network.loc_net_id
   loc_subnet_id       = module.network.loc_subnet_id
+  loc_net_cidr        = var.loc_net_cidr
   hosting_sg_id       = module.network.hosting_sg_id
   hosting_ssh_exposed = var.hosting_ssh_exposed
   hosting_cs_dvo      = var.hosting_cs_dvo

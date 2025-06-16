@@ -14,6 +14,10 @@ variable "loc_subnet_id" {
   description = "The local subnet id"
   type        = string
 }
+variable "loc_net_cidr" {
+  description = "The CIDR of the local network"
+  type        = string
+}
 variable "hosting_sg_id" {
   description = "The hosting sg id"
   type        = string
