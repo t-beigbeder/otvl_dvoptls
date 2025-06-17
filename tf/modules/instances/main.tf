@@ -17,6 +17,7 @@ resource "openstack_networking_port_v2" "ext" {
   security_group_ids = [
     var.external_sg_id
   ]
+  admin_state_up = "true"
 }
 
 resource "openstack_networking_port_v2" "loc" {
