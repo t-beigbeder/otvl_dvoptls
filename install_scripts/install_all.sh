@@ -8,9 +8,11 @@ sd=`dirname $rp`
 
 install_dot() {
   cd $sd/../ansible && \
-  cmd mkdir -p /home/debian/.config/.otvl/.secrets && \
+  cmd mkdir -p /root/.config/.otvl/.secrets /home/debian/.config/.otvl/.secrets && \
   get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
   get_secret ghp_creds > /home/debian/.git-credentials && \
+  get_secret k3s_token > /root/.config/.otvl/.secrets/k3s_token && \
+  chmod go-rw /root/.config/.otvl/.secrets/k3s_token && \
   cmd cp /root/.config/otvl_vlts/install_env /home/debian/.config/.otvl/install_env && \
   cmd cp /root/.config/otvl_vlts/install_otvl_meta /home/debian/.config/.otvl/install_otvl_meta && \
   cmd cp /root/.config/otvl_vlts/install_groups /home/debian/.config/.otvl/install_groups && \

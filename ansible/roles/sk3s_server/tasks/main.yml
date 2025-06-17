@@ -33,12 +33,11 @@
   when: cv.k3s.traefik.customize
 
 - name: Install the k3s cluster if absent
-  shell: "curl -sfL https://get.k3s.io | sh -s - {{ '--docker' if cv.k3s.docker | default(true) }}"
+  shell: "curl -sfL https://get.k3s.io | sh -s - --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }}"
   args:
     creates: /etc/systemd/system/k3s.service
   register: k3s_svc_create
   # cat /var/lib/rancher/k3s/server/token
-  # K10fa14050418f80527d057af50106b8dd53dea3afbe1b9559368fd3fea3707ce9f::server:53002b8030e56b44a60a42f663c2cad8
 
 - name: Configure the k3s private registry /etc/rancher/k3s/registries.yaml
   template:
