@@ -48,6 +48,9 @@ resource "openstack_compute_instance_v2" "instances" {
     "groups"    = var.instances_attrs[count.index].groups
     "otvl_meta" = var.instances_attrs[count.index].otvl_meta
   }
+  lifecycle {
+    ignore_changes = [security_groups]
+  }
 }
 
 locals {
