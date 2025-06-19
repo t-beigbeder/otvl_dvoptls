@@ -54,7 +54,7 @@
   gather_facts: False
   become: yes
   roles:
-    - sk3s_server
+    - sk3s_node
   tags: k3s
 
 - hosts: sk3s_group
