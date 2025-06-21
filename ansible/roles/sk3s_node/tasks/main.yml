@@ -6,7 +6,6 @@
     path: "/etc/rancher/k3s"
     state: directory
     mode: 0755
-  when: otvl_meta.k3s_server | default(false)
 
 - name: Configure rancher/k3s TLS SAN in /etc/rancher/k3s/config.yaml for server nodes
   template:
@@ -32,10 +31,20 @@
     dest: /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
   when: cv.k3s.traefik.customize and otvl_meta.k3s_server | default(false)
 
+- name: Define k3s service name for server node
+  set_fact:
+    k3s_svc_name: k3s
+  when: otvl_meta.k3s_server | default(false)
+
+- name: Define k3s service name for agent node
+  set_fact:
+    k3s_svc_name: k3s-agent
+  when: otvl_meta.k3s_agent | default(false)
+
 - name: Install the k3s cluster if absent
   shell: "curl -sfL https://get.k3s.io | sh -s - --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }}"
   args:
-    creates: /etc/systemd/system/k3s.service
+    creates: /etc/systemd/system/{{ k3s_svc_name }}.service
   when: otvl_meta.k3s_server | default(false)
   register: k3s_svc_create
   # cat /var/lib/rancher/k3s/server/token
@@ -43,7 +52,7 @@
 - name: Install the k3s agent if absent
   shell: "curl -sfL https://get.k3s.io | sh -s - agent -s https://{{ cv.k3s.sc_api_server }}:6443 --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }} --node-taint agent-deploy=true:NoExecute"
   args:
-    creates: /etc/systemd/system/k3s.service
+    creates: /etc/systemd/system/{{ k3s_svc_name }}.service
   when: otvl_meta.k3s_agent | default(false)
   register: k3s_svc_create
   # cat /var/lib/rancher/k3s/server/token
@@ -56,7 +65,7 @@
 
 - name: Restart the k3s.service once registries.yaml delivered
   systemd:
-    name: k3s.service
+    name: "{{ k3s_svc_name }}.service"
     state: restarted
   when: reg_del.changed
 
