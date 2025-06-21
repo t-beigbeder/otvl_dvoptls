@@ -7,8 +7,9 @@ sd=`dirname $rp`
 ## endpre
 
 run_ansible() {
+  vie=`cat /home/debian/.config/.otvl/install_env`
   cd $sd/../ansible && \
-  cmd venv/bin/ansible-playbook otvl_sk3s.yml -i ../lops_repo/ansible/otvl/test -i ~/.config/.otvl/hosts.yml $@
+  cmd venv/bin/ansible-playbook otvl_sk3s.yml -i ../lops_repo/ansible/${vie} -i ~/.config/.otvl/hosts.yml $@
   true
   return $?
 }
