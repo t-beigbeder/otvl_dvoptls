@@ -1,17 +1,18 @@
 ---
 # sk3s_node/tasks/main.yml
 
-- name: Get k3s node role from
-- name: Create rancher/k3s configuration directory
+- name: Create rancher/k3s configuration directory for server nodes
   file:
     path: "/etc/rancher/k3s"
     state: directory
     mode: 0755
+  when: otvl_meta.k3s_server | default(false)
 
-- name: Configure rancher/k3s TLS SAN in /etc/rancher/k3s/config.yaml
+- name: Configure rancher/k3s TLS SAN in /etc/rancher/k3s/config.yaml for server nodes
   template:
     src: rancher-config.yaml
     dest: /etc/rancher/k3s/config.yaml
+  when: otvl_meta.k3s_server | default(false)
 
 - name: Create otvl/k3s configuration yaml directory
   file:
