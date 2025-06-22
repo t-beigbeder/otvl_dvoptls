@@ -8,4 +8,4 @@
 
 ## FIXME
 
-Install nfs-common on agents
+[x] Install nfs-common on agents
