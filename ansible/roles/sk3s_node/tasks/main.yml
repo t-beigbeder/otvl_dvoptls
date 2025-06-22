@@ -75,13 +75,14 @@
     remote_src: true
     dest: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
     mode: "0644"
-  when: k3s_svc_create.changed or reg_del.changed
+  when: otvl_meta.k3s_server | default(false) and (k3s_svc_create.changed or reg_del.changed)
 
 - name: Adapt k3s cluster config localhost to api_server in {{ cv.config_paths.data }}/otvl/k3s/k3s.yaml
   ansible.builtin.replace:
     path: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
     regexp: "https://127.0.0.1:"
     replace: "https://{{ cv.k3s.sc_api_server }}:"
+  when: otvl_meta.k3s_server | default(false)
 
 - name: Create kube config {{ remote_user_home }}/.kube
   file:
@@ -97,5 +98,6 @@
     dest: "{{ remote_user_home }}/.kube/config"
     mode: "0600"
   become: false
+  when: otvl_meta.k3s_server | default(false)
 
 ###
