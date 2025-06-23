@@ -72,3 +72,11 @@
     - role: roles/services/ctr
       when: otvl_meta.k3s_server | default(false)
   tags: ctr
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: no
+  roles:
+    - role: roles/services/code_server
+      when: otvl_meta.code_server | default(false)
+  tags: cs

@@ -1,5 +1,5 @@
 ---
-# otvl/roles/services/ctr/tasks/main.yml
+# services/ctr/tasks/main.yml
 
 - name: Here services/ctr/tasks/main.yml
   include_role:

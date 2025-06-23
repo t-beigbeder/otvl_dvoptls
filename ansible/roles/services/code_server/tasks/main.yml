@@ -1,0 +1,16 @@
+---
+# services/code_server/tasks/main.yml
+
+- name: Here services/code_server/tasks/main.yml
+  include_role:
+    name: commons
+    tasks_from: helm_release
+  vars:
+    title: "code-server application"
+    chart_sp: "code_server"
+    vf_template_sp: "code_server.yaml"
+    release_name: "{{ cv.code_server.release }}"
+    uninstall: "{{ cv.code_server.helm_uninstall | default(false) }}"
+  when: not cv.code_server.skip_hdeploy | default(false)
+
+###

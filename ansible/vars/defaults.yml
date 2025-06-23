@@ -69,5 +69,15 @@ dv:
     # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
   traefik:
     image: "traefik:v3.1"
-
+  code_server:
+    image: "lscr.io/linuxserver/code-server:4.101.1"
+    # release: code-server
+    # skip_hdeploy: false
+    # helm_uninstall: false
+    # uid: 2001
+    # fs_group: 2001
+    # ingress_host: code-server.example.com
+    # login: everybody
+    # password: knows
+    # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
 ###
