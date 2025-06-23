@@ -6,6 +6,12 @@
 
 # WIP
 
+## TODO
+
+- code-server in container
+
 ## FIXME
 
-[x] Install nfs-common on agents
+## DONE
+
+- Install nfs-common on agents
