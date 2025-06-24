@@ -50,7 +50,7 @@ log $0 starting
 if [ -z "$CI_LOC_CIDR" ] ; then
   fat "variable CI_LOC_CIDR is unset"
 fi
-vdk=`lsblk -P -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
+vdk=`lsblk -P -x NAME -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
 cmd apt-get install -y --no-install-recommends parted nfs-kernel-server && \
 cmd run_parted && \
 cmd run_mkfs && \

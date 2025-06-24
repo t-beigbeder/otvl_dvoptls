@@ -13,7 +13,7 @@
 
 - name: Wait for the cert-manager installation to complete
   command:
-    cmd: "cmctl check api --wait 20s"
+    cmd: "cmctl check api --wait 40s"
 
 - name: Here cert_manager/tasks/main.yml
   include_role:

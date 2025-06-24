@@ -1,18 +1,23 @@
 ---
-# sk3s_server/tasks/main.yml
+# sk3s_node/tasks/main.yml
 
-# FIXME: ip route add default via 91.134.11.1 dev ens3
+- name: Install NFS client on agents
+  ansible.builtin.apt:
+    pkg:
+    - nfs-common
+    install_recommends: no
 
-- name: Create rancher/k3s configuration directory
+- name: Create rancher/k3s configuration directory for server nodes
   file:
     path: "/etc/rancher/k3s"
     state: directory
     mode: 0755
 
-- name: Configure rancher/k3s TLS SAN in /etc/rancher/k3s/config.yaml
+- name: Configure rancher/k3s TLS SAN in /etc/rancher/k3s/config.yaml for server nodes
   template:
     src: rancher-config.yaml
     dest: /etc/rancher/k3s/config.yaml
+  when: otvl_meta.k3s_server | default(false)
 
 - name: Create otvl/k3s configuration yaml directory
   file:
@@ -30,12 +35,31 @@
   template:
     src: traefik-config.yaml
     dest: /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
-  when: cv.k3s.traefik.customize
+  when: cv.k3s.traefik.customize and otvl_meta.k3s_server | default(false)
+
+- name: Define k3s service name for server node
+  set_fact:
+    k3s_svc_name: k3s
+  when: otvl_meta.k3s_server | default(false)
+
+- name: Define k3s service name for agent node
+  set_fact:
+    k3s_svc_name: k3s-agent
+  when: otvl_meta.k3s_agent | default(false)
 
 - name: Install the k3s cluster if absent
-  shell: "curl -sfL https://get.k3s.io | sh -s - --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }}"
+  shell: "curl -sfL https://get.k3s.io | sh -s - --advertise-address {{ cv.localhosts[cv.k3s.sc_api_server] }} --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }}"
   args:
-    creates: /etc/systemd/system/k3s.service
+    creates: /etc/systemd/system/{{ k3s_svc_name }}.service
+  when: otvl_meta.k3s_server | default(false)
+  register: k3s_svc_create
+  # cat /var/lib/rancher/k3s/server/token
+
+- name: Install the k3s agent if absent
+  shell: "curl -sfL https://get.k3s.io | sh -s - agent -s https://{{ cv.k3s.sc_api_server }}:6443 --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }} --node-taint agent-deploy=true:NoExecute"
+  args:
+    creates: /etc/systemd/system/{{ k3s_svc_name }}.service
+  when: otvl_meta.k3s_agent | default(false)
   register: k3s_svc_create
   # cat /var/lib/rancher/k3s/server/token
 
@@ -47,7 +71,7 @@
 
 - name: Restart the k3s.service once registries.yaml delivered
   systemd:
-    name: k3s.service
+    name: "{{ k3s_svc_name }}.service"
     state: restarted
   when: reg_del.changed
 
@@ -57,13 +81,14 @@
     remote_src: true
     dest: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
     mode: "0644"
-  when: k3s_svc_create.changed or reg_del.changed
+  when: otvl_meta.k3s_server | default(false) and (k3s_svc_create.changed or reg_del.changed)
 
 - name: Adapt k3s cluster config localhost to api_server in {{ cv.config_paths.data }}/otvl/k3s/k3s.yaml
   ansible.builtin.replace:
     path: "{{ cv.config_paths.data }}/otvl/k3s/k3s.yaml"
     regexp: "https://127.0.0.1:"
     replace: "https://{{ cv.k3s.sc_api_server }}:"
+  when: otvl_meta.k3s_server | default(false)
 
 - name: Create kube config {{ remote_user_home }}/.kube
   file:
@@ -79,5 +104,6 @@
     dest: "{{ remote_user_home }}/.kube/config"
     mode: "0600"
   become: false
+  when: otvl_meta.k3s_server | default(false)
 
 ###

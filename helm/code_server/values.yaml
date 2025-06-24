@@ -1,0 +1,16 @@
+images:
+  codeserver: lscr.io/linuxserver/code-server:4.101.1
+  traefik: traefik:v3.4
+uid: 3002
+fs_group: 2002
+resources:
+  requests:
+    cpu: "1500m"
+    memory: 1Gi
+  limits:
+    cpu: "1800m"
+    memory: 3Gi
+ingress:
+  enabled: true
+  # host: otvl-ctr.example.com, defaults to <release-name>.example.com
+apr_credentials: "cslogin:"

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-cs
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}-cs
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: {{ .Release.Name }}-cs
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}-cs
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.uid }}
+        runAsGroup: {{ .Values.uid }}
+        fsGroup: {{ .Values.fs_group }}
+      containers:
+        - name: code-server
+          image: {{ .Values.images.reg }}
+          env:
+          - name: TZ
+            value: Etc/UTC
+          volumeMounts:
+          - mountPath: /config
+            name: data-volume
+            subPath: home/debian
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          ports:
+            - containerPort: 8443
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /
+              port: 8443
+          readinessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /
+              port: 8443
+          volumeMounts:
+            - name: ctr-vol
+              mountPath: /var/lib/registry
+            - name: ctr-config-vol
+              mountPath: /etc/docker/registry
+
+      volumes:
+      - name: data-volume
+        nfs:
+          server: t-sk3s-sv
+          path: /data
+      tolerations:
+      - key: "agent-deploy"
+        value: "true"
+        effect: "NoExecute"
+      restartPolicy: Always
