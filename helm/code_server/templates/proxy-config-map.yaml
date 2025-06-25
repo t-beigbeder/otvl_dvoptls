@@ -42,4 +42,4 @@ data:
         "cs":
           loadBalancer:
             servers:
-              - url: "http://{{ .Release.Name }}-cs:5000"
+              - url: "http://{{ .Release.Name }}-cs:8443"

@@ -20,7 +20,7 @@ spec:
         fsGroup: {{ .Values.fs_group }}
       containers:
         - name: code-server
-          image: {{ .Values.images.reg }}
+          image: {{ .Values.images.codeserver }}
           env:
           - name: TZ
             value: Etc/UTC
@@ -42,12 +42,6 @@ spec:
             httpGet:
               path: /
               port: 8443
-          volumeMounts:
-            - name: ctr-vol
-              mountPath: /var/lib/registry
-            - name: ctr-config-vol
-              mountPath: /etc/docker/registry
-
       volumes:
       - name: data-volume
         nfs:
