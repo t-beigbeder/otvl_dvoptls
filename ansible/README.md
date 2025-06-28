@@ -12,6 +12,9 @@
 
 ## FIXME
 
+- nfs server hard coded
+- agent name label missing
+
 ## DONE
 
 - Install nfs-common on agents
