@@ -16,6 +16,7 @@ install_dot() {
   cmd cp /root/.config/otvl_vlts/install_env /home/debian/.config/.otvl/install_env && \
   cmd cp /root/.config/otvl_vlts/install_otvl_meta /home/debian/.config/.otvl/install_otvl_meta && \
   cmd cp /root/.config/otvl_vlts/install_groups /home/debian/.config/.otvl/install_groups && \
+  env | grep CI_ > /home/debian/.config/.otvl/ci_env && \
   cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
   cmd chown -R debian:debian /home/debian && \
   cmd su - debian -c "$sd/common/as_deb_install_dot.sh $CI_LOPS_REPO" && \

@@ -36,6 +36,10 @@ gen_ansible_group_vars() {
     echo "  $p: true"
   done
   echo "install_env: `cat .config/.otvl/install_env`"
+  echo "ci_env:"
+  for kv in `cat .config/.otvl/ci_env` ; do
+    echo "  $kv" | sed -e 's/=/: /'
+  done
 }
 
 as_deb_install_dot() {
