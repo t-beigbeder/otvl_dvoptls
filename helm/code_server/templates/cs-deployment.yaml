@@ -45,7 +45,8 @@ spec:
       volumes:
       - name: data-volume
         nfs:
-          server: t-sk3s-sv
+          # FIXME
+          server: t-k3s-sv-loc
           path: /data
       tolerations:
       - key: "agent-deploy"
