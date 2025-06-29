@@ -8,13 +8,14 @@
 
 ## TODO
 
-- code-server in container
 
 ## FIXME
 
 - nfs server hard coded
 - agent name label missing
+- flannel iface retrieve dynamic
 
 ## DONE
 
 - Install nfs-common on agents
+- code-server in container
