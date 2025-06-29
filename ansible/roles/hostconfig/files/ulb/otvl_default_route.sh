@@ -17,10 +17,17 @@ fat() {
     exit 1
 }
 
+if [ "`networkctl | grep ether | grep routable | wc -l`" != 2 ] ; then
+    log $0 "hasn't 2 routable interfaces..."
+    log $0 `networkctl | grep ether | grep routable`
+    log $0 exiting with no action
+    exit 0
+fi
+
 while [ true ] ; do
     log $0 sleeping 15
     sleep 15
-    vin=`networkctl |grep ether | grep routable | head -1 | cut -d' ' -f4`
+    vin=`networkctl | grep ether | grep routable | head -1 | cut -d' ' -f4`
     if [ "`ip route | grep default | grep $vin | wc -l`" = "2" ] ; then
         log "route configured: `ip route | grep default | grep $vin | head -1`"
         sleep 60

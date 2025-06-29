@@ -29,13 +29,16 @@
     - "{{ remote_user_home }}/helm_values"
   become: no
 
-- name: "Create otvl_default_route shell script"
+- name: "Create /usr/local/bin utilities shell scripts"
   copy:
-    src: ulb/otvl_default_route.sh
-    dest: /usr/local/bin/otvl_default_route.sh
+    src: "ulb/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
     owner: root
     group: root
     mode: 0755
+  loop:
+    - otvl_default_route.sh
+    - otvl_get_private_itf.sh
 
 - name: "Create otvl_default_route systemd service file"
   copy:

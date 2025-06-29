@@ -22,6 +22,12 @@ git_clone_or_pull() {
   return $?
 }
 
+get_private_itf() {
+  vlip4=`cat /home/debian/.config/.otvl/ci_env | grep CI_LIP4 | cut -d= -f2`
+  vpriitf=`ip -4 -o ad | grep $vlip4 | cut -d' ' -f2`
+  echo $vpriitf
+}
+
 gen_ansible_hosts() {
   for g in `cat .config/.otvl/install_groups` ; do
     echo "$g:"
@@ -40,6 +46,7 @@ gen_ansible_group_vars() {
   for kv in `cat .config/.otvl/ci_env` ; do
     echo "  $kv" | sed -e 's/=/: /'
   done
+  echo "private_itf: `get_private_itf`"
 }
 
 as_deb_install_dot() {

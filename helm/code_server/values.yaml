@@ -3,6 +3,7 @@ images:
   traefik: traefik:v3.4
 uid: 3002
 fs_group: 2002
+user: cs-user
 resources:
   requests:
     cpu: "1500m"
