@@ -10,6 +10,19 @@
 
 - code-server in container
 
+      - name: "Create /usr/local/bin utilities shell scripts"
+        copy:
+          src: "ulb/{{ item }}"
+          dest: "/usr/local/bin/{{ item }}"
+          owner: root
+          group: root
+          mode: 0755
+        loop:
+          - otvl_default_route.sh
+
+- handle single private network interface (tf modules, ip routes, k3s config check)
+
+
 ## FIXME
 
 - nfs server hard coded
