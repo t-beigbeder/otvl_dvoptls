@@ -8,7 +8,7 @@
 
 ## TODO
 
-- code-server in container
+- code-server user configuration
 
       - name: "Create /usr/local/bin utilities shell scripts"
         copy:
@@ -27,7 +27,9 @@
 
 - nfs server hard coded
 - agent name label missing
+- flannel iface retrieve dynamic
 
 ## DONE
 
 - Install nfs-common on agents
+- code-server in container
