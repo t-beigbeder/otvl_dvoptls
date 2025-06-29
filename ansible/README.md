@@ -8,6 +8,7 @@
 
 ## TODO
 
+- code-server user configuration
 
 ## FIXME
 
