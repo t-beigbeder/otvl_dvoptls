@@ -16,3 +16,4 @@ ingress:
   # host: otvl-ctr.example.com, defaults to <release-name>.example.com
 apr_password: "$apr1$eh5iCNFs$VsvLPBjU0fkP.0ZURuZjo1"
 nfs_server: nfs-server
+node_label: otvl-agent-value

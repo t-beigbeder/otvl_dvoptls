@@ -56,7 +56,7 @@
   # cat /var/lib/rancher/k3s/server/token
 
 - name: Install the k3s agent if absent
-  shell: "curl -sfL https://get.k3s.io | sh -s - agent -i {{ ci_env.CI_LIP4 }} --node-external-ip {{ ci_env.CI_LIP4 }} --flannel-iface {{ private_itf }} -s https://{{ cv.k3s.sc_api_server }}:6443 --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }} --node-taint agent-deploy=true:NoExecute"
+  shell: "curl -sfL https://get.k3s.io | sh -s - agent -i {{ ci_env.CI_LIP4 }} --node-external-ip {{ ci_env.CI_LIP4 }} --flannel-iface {{ private_itf }} -s https://{{ cv.k3s.sc_api_server }}:6443 --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }} --node-taint agent-deploy=true:NoExecute --node-label otvl-agent={{ ci_env.CI_LHN }}"
   args:
     creates: /etc/systemd/system/{{ k3s_svc_name }}.service
   when: otvl_meta.k3s_agent | default(false)

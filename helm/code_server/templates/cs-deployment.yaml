@@ -41,6 +41,8 @@ spec:
             httpGet:
               path: /
               port: 8443
+      nodeSelector:
+        otvl-agent: {{ .Values.node_label }}
       volumes:
       - name: home-volume
         nfs:
