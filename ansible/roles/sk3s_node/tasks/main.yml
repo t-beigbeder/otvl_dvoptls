@@ -48,7 +48,7 @@
   when: otvl_meta.k3s_agent | default(false)
 
 - name: Install the k3s cluster if absent
-  shell: "curl -sfL https://get.k3s.io | sh -s - -i {{ ci_env.CI_LIP4 }} --advertise-address {{ cv.localhosts[cv.k3s.sc_api_server] }} --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }}"
+  shell: "curl -sfL https://get.k3s.io | sh -s - -i {{ ci_env.CI_LIP4 }} --node-external-ip {{ ci_env.CI_LIP4 }} --advertise-address {{ cv.localhosts[cv.k3s.sc_api_server] }} --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(true) }}"
   args:
     creates: /etc/systemd/system/{{ k3s_svc_name }}.service
   when: otvl_meta.k3s_server | default(false)
