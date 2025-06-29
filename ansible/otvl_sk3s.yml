@@ -77,6 +77,10 @@
   gather_facts: False
   become: no
   roles:
+    - role: roles/services/code_server/user_login
+      when: otvl_meta.k3s_server | default(false)
+    - role: roles/services/code_server/user_home
+      when: otvl_meta.k3s_server | default(false)
     - role: roles/services/code_server
       when: otvl_meta.code_server | default(false)
   tags: cs

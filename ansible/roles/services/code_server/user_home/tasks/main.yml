@@ -1,0 +1,22 @@
+---
+# services/code_server/user_home/tasks/main.yml
+
+- name: Create NFS server home directory
+  file:
+    path: /data/home
+    state: directory
+    owner: root
+    group: "{{ cv.code_server.user }}-fsg"
+    mode: 0770
+  become: true
+
+- name: Create NFS server home/{{ cv.code_server.user }} directory
+  file:
+    path: "/data/home/{{ cv.code_server.user }}"
+    state: directory
+    owner: "{{ cv.code_server.user }}"
+    group: "{{ cv.code_server.user }}-fsg"
+    mode: 0770
+  become: true
+
+###

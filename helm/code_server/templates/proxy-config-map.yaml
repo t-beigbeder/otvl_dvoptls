@@ -33,7 +33,7 @@ data:
         basic-auth:
           basicAuth:
             users:
-              - "{{ .Values.apr_credentials }}"
+              - "{{ .Values.user }}:{{ .Values.apr_password }}"
         https-header:
           headers:
             customRequestHeaders:

@@ -26,8 +26,7 @@ spec:
             value: Etc/UTC
           volumeMounts:
           - mountPath: /config
-            name: data-volume
-            subPath: home/debian
+            name: home-volume
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
@@ -43,11 +42,10 @@ spec:
               path: /
               port: 8443
       volumes:
-      - name: data-volume
+      - name: home-volume
         nfs:
-          # FIXME
-          server: t-k3s-sv-loc
-          path: /data
+          server: {{ .Values.nfs_server }}
+          path: /data/home/{{ .Values.user }}
       tolerations:
       - key: "agent-deploy"
         value: "true"
