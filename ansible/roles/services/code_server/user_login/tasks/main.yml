@@ -1,26 +1,10 @@
 ---
 # services/code_server/user_login/tasks/main.yml
 
-- name: Create a group {{ cv.code_server.user }}
-  ansible.builtin.group:
-    name: "{{ cv.code_server.user }}"
-    gid: "{{ cv.code_server.uid }}"
-  become: yes
-
-- name: Create a group {{ cv.code_server.user }}-fsg
-  ansible.builtin.group:
-    name: "{{ cv.code_server.user }}-fsg"
-    gid: "{{ cv.code_server.fs_group }}"
-  become: yes
-
-- name: Create a user {{ cv.code_server.user }}
-  ansible.builtin.user:
-    name: "{{ cv.code_server.user }}"
-    uid: "{{ cv.code_server.uid }}"
-    group: "{{ cv.code_server.user }}"
-    groups: "{{ cv.code_server.user }}-fsg"
-    create_home: false
-    shell: /bin/bash
-  become: yes
+- name: Loop over code_server items for user login create
+  include_tasks: ul_item.yml
+  loop: "{{ cv.code_server_items }}"
+  loop_control:
+    loop_var: current_item
 
 ###

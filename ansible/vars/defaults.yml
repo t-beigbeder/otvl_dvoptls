@@ -69,8 +69,8 @@ dv:
     # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
   traefik:
     image: "traefik:v3.1"
-  code_server:
-    image: "lscr.io/linuxserver/code-server:4.101.1"
+  code_server_items:
+  - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
     # skip_hdeploy: false
     # helm_uninstall: false

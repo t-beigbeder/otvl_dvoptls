@@ -6,6 +6,7 @@
 #   vf_template_sp: repository sub-path for the values file template (in devops src/ansible/otvl/templates/override/helm)
 #   release_name: Helm release name
 #   uninstall: uninstalls the release if present and true
+#   helm_opts: helm 
 
 - name: set included vars
   set_fact:
