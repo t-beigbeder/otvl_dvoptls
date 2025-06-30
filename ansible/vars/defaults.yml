@@ -8,7 +8,7 @@ dv:
   localhosts:
     # fqdn: local-network-ip
     # eg:
-    # t-k3s-sv-loc: "172.25.0.7"
+    # t-sk3s-sv-loc: "172.25.0.7"
   containerd:
     # 1.6.32
     release_url: "https://github.com/containerd/containerd/releases/download/v1.6.32/containerd-1.6.32-linux-amd64.tar.gz"
