@@ -16,15 +16,12 @@ spec:
     
     ports:
       web:
-#        redirectTo:
-#          port: websecure
-#          # enable cert-manager to bypass redirection during http challenge
-#          priority: 1000
         redirections:
           entryPoint:
             to: websecure
             scheme: https
-            permanent: true   
+            permanent: true
+            # enable cert-manager to bypass redirection during http challenge   
             priority: 1000     
         transport:
           respondingTimeouts:
