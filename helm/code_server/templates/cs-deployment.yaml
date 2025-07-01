@@ -33,11 +33,13 @@ spec:
             - containerPort: 8443
           livenessProbe:
             periodSeconds: 60
+            timeoutSeconds: 2
             httpGet:
               path: /
               port: 8443
           readinessProbe:
             periodSeconds: 60
+            timeoutSeconds: 2
             httpGet:
               path: /
               port: 8443
