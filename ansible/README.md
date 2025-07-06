@@ -13,6 +13,10 @@
 
 ## FIXME
 
+- add swap to debian VMs
+- configure CS custom image for various users
+- make pwa available
+
 ## RELEASED
 
 - upgrade traefik proxy version
