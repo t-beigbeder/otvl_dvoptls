@@ -24,8 +24,23 @@ spec:
           env:
           - name: TZ
             value: Etc/UTC
+          - name: USER
+            value: oe
+          - name: HOME
+            value: /home/oe
+          command:
+            # https://github.com/linuxserver/docker-code-server/blob/master/root/etc/s6-overlay/s6-rc.d/svc-code-server/run
+            - /usr/local/bin/code-server
+            - --bind-addr
+            - "0.0.0.0:8443"
+            - --disable-telemetry
+            - --auth
+            - "none"
+            - --app-name
+            - "code-server-for-oe"
           volumeMounts:
-          - mountPath: /config
+          # FIXME
+          - mountPath: /home/oe
             name: home-volume
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

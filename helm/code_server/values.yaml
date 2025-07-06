@@ -1,5 +1,5 @@
 images:
-  codeserver: lscr.io/linuxserver/code-server:4.101.1
+  codeserver: t-ctr.otvl.org/code-server-upstream:4.101.2
   traefik: traefik:v3.4
 uid: 3002
 fs_group: 2002
