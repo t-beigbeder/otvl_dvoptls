@@ -43,13 +43,6 @@
     - nerdctl
     - buildkit
 
-- hosts: images_builder_group
-  gather_facts: False
-  become: yes
-  roles:
-    - services/images_builder
-  tags: ib
-
 - hosts: sk3s_group
   gather_facts: False
   become: yes
@@ -79,6 +72,13 @@
     - role: roles/services/ctr
       when: otvl_meta.k3s_server | default(false)
   tags: ctr
+
+- hosts: images_builder_group
+  gather_facts: False
+  become: yes
+  roles:
+    - services/images_builder
+  tags: ib
 
 - hosts: sk3s_group
   gather_facts: False
