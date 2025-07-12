@@ -43,6 +43,13 @@
     - nerdctl
     - buildkit
 
+- hosts: images_builder_group
+  gather_facts: False
+  become: yes
+  roles:
+    - services/images_builder
+  tags: ib
+
 - hosts: sk3s_group
   gather_facts: False
   become: yes

@@ -1,0 +1,13 @@
+---
+# services/images_builder/tasks/main.yml
+
+- name: Build base image for code-server
+  include_role:
+    name: commons
+    tasks_from: docker_build
+  vars:
+    dkb_message: "Build base image for code-server"
+    dkb_cmd_dir: "{{ playbook_dir }}/../docker/code_server"
+    dkb_add_args: "--build-arg CSV=4.101.2"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: code-server-base:4.101.2
