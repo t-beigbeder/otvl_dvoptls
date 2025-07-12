@@ -14,6 +14,10 @@ RUN apt-get update \
     procps \
     vim-tiny \
     wget \
+    jq \
+    make \
+    python3 \
+    virtualenv \
   && rm -rf /var/lib/apt/lists/*
 
 # https://wiki.debian.org/Locale#Manually
