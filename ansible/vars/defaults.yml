@@ -53,7 +53,7 @@ dv:
   k3s:
     # hostname of the api server in a simple cluster
     # sc_api_server:
-    # docker: true
+    # docker: false
     traefik:
       customize: true
     default_namespace: "default"
