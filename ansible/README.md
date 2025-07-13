@@ -8,19 +8,20 @@
 
 ## TODO
 
-- handle single private network interface (tf modules, ip routes, k3s config check)
-- backup-restore registry
+- create env with home / tools / data / ephemeral directories
+- exit NFS
+- synchronize (rsync, cabri) home / tools / data directories through configuration
+- handle single private network interface (tf modules, ip routes, k3s config check) (needed?)
+- backup-restore registry (needed?)
 
 ## FIXME
 
-- add swap to debian VMs
 - configure CS custom image for various users
-- make pwa available
 
 ## RELEASED
 
-- upgrade traefik proxy version
-- k3s conf Jun 30 16:56:44 t-sk3s-sv k3s[5761]: time="2025-06-30T16:56:44Z" level=error msg="Failed to process config: failed to process /var/lib/rancher/k3s/server/manifests/traefik-config.yaml: yaml: line 22: did not find expected key"
+- add bash-completion to code-server image
+- add swap to debian VMs
 
 ## DONE
 

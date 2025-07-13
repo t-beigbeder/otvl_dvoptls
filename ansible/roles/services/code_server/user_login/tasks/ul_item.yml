@@ -7,18 +7,11 @@
     gid: "{{ current_item.uid }}"
   become: yes
 
-- name: Create a group {{ current_item.user }}-fsg
-  ansible.builtin.group:
-    name: "{{ current_item.fsg_name }}"
-    gid: "{{ current_item.fs_group }}"
-  become: yes
-
 - name: Create a user {{ current_item.user }}
   ansible.builtin.user:
     name: "{{ current_item.user }}"
     uid: "{{ current_item.uid }}"
     group: "{{ current_item.user }}"
-    groups: "{{ current_item.fsg_name }}"
     create_home: false
     shell: /bin/bash
   become: yes

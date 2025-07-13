@@ -70,16 +70,17 @@ dv:
   traefik:
     image: "traefik:v3.4"
   code_server:
-    default_image: "lscr.io/linuxserver/code-server:4.101.1"
+    default_image: "t-ctr.otvl.org/code-server-upstream:4.101.2"
   code_server_items:
-  - image: "lscr.io/linuxserver/code-server:4.101.1"
+  # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
     # skip_hdeploy: false
     # helm_uninstall: false
     # uid: 2001
-    # fs_group: 2001
+    # user: ruser
     # ingress_host: code-server.example.com
-    # login: everybody
-    # password: knows
-    # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
+    # user: everybody
+    # apr_password: "$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
+    # sync_server: sync-server
+    # node_label:
 ###

@@ -2,7 +2,6 @@ images:
   codeserver: t-ctr.otvl.org/code-server-upstream:4.101.2
   traefik: traefik:v3.4
 uid: 3002
-fs_group: 2002
 user: cs-user
 resources:
   requests:
@@ -15,5 +14,5 @@ ingress:
   enabled: true
   # host: otvl-ctr.example.com, defaults to <release-name>.example.com
 apr_password: "$apr1$eh5iCNFs$VsvLPBjU0fkP.0ZURuZjo1"
-nfs_server: nfs-server
+sync_server: sync-server
 node_label: otvl-agent-value

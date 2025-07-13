@@ -20,6 +20,11 @@ write_files:
       echo `date`: command $0 is starting
       apt-get update && \
       apt-get install -y --no-install-recommends $pkgl && \
+      fallocate -l 1G /swapfile && \
+      chmod 600 /swapfile && \
+      mkswap /swapfile && \
+      swapon /swapfile && \
+      echo "/swapfile swap swap defaults 0 0" >> /etc/fstab && \
       true || exit 1
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then systemctl restart fail2ban ; fi
 

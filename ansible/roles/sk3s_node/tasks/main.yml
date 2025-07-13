@@ -1,12 +1,6 @@
 ---
 # sk3s_node/tasks/main.yml
 
-- name: Install NFS client on agents
-  ansible.builtin.apt:
-    pkg:
-    - nfs-common
-    install_recommends: no
-
 - name: Create rancher/k3s configuration directory for server nodes
   file:
     path: "/etc/rancher/k3s"

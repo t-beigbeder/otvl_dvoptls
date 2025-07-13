@@ -14,6 +14,7 @@ RUN apt-get update \
     procps \
     vim-tiny \
     wget \
+    bash-completion \
     jq \
     make \
     python3 \
