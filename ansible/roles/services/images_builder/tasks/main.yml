@@ -10,4 +10,4 @@
     dkb_cmd_dir: "{{ playbook_dir }}/../docker/code_server"
     dkb_add_args: "--build-arg CSV=4.101.2"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: code-server-base:4.101.2
+    image: code-server-base:4.101.2-p1
