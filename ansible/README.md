@@ -9,16 +9,17 @@
 ## TODO
 
 - synchronize (rsync, cabri) home / tools / data directories through configuration
+  - /configmap/sprik  /configmap/spubk
 - handle single private network interface (tf modules, ip routes, k3s config check) (needed?)
-- backup-restore registry (needed?)
+- add python virtualenv jq make to various CS derived images
 
 ## FIXME
 
 - configure CS custom image for various users
-- remove python from CS base image
 
 ## RELEASED
 
+- ansible-galaxy collection community.crypto
 - add swap to debian VMs
 - exit NFS
 

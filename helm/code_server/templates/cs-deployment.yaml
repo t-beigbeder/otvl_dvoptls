@@ -45,6 +45,8 @@ spec:
             name: data-volume
           - mountPath: /local
             name: ephemeral-volume
+          - mountPath: /configmap
+            name: cs-config-volumeœ
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
@@ -74,6 +76,9 @@ spec:
         emptyDir:
       - name: ephemeral-volume
         emptyDir:
+      - name: cs-config-volume
+        configMap:
+          name: {{ .Release.Name }}-cs-cmap
       tolerations:
       - key: "agent-deploy"
         value: "true"
