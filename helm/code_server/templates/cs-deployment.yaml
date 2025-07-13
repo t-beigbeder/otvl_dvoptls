@@ -15,20 +15,18 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}-cs
     spec:
       securityContext:
-        runAsUser: {{ .Values.uid }}
-        runAsGroup: {{ .Values.uid }}
+        runAsUser: 2001
+        runAsGroup: 2001
       containers:
         - name: code-server
           image: {{ .Values.images.codeserver }}
           env:
           - name: TZ
             value: Etc/UTC
-          - name: USER
-            value: {{ .Values.user }}
-          - name: HOME
-            value: /home/{{ .Values.user }}
           command:
             # https://github.com/linuxserver/docker-code-server/blob/master/root/etc/s6-overlay/s6-rc.d/svc-code-server/run
+            - /usr/local/bin/tini
+            - --
             - /usr/local/bin/entrypoint.sh
             - /usr/local/bin/code-server
             - --bind-addr
@@ -39,11 +37,11 @@ spec:
             - --app-name
             - code-server-for-{{ .Values.user }}
           volumeMounts:
-          - mountPath: /home/{{ .Values.user }}
+          - mountPath: /home/cs-user
             name: home-volume
-          - mountPath: /tools/{{ .Values.user }}
+          - mountPath: /tools
             name: tools-volume
-          - mountPath: /data/{{ .Values.user }}
+          - mountPath: /data
             name: data-volume
           - mountPath: /local
             name: ephemeral-volume

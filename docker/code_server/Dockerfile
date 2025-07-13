@@ -21,7 +21,7 @@ ENV USER=cs-user
 ENV HOME=/home/cs-user
 
 RUN mkdir -p /usr/local/lib /usr/local/bin /home/cs-user \
-  && curl https://github.com/krallin/tini/releases/download/0.19.0/tini -o /usr/local/bin/tini \
+  && curl -fL https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 -o /usr/local/bin/tini \
   && chmod +x /usr/local/bin/tini \
   && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash cs-user \
   && curl -fL https://github.com/coder/code-server/releases/download/v$CSV/code-server-$CSV-linux-amd64.tar.gz \
@@ -32,5 +32,5 @@ COPY entrypoint.sh /usr/local/bin/
 
 EXPOSE 8443
 
-USER 3002
+USER 2001
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]

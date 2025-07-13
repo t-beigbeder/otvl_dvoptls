@@ -70,14 +70,12 @@ dv:
   traefik:
     image: "traefik:v3.4"
   code_server:
-    default_image: "code-server-base:4.101.2-p5"
+    default_image: "code-server-base:4.101.2-p7"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
     # skip_hdeploy: false
     # helm_uninstall: false
-    # uid: 2001
-    # user: ruser
     # ingress_host: code-server.example.com
     # user: everybody
     # apr_password: "$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
