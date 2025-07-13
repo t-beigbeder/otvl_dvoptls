@@ -36,26 +36,15 @@ upd_fstab_and_mount() {
     return $?
 }
 
-upd_exp_and_run() {
-    if [ "`grep /data /etc/exports`" != "" ] ; then
-      return 0
-    fi
-    echo "/data ${CI_LOC_CIDR}(rw,sync,no_subtree_check)" >> /etc/exports && \
-    cmd exportfs -av && \
-    true
-    return $?
-}
-
 log $0 starting
 if [ -z "$CI_LOC_CIDR" ] ; then
   fat "variable CI_LOC_CIDR is unset"
 fi
 vdk=`lsblk -P -x NAME -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
-cmd apt-get install -y --no-install-recommends parted nfs-kernel-server && \
+cmd apt-get install -y --no-install-recommends parted && \
 cmd run_parted && \
 cmd run_mkfs && \
 cmd mkdir -p /data && \
 cmd upd_fstab_and_mount && \
-cmd upd_exp_and_run && \
 true || fat $0 failed
 log $0 stopping

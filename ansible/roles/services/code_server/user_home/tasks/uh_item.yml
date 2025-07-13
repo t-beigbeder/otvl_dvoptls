@@ -16,7 +16,7 @@
     state: directory
     owner: "{{ current_item.user }}"
     group: "{{ current_item.user }}"
-    mode: 0770
+    mode: 0750
   become: true
 
 ###

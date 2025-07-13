@@ -17,6 +17,7 @@
 ## FIXME
 
 - configure CS custom image for various users
+- remove python from CS base image
 
 ## RELEASED
 

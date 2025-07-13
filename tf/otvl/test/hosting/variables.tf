@@ -56,8 +56,8 @@ variable "instances_attrs" {
     ip_v4         = string
     image_name    = string
     flavor_name   = string
-    is_nfs_server = optional(bool, false)
-    nfs_disk_size = optional(number, 0)
+    is_sync_server = optional(bool, false)
+    sync_disk_size = optional(number, 0)
   }))
 }
 

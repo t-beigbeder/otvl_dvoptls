@@ -1,6 +1,6 @@
 apiVersion: v2
 name: otvl-code-server
-description: code-server with home on NFS mount
+description: code-server with home, tools and data synchronized from server
 type: application
 version: 0.1.0
 appVersion: "4.101.1"

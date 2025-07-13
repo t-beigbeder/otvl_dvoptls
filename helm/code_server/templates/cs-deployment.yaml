@@ -17,7 +17,6 @@ spec:
       securityContext:
         runAsUser: {{ .Values.uid }}
         runAsGroup: {{ .Values.uid }}
-        fsGroup: {{ .Values.fs_group }}
       containers:
         - name: code-server
           image: {{ .Values.images.codeserver }}
@@ -25,9 +24,9 @@ spec:
           - name: TZ
             value: Etc/UTC
           - name: USER
-            value: oe
+            value: {{ .Values.user }}
           - name: HOME
-            value: /home/oe
+            value: /home/{{ .Values.user }}
           command:
             # https://github.com/linuxserver/docker-code-server/blob/master/root/etc/s6-overlay/s6-rc.d/svc-code-server/run
             - /usr/local/bin/code-server
@@ -37,11 +36,16 @@ spec:
             - --auth
             - "none"
             - --app-name
-            - "code-server-for-oe"
+            - code-server-for-{{ .Values.user }}
           volumeMounts:
-          # FIXME
-          - mountPath: /home/oe
+          - mountPath: /home/{{ .Values.user }}
             name: home-volume
+          - mountPath: /tools/{{ .Values.user }}
+            name: tools-volume
+          - mountPath: /data/{{ .Values.user }}
+            name: data-volume
+          - mountPath: /local
+            name: ephemeral-volume
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
@@ -64,9 +68,13 @@ spec:
 {{- end }}
       volumes:
       - name: home-volume
-        nfs:
-          server: {{ .Values.nfs_server }}
-          path: /data/home/{{ .Values.user }}
+        emptyDir:
+      - name: tools-volume
+        emptyDir:
+      - name: data-volume
+        emptyDir:
+      - name: ephemeral-volume
+        emptyDir:
       tolerations:
       - key: "agent-deploy"
         value: "true"

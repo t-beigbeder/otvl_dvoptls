@@ -37,8 +37,8 @@ install_cs() {
 }
 
 log $0 starting
-if [ "$CI_NFS_SVR" = "1" ]; then
-  cmd $sd/common/install_nfs_svr.sh
+if [ "$CI_SYNC_SVR" = "1" ]; then
+  cmd $sd/common/install_sync_svr.sh
 fi
 install_dot || fat $0 failed
 if [ "$CI_CS_DVO" = "1" ] ; then

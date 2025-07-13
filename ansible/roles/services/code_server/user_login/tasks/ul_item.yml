@@ -12,6 +12,7 @@
     name: "{{ current_item.user }}"
     uid: "{{ current_item.uid }}"
     group: "{{ current_item.user }}"
+    home: "/data/home/{{ current_item.user }}"
     create_home: false
     shell: /bin/bash
   become: yes

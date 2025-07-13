@@ -54,20 +54,20 @@ resource "openstack_compute_instance_v2" "instances" {
 }
 
 locals {
-  nfs_instances_indexes = [for ii, ia in var.instances_attrs: ii if ia.is_nfs_server]
+  syncs_instances_indexes = [for ii, ia in var.instances_attrs: ii if ia.is_sync_server]
 }
 
 resource "openstack_blockstorage_volume_v3" "volumes" {
-  count = length(local.nfs_instances_indexes)
-  name = var.instances_attrs[local.nfs_instances_indexes[count.index]].name
-  size = var.instances_attrs[local.nfs_instances_indexes[count.index]].nfs_disk_size
+  count = length(local.syncs_instances_indexes)
+  name = var.instances_attrs[local.syncs_instances_indexes[count.index]].name
+  size = var.instances_attrs[local.syncs_instances_indexes[count.index]].sync_disk_size
   lifecycle {
     prevent_destroy = true
   }
 }
 
 resource "openstack_compute_volume_attach_v2" "volatts" {
-  count = length(local.nfs_instances_indexes)
-  instance_id = openstack_compute_instance_v2.instances[local.nfs_instances_indexes[count.index]].id
+  count = length(local.sync_instances_indexes)
+  instance_id = openstack_compute_instance_v2.instances[local.sync_instances_indexes[count.index]].id
   volume_id = openstack_blockstorage_volume_v3.volumes[count.index].id
 }
