@@ -8,8 +8,6 @@
 
 ## TODO
 
-- create env with home / tools / data / ephemeral directories
-- exit NFS
 - synchronize (rsync, cabri) home / tools / data directories through configuration
 - handle single private network interface (tf modules, ip routes, k3s config check) (needed?)
 - backup-restore registry (needed?)
@@ -21,8 +19,8 @@
 
 ## RELEASED
 
-- add bash-completion to code-server image
 - add swap to debian VMs
+- exit NFS
 
 ## DONE
 
@@ -31,3 +29,5 @@
 - flannel iface retrieve dynamic
 - code-server user configuration
 - agent node label missing
+- create env with home / tools / data / ephemeral directories
+- add bash-completion to code-server image
