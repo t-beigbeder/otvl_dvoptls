@@ -1,22 +1,30 @@
 ---
 # services/code_server/user_home/tasks/uh_item.yml
 
-- name: Create sync server home directory
+- name: Create sync server home, tools and data directories
   file:
-    path: /data/home
+    path: /data/{{ item }}
     state: directory
     owner: root
     group: root
     mode: 0711
+  with_items:
+    - home
+    - tools
+    - data
   become: true
 
-- name: Create sync server home/{{ current_item.user }} directory
+- name: Create sync server htd/{{ current_item.user }} directory
   file:
-    path: "/data/home/{{ current_item.user }}"
+    path: "/data/{{ item }}/{{ current_item.user }}"
     state: directory
     owner: "{{ current_item.user }}"
     group: "{{ current_item.user }}"
     mode: 0750
+  with_items:
+    - home
+    - tools
+    - data
   become: true
 
 - name: Create sync server home/{{ current_item.user }}/.ssh directory

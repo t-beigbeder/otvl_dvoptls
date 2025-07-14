@@ -20,4 +20,4 @@
     dkb_message: "Build base image for cs-ops"
     dkb_cmd_dir: "{{ playbook_dir }}/../docker/cs_ops"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.cs_ops.default_image }}"
+    image: "{{ cv.cs_ops.image }}"

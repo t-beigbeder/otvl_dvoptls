@@ -7,6 +7,7 @@ RUN apt-get update \
     curl \
     locales \
     openssh-client \
+    rsync \
     procps \
     vim-tiny \
     bash-completion \

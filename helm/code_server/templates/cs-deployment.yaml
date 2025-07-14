@@ -17,7 +17,49 @@ spec:
       securityContext:
         runAsUser: 2001
         runAsGroup: 2001
+      initContainers:
+        - name: restore-home
+          image: {{ .Values.images.cs_ops }}
+          env:
+          - name: SYNC_SERVER
+            value: {{ .Values.sync_server }}
+          - name: SYNC_USER
+            value: {{ .Values.user }}
+          command:
+            - /usr/local/bin/tini
+            - --
+            - /usr/local/bin/cs_ops.sh
+            - restore
+            - home
+          volumeMounts:
+          - mountPath: /home/cs-user
+            name: home-volume
+          - mountPath: /tools
+            name: tools-volume
+          - mountPath: /data
+            name: data-volume
       containers:
+        - name: backup-monitor
+          image: {{ .Values.images.cs_ops }}
+          env:
+          - name: SYNC_SERVER
+            value: {{ .Values.sync_server }}
+          - name: SYNC_USER
+            value: {{ .Values.user }}
+          command:
+            - /usr/local/bin/tini
+            - --
+            - /usr/local/bin/cs_ops.sh
+            - backup
+            - all
+          terminationGracePeriodSeconds: 120
+          volumeMounts:
+          - mountPath: /home/cs-user
+            name: home-volume
+          - mountPath: /tools
+            name: tools-volume
+          - mountPath: /data
+            name: data-volume
         - name: code-server
           image: {{ .Values.images.codeserver }}
           env:
@@ -50,7 +92,7 @@ spec:
           - mountPath: /local
             name: ephemeral-volume
           - mountPath: /configmap
-            name: cs-config-volumeœ
+            name: cs-config-volume
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
