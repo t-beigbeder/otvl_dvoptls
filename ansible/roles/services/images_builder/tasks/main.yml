@@ -21,3 +21,13 @@
     dkb_cmd_dir: "{{ playbook_dir }}/../docker/cs_ops"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_ops.image }}"
+
+- name: Build base image for cs-python
+  include_role:
+    name: commons
+    tasks_from: nerdctl_build
+  vars:
+    dkb_message: "Build base image for cs-python"
+    dkb_cmd_dir: "{{ playbook_dir }}/../docker/cs_python"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.cs_python.image }}"

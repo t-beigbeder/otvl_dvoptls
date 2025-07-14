@@ -20,6 +20,7 @@ spec:
       initContainers:
         - name: restore-home
           image: {{ .Values.images.cs_ops }}
+          imagePullPolicy: Always
           env:
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
@@ -38,6 +39,7 @@ spec:
             name: cs-config-volume
         - name: restore-tools
           image: {{ .Values.images.cs_ops }}
+          imagePullPolicy: Always
           env:
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
@@ -56,6 +58,7 @@ spec:
             name: cs-config-volume
         - name: restore-data
           image: {{ .Values.images.cs_ops }}
+          imagePullPolicy: Always
           env:
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
@@ -75,6 +78,7 @@ spec:
       containers:
         - name: backup-monitor
           image: {{ .Values.images.cs_ops }}
+          imagePullPolicy: Always
           env:
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
@@ -98,6 +102,7 @@ spec:
             name: cs-config-volume
         - name: code-server
           image: {{ .Values.images.codeserver }}
+          imagePullPolicy: Always
           env:
           - name: TZ
             value: Etc/UTC

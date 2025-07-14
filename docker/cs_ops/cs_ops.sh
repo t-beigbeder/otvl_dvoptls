@@ -81,8 +81,9 @@ cso_backup_monitor() {
 }
 
 backup_term() {
-    log backup_term $vdir
+    log backup_term $1
     cmd do_backup_dir $1
+    log backup_term $1: $0 exiting
     exit 0
 }
 
@@ -103,9 +104,9 @@ cso_backup_dir() {
     #vcl=rsync -e "$vssho"
     log backup_dir $1 start
     while [ true ] ; do
-        trap - TERM
-        cmd sleep 60
         trap "backup_term $1" TERM
+        cmd sleep 60
+        trap "" TERM
         cmd do_backup_dir $1
     done
 }

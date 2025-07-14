@@ -70,9 +70,11 @@ dv:
   traefik:
     image: "traefik:v3.4"
   code_server:
-    default_image: "code-server-base:4.101.2-p7"
+    default_image: "code-server-python:4.101.2"
   cs_ops:
-    image: "cs-ops:1.0.11"
+    image: "cs-ops:1.0.12"
+  cs_python:
+    image: "cs-python:4.101.2"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
