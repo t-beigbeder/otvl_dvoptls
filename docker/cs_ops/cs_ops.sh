@@ -40,13 +40,13 @@ set_sprik() {
 
 cso_restore() {
     vdd=$1
-    log cso_restore $vdd start
     if [ $vdd = home ] ; then
         vld=/home/cs-user
     else
         vld=/$vdd
-    fi
-    cmd rsync -i --partial -rlptDq --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vsu@$vsh:/data/$vdd/$vsu/ $vld
+    fi    
+    log cso_restore $vdd start
+    cmd rsync -i --partial -rlptDq --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vsu@$vsh:/data/home/$vsu/$vdd/ $vld
     log cso_restore $vdd done
 }
 
@@ -82,31 +82,31 @@ cso_backup_monitor() {
 
 backup_term() {
     log backup_term $vdir
+    cmd do_backup_dir $1
     exit 0
 }
 
 do_backup_dir() {
     vdd=$1
-    log do_backup_dir $vdd start
     if [ $vdd = home ] ; then
         vld=/home/cs-user
     else
         vld=/$vdd
-    fi
-    cmd rsync -i --partial -rlptDq --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vld/ $vsu@$vsh:/data/$vdd/$vsu
+    fi    
+    log do_backup_dir $vdd start
+    cmd rsync -i --partial -rlptDq --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vld/ $vsu@$vsh:/data/home/$vsu/$vdd
     log do_backup_dir $vdd done
 }
 
 cso_backup_dir() {
-    vdir=$1
     vssho="ssh -o StrictHostKeyChecking=no -i /configmap/sprik"
     #vcl=rsync -e "$vssho"
     log backup_dir $1 start
     while [ true ] ; do
         trap - TERM
         cmd sleep 60
-        trap backup_term TERM
-        cmd do_backup_dir $vdir
+        trap "backup_term $1" TERM
+        cmd do_backup_dir $1
     done
 }
 
