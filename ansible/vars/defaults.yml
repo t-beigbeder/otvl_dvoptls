@@ -71,6 +71,8 @@ dv:
     image: "traefik:v3.4"
   code_server:
     default_image: "code-server-base:4.101.2-p7"
+  cs_ops:
+    default_image: "cs-ops:1.0.0"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server

@@ -9,7 +9,7 @@
 ## TODO
 
 - synchronize (rsync, cabri) home / tools / data directories through configuration
-  - /configmap/sprik  /configmap/spubk
+  - /configmap/sprik  /configmap/spubk trap hdl_shutd SIGTERM
 - handle single private network interface (tf modules, ip routes, k3s config check) (needed?)
 - add python virtualenv jq make to various CS derived images
 
