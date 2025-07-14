@@ -28,7 +28,7 @@ cmd() {
 }
 
 set_sprik() {
-    if [ -f /configmap/sprik ] ; then 
+    if [ -e /configmap/sprik ] ; then 
         vb64f=/configmap/sprik
     else
         vb64f=/tmp/sprik
@@ -40,16 +40,13 @@ set_sprik() {
 
 cso_restore() {
     vdd=$1
-    vssho="ssh -o StrictHostKeyChecking=no -i /configmap/sprik"
-    #vcl=rsync -e "$vssho"
     log cso_restore $vdd start
     if [ $vdd = home ] ; then
-        vld=/home/$vsu
+        vld=/home/cs-user
     else
         vld=/$vdd
     fi
-    cmd rsync -i --partial -a --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vsu@$vsh:/data/$vdd/$vsu/ $vld
-    cmd sleep 5
+    cmd rsync -i --partial -rlptDq --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vsu@$vsh:/data/$vdd/$vsu/ $vld
     log cso_restore $vdd done
 }
 
@@ -90,10 +87,13 @@ backup_term() {
 
 do_backup_dir() {
     vdd=$1
-    vssho="ssh -o StrictHostKeyChecking=no -i /configmap/sprik"
-    #vcl=rsync -e "$vssho"
     log do_backup_dir $vdd start
-    cmd sleep 10
+    if [ $vdd = home ] ; then
+        vld=/home/cs-user
+    else
+        vld=/$vdd
+    fi
+    cmd rsync -i --partial -rlptDq --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vld/ $vsu@$vsh:/data/$vdd/$vsu
     log do_backup_dir $vdd done
 }
 
@@ -104,7 +104,7 @@ cso_backup_dir() {
     log backup_dir $1 start
     while [ true ] ; do
         trap - TERM
-        cmd sleep 7
+        cmd sleep 60
         trap backup_term TERM
         cmd do_backup_dir $vdir
     done

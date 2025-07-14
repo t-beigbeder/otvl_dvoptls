@@ -34,10 +34,44 @@ spec:
           volumeMounts:
           - mountPath: /home/cs-user
             name: home-volume
+          - mountPath: /configmap
+            name: cs-config-volume
+        - name: restore-tools
+          image: {{ .Values.images.cs_ops }}
+          env:
+          - name: SYNC_SERVER
+            value: {{ .Values.sync_server }}
+          - name: SYNC_USER
+            value: {{ .Values.user }}
+          command:
+            - /usr/local/bin/tini
+            - --
+            - /usr/local/bin/cs_ops.sh
+            - restore
+            - tools
+          volumeMounts:
           - mountPath: /tools
             name: tools-volume
+          - mountPath: /configmap
+            name: cs-config-volume
+        - name: restore-data
+          image: {{ .Values.images.cs_ops }}
+          env:
+          - name: SYNC_SERVER
+            value: {{ .Values.sync_server }}
+          - name: SYNC_USER
+            value: {{ .Values.user }}
+          command:
+            - /usr/local/bin/tini
+            - --
+            - /usr/local/bin/cs_ops.sh
+            - restore
+            - data
+          volumeMounts:
           - mountPath: /data
             name: data-volume
+          - mountPath: /configmap
+            name: cs-config-volume
       containers:
         - name: backup-monitor
           image: {{ .Values.images.cs_ops }}
@@ -60,6 +94,8 @@ spec:
             name: tools-volume
           - mountPath: /data
             name: data-volume
+          - mountPath: /configmap
+            name: cs-config-volume
         - name: code-server
           image: {{ .Values.images.codeserver }}
           env:
