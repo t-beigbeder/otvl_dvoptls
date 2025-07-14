@@ -67,7 +67,7 @@ resource "openstack_blockstorage_volume_v3" "volumes" {
 }
 
 resource "openstack_compute_volume_attach_v2" "volatts" {
-  count = length(local.sync_instances_indexes)
-  instance_id = openstack_compute_instance_v2.instances[local.sync_instances_indexes[count.index]].id
+  count = length(local.syncs_instances_indexes)
+  instance_id = openstack_compute_instance_v2.instances[local.syncs_instances_indexes[count.index]].id
   volume_id = openstack_blockstorage_volume_v3.volumes[count.index].id
 }
