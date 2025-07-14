@@ -27,9 +27,30 @@ cmd() {
     return $st
 }
 
+set_sprik() {
+    if [ -f /configmap/sprik ] ; then 
+        vb64f=/configmap/sprik
+    else
+        vb64f=/tmp/sprik
+    fi
+    base64 -d < $vb64f > /tmp/id_ssh_sync && \
+    chmod go-rw /tmp/id_ssh_sync && \
+    true || return 1
+}
+
 cso_restore() {
-    log restore $1
-    sleep 5
+    vdd=$1
+    vssho="ssh -o StrictHostKeyChecking=no -i /configmap/sprik"
+    #vcl=rsync -e "$vssho"
+    log cso_restore $vdd start
+    if [ $vdd = home ] ; then
+        vld=/home/$vsu
+    else
+        vld=/$vdd
+    fi
+    cmd rsync -i --partial -a --delete -e "ssh -o StrictHostKeyChecking=no -i /tmp/id_ssh_sync" $vsu@$vsh:/data/$vdd/$vsu/ $vld
+    cmd sleep 5
+    log cso_restore $vdd done
 }
 
 mon_term() {
@@ -91,6 +112,15 @@ cso_backup_dir() {
 
 if [ $# -ne 2 ] ; then
     fat "usage: $0 restore|backup home|tools|data|all"
+fi
+set_sprik || fat $0 failed
+vsu=$SYNC_USER
+if [ -z "$vsu" ] ; then
+    vsu=$USER
+fi
+vsh=$SYNC_SERVER
+if [ -z "$vsh" ] ; then
+    vsh=172.25.0.7
 fi
 if [ $1 = restore ] ; then
     cso_restore $2 || fat $0 failed
