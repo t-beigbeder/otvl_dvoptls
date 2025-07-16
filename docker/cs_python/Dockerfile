@@ -1,4 +1,4 @@
-FROM t-ctr.otvl.org/code-server-base:4.101.2-p7
+FROM t-ctr.otvl.org/code-server-base:4.101.2
 
 USER root
 RUN apt-get update \
@@ -6,5 +6,6 @@ RUN apt-get update \
     python3 \
     virtualenv \
     make \
+    dnsutils \
   && rm -rf /var/lib/apt/lists/*
 USER 2001

@@ -71,6 +71,7 @@ dv:
     image: "traefik:v3.4"
   code_server:
     default_image: "code-server-python:4.101.2"
+    image: "code-server-base:4.101.2"
   cs_ops:
     image: "cs-ops:1.0.12"
   cs_python:
