@@ -3,7 +3,7 @@ FROM debian:12
 ARG CSV=4.101.2
 
 RUN apt-get update \
-  && apt-get install -y \
+  && apt-get install -y --no-install-recommends \
     curl \
     locales \
     openssh-client \

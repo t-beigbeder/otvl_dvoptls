@@ -1,8 +1,8 @@
-FROM t-ctr.otvl.org/code-server-base:4.101.2
+FROM t-ctr.otvl.org/code-server-base:4.101.2-p1
 
 USER root
 RUN apt-get update \
-  && apt-get install -y \
+  && apt-get install -y --no-install-recommends \
     python3 \
     virtualenv \
     make \
