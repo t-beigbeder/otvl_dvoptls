@@ -39,7 +39,7 @@
   gather_facts: False
   become: yes
   roles:
-    - containerd
+    # - containerd  # FIXME: non k3s node
     - nerdctl
     - buildkit
 
