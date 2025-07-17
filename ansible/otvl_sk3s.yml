@@ -41,7 +41,7 @@
   roles:
     # - containerd  # FIXME: non k3s node
     - nerdctl
-    - buildkit
+    # - buildkit
 
 - hosts: sk3s_group
   gather_facts: False
