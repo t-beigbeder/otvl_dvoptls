@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"compute","Source":"../../modules/build/compute","Dir":"../../modules/build/compute"},{"Key":"compute.instances","Source":"../../../../modules/instances","Dir":"../../../modules/instances"},{"Key":"network","Source":"../../modules/build/network","Dir":"../../modules/build/network"}]}
