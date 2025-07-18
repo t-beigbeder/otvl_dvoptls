@@ -35,14 +35,6 @@
   roles:
     - docker/run
 
-- hosts: containerd_run_group
-  gather_facts: False
-  become: yes
-  roles:
-    # - containerd  # FIXME: non k3s node
-    - nerdctl
-    # - buildkit
-
 - hosts: sk3s_group
   gather_facts: False
   become: yes
@@ -55,6 +47,7 @@
   become: yes
   roles:
     - sk3s_node
+    - nerdctl
   tags: k3s
 
 - hosts: sk3s_group
