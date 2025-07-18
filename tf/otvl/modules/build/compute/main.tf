@@ -10,7 +10,6 @@ locals {
   user_data = base64encode(templatefile(
     "${path.module}/cloud-config.tftpl", {
       tf_loc_hostname  = var.instance_attrs.name,
-      tf_loc_ip_v4     = var.instance_attrs.ip_v4,
       tf_dot_repo      = var.dot_repo
       tf_dot_branch    = var.dot_branch
       tf_install_env   = ""
