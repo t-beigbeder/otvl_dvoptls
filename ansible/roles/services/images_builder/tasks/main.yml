@@ -10,9 +10,12 @@
 
 - name: Synchronize repositories
   ansible.posix.synchronize:
-    src: locgit/otvl_lops/
-    dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/otvl_lops/"
+    src: "/home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/"
+    dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/otvl_dvoptls/"
     private_key: "/home/{{ ansible_env.USER }}/.ssh/id_ed_build"
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=venv"
   become: false
 
 - name: Build base image for code-server
