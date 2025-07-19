@@ -20,6 +20,7 @@
     name: "{{ cv.build.ssh.user }}"
     uid: "{{ cv.build.ssh.uid }}"
     group: "{{ cv.build.ssh.user }}"
+    groups: [ "docker" ]
     home: "/home/{{ cv.build.ssh.user }}"
     shell: /bin/bash
   become: yes

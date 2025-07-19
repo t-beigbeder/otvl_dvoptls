@@ -1,6 +1,13 @@
 ---
 # services/images_builder/tasks/main.yml
 
+- name: Write build ssh key
+  ansible.builtin.copy:
+    content: "{{ cv.build.ssh.pri }}"
+    dest: /home/{{ ansible_env.USER }}/.ssh/id_ed_build
+    mode: 0600
+  become: false
+
 - name: Build base image for code-server
   include_role:
     name: commons
