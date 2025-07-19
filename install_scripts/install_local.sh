@@ -61,12 +61,6 @@ provision_test_vlts() {
   PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts $vlh
 }
 
-launch_test_build() {
-  log launch_test_build
-  cd $vrrd/tf/otvl/test/build
-  tofu apply -auto-approve
-}
-
 launch_test_hosting() {
   log launch_test_hosting
   cd $vrrd/tf/otvl/test/hosting
@@ -79,12 +73,6 @@ destroy_test_hosting() {
   tofu destroy -exclude module.compute.module.instances.openstack_blockstorage_volume_v3.volumes
 }
 
-destroy_test_build() {
-  log destroy_test_build
-  cd $vrrd/tf/otvl/test/build
-  tofu destroy
-}
-
 destroy_test_vlts() {
   log destroy_test_vlts
   cd $vrrd/tf/otvl/test/vlts
@@ -95,10 +83,8 @@ log $0 starting
 . $HOME/.osenvrc
 icmd "launch test vault server" launch_test_vlts n
 icmd "provision test secrets" provision_test_vlts n
-icmd "launch test build vm" launch_test_build n
 icmd "launch test hosting" launch_test_hosting n
 icmd "destroy test hosting" destroy_test_hosting n
-icmd "destroy test build vm" destroy_test_build n
 icmd "destroy test vault server" destroy_test_vlts n
 
 log $0 stopping
