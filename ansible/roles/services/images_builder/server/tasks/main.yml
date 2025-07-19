@@ -1,0 +1,39 @@
+---
+# services/images_builder/server/tasks/main.yml
+
+- name: Create a group {{ cv.build.ssh_build.user }}
+  ansible.builtin.group:
+    name: "{{ cv.build.ssh_build.user }}"
+    gid: "{{ cv.build.ssh_build.uid }}"
+  become: yes
+
+- name: Create a user {{ cv.build.ssh_build.user }}
+  ansible.builtin.user:
+    name: "{{ cv.build.ssh_build.user }}"
+    uid: "{{ cv.build.ssh_build.uid }}"
+    group: "{{ cv.build.ssh_build.user }}"
+    home: "/home/{{ cv.build.ssh_build.user }}"
+    shell: /bin/bash
+  become: yes
+
+- name: Create build user /home/{{ cv.build.ssh_build.user }}/.ssh directory
+  file:
+    path: "/home/{{ cv.build.ssh_build.user }}/.ssh"
+    state: directory
+    owner: "{{ cv.build.ssh_build.user }}"
+    group: "{{ cv.build.ssh_build.user }}"
+    mode: 0700
+  become: true
+
+- name: Authorize build ssh key
+  ansible.builtin.lineinfile:
+    path: "/home/{{ cv.build.ssh_build.user }}/.ssh/authorized_keys"
+    create: true
+    owner: "{{ cv.build.ssh_build.user }}"
+    group: "{{ cv.build.ssh_build.user }}"
+    mode: 0600
+    line: "{{ cv.build.ssh_build.pub }}"
+    insertafter: EOF
+  become: true
+
+###

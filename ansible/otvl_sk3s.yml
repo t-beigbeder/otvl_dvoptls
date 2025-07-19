@@ -73,6 +73,13 @@
     - services/images_builder
   tags: ib
 
+- hosts: build_server_group
+  gather_facts: False
+  become: yes
+  roles:
+    - services/images_builder/server
+  tags: bs
+
 - hosts: sk3s_group
   gather_facts: False
   become: no
