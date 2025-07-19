@@ -45,4 +45,13 @@
     insertafter: EOF
   become: true
 
+- name: Create build user /home/{{ cv.build.ssh.user }}/locgit directory
+  file:
+    path: "/home/{{ cv.build.ssh.user }}/locgit"
+    state: directory
+    owner: "{{ cv.build.ssh.user }}"
+    group: "{{ cv.build.ssh.user }}"
+    mode: 0700
+  become: true
+
 ###
