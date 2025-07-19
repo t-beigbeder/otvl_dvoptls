@@ -68,7 +68,7 @@
 
 - hosts: images_builder_group
   gather_facts: False
-  become: yes
+  become: no
   roles:
     - services/images_builder
   tags: ib

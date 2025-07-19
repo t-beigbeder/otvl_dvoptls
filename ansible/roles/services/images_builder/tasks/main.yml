@@ -6,7 +6,6 @@
     content: "{{ cv.build.ssh.pri }}"
     dest: /home/{{ ansible_env.USER }}/.ssh/id_ed_build
     mode: 0600
-  become: false
 
 - name: Synchronize repositories
   ansible.posix.synchronize:
@@ -16,7 +15,15 @@
     rsync_opts:
       - "--exclude=.git"
       - "--exclude=venv"
-  become: false
+
+- name: Test run remote command on build server
+  block:
+    - command:
+        cmd: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build {{ cv.build.ssh.user }}@{{ cv.build.vm }} ls -al"
+      register: trc
+    - debug: var=trc.cmd
+    - debug: var=trc.stderr_lines
+    - debug: var=trc.stdout_lines
 
 - name: Build base image for code-server
   include_role:
