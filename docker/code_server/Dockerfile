@@ -3,7 +3,7 @@ FROM debian:12
 ARG CSV=4.101.2
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
+  && apt-get install -y \
     curl \
     locales \
     openssh-client \
@@ -17,9 +17,6 @@ RUN apt-get update \
 # https://wiki.debian.org/Locale#Manually
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
   && locale-gen
-ENV LANG=en_US.UTF-8
-ENV USER=cs-user
-ENV HOME=/home/cs-user
 
 RUN mkdir -p /usr/local/lib /usr/local/bin /home/cs-user \
   && curl -fL https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 -o /usr/local/bin/tini \
@@ -34,4 +31,7 @@ COPY entrypoint.sh /usr/local/bin/
 EXPOSE 8443
 
 USER 2001
+ENV LANG=en_US.UTF-8
+ENV USER=cs-user
+ENV HOME=/home/cs-user
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]

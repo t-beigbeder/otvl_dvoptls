@@ -1,7 +1,7 @@
 FROM debian:12
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
+  && apt-get install -y \
     curl \
     openssh-client \
     rsync \

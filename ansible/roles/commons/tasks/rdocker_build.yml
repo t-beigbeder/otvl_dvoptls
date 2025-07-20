@@ -12,13 +12,16 @@
 - name: set role's variables
   set_fact:
     dkb_ssh_pfx: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build -o StrictHostKeyChecking=no {{ cv.build.ssh.user }}@{{ cv.build.vm }}"
-    dkb_rdkb_path: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/otvl_dvoptls/"
+    dkb_rdkb_path: "/home/{{ cv.build.ssh.user }}/locgit/otvl_dvoptls/install_scripts/docker_build_tag.sh"
 
 - name: "{{ dkb_message }}"
   block:
     - command:
-        cmd: "{{ dkb_ssh_pfx }} {{ dkb_rdkb_path }} {{ dkb_cmd_dir }} {{ dkb_arg_dir | default('.') }} {{ dkb_add_args | default('') }} {{ docker_file | default('.') }} {{ image }}"
+        cmd: "{{ dkb_ssh_pfx }} {{ dkb_rdkb_path }} {{ dkb_cmd_dir }} {{ dkb_arg_dir | default('.') }} {{ docker_file | default('Dockerfile') }} {{ image }} {{ cv.ctr.ingress_host }} {{ cv.ctr.login }} {{ dkb_add_args | default('') }}"
       register: dkb
+      ignore_errors: true
     - debug: var=dkb.cmd
     - debug: var=dkb.stderr_lines
     - debug: var=dkb.stdout_lines
+    - fail:
+      when: dkb.rc != 0

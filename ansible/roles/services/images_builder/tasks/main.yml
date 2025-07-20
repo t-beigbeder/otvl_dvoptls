@@ -43,7 +43,7 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for code-server"
-    dkb_cmd_dir: "{{ playbook_dir }}/../docker/code_server"
+    dkb_cmd_dir: "docker/code_server"
     dkb_add_args: "--build-arg CSV=4.101.2"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.code_server.image }}"
@@ -54,7 +54,7 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for cs-ops"
-    dkb_cmd_dir: "{{ playbook_dir }}/../docker/cs_ops"
+    dkb_cmd_dir: "docker/cs_ops"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_ops.image }}"
 
@@ -64,6 +64,6 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for cs-python"
-    dkb_cmd_dir: "{{ playbook_dir }}/../docker/cs_python"
+    dkb_cmd_dir: "docker/cs_python"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_python.image }}"
