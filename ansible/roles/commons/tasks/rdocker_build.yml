@@ -1,5 +1,5 @@
-# commons/tasks/nerdctl_build.yml
-# run nerdctl build, tag and push to registry
+# commons/tasks/rdocker_build.yml
+# ssh run docker build, tag and push to registry
 # vars:
 #   dkb_message: message to be displayed during docker build
 #   dkb_cmd_dir: docker build command directory
@@ -10,21 +10,14 @@
 #
 
 - name: set role's variables
-  block:
-    - name: Set command line w/o dockerfile
-      set_fact:
-        dkb_cmdline: "nerdctl build {{ dkb_add_args | default('') }} -t {{ cv.ctr.ingress_host }}/{{ image }} {{ dkb_arg_dir | default('.') }}"
-      when: docker_file | default("") == ""
-    - name: Set command line with dockerfile
-      set_fact:
-        dkb_cmdline: "nerdctl build -f {{ docker_file }} {{ dkb_add_args | default('') }} -t {{ cv.ctr.ingress_host }}/{{ image }} {{ dkb_arg_dir | default('.') }}"
-      when: docker_file | default("") != ""
+  set_fact:
+    dkb_ssh_pfx: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build {{ cv.build.ssh.user }}@{{ cv.build.vm }}"
+    dkb_rdkb_path: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/otvl_dvoptls/"
 
 - name: "{{ dkb_message }}"
   block:
     - command:
-        chdir: "{{ dkb_cmd_dir }}"
-        cmd: "{{ dkb_cmdline }}"
+        cmd: "{{ dkb_ssh_pfx }}"
       register: dkb
     - debug: var=dkb.cmd
     - debug: var=dkb.stderr_lines
