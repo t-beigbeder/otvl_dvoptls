@@ -11,33 +11,14 @@
 
 - name: set role's variables
   set_fact:
-    dkb_ssh_pfx: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build {{ cv.build.ssh.user }}@{{ cv.build.vm }}"
+    dkb_ssh_pfx: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build -o StrictHostKeyChecking=no {{ cv.build.ssh.user }}@{{ cv.build.vm }}"
     dkb_rdkb_path: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/otvl_dvoptls/"
 
 - name: "{{ dkb_message }}"
   block:
     - command:
-        cmd: "{{ dkb_ssh_pfx }}"
+        cmd: "{{ dkb_ssh_pfx }} {{ dkb_rdkb_path }} {{ dkb_cmd_dir }} {{ dkb_arg_dir | default('.') }} {{ dkb_add_args | default('') }} {{ docker_file | default('.') }} {{ image }}"
       register: dkb
     - debug: var=dkb.cmd
     - debug: var=dkb.stderr_lines
     - debug: var=dkb.stdout_lines
-
-- name: "nerdctl login {{ cv.ctr.ingress_host }}"
-  block:
-    - command:
-        cmd: "nerdctl login {{ cv.ctr.ingress_host }} -u {{ cv.ctr.login }} --password-stdin"
-        stdin: "{{ cv.ctr.password }}"
-      register: dkbl
-    - debug: var=dkbl.cmd
-    - debug: var=dkbl.stderr_lines
-    - debug: var=dkbl.stdout_lines
-
-- name: "nerdctl push {{ cv.ctr.ingress_host }}/{{ image }}"
-  block:
-    - command:
-        cmd: "nerdctl push {{ cv.ctr.ingress_host }}/{{ image }}"
-      register: dkbp
-    - debug: var=dkbp.cmd
-    - debug: var=dkbp.stderr_lines
-    - debug: var=dkbp.stdout_lines
