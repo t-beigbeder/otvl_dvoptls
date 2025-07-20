@@ -76,30 +76,6 @@ spec:
           - mountPath: /configmap
             name: cs-config-volume
       containers:
-        - name: backup-monitor
-          image: {{ .Values.images.cs_ops }}
-          imagePullPolicy: Always
-          env:
-          - name: SYNC_SERVER
-            value: {{ .Values.sync_server }}
-          - name: SYNC_USER
-            value: {{ .Values.user }}
-          command:
-            - /usr/local/bin/tini
-            - --
-            - /usr/local/bin/cs_ops.sh
-            - backup
-            - all
-          terminationGracePeriodSeconds: 120
-          volumeMounts:
-          - mountPath: /home/cs-user
-            name: home-volume
-          - mountPath: /tools
-            name: tools-volume
-          - mountPath: /data
-            name: data-volume
-          - mountPath: /configmap
-            name: cs-config-volume
         - name: code-server
           image: {{ .Values.images.codeserver }}
           imagePullPolicy: Always
@@ -111,7 +87,6 @@ spec:
           - name: SYNC_USER
             value: {{ .Values.user }}
           command:
-            # https://github.com/linuxserver/docker-code-server/blob/master/root/etc/s6-overlay/s6-rc.d/svc-code-server/run
             - /usr/local/bin/tini
             - --
             - /usr/local/bin/entrypoint.sh
@@ -150,9 +125,33 @@ spec:
             httpGet:
               path: /
               port: 8443
-{{- if .Values.node_label -}}
+        - name: backup-monitor
+          image: {{ .Values.images.cs_ops }}
+          imagePullPolicy: Always
+          env:
+          - name: SYNC_SERVER
+            value: {{ .Values.sync_server }}
+          - name: SYNC_USER
+            value: {{ .Values.user }}
+          command:
+            - /usr/local/bin/tini
+            - --
+            - /usr/local/bin/cs_ops.sh
+            - backup
+            - all
+          terminationGracePeriodSeconds: 120
+          volumeMounts:
+          - mountPath: /home/cs-user
+            name: home-volume
+          - mountPath: /tools
+            name: tools-volume
+          - mountPath: /data
+            name: data-volume
+          - mountPath: /configmap
+            name: cs-config-volume
+{{- if .Values.node_label }}
       nodeSelector:
-        otvl-agent: {{ .Values.node_label }}
+        "otvl-agent": {{ .Values.node_label }}
 {{- end }}
       volumes:
       - name: home-volume

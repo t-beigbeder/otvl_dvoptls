@@ -103,7 +103,7 @@ cso_backup_dir() {
     log backup_dir $1 start
     while [ true ] ; do
         trap "backup_term $1" TERM
-        cmd sleep 60
+        cmd sleep 600
         trap "" TERM
         cmd do_backup_dir $1
     done
