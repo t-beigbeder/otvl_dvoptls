@@ -80,7 +80,7 @@ dv:
     default_image: "code-server-python:4.101.2"
     image: "code-server-base:4.101.2-p1"
   cs_ops:
-    image: "cs-ops:1.0.13"
+    image: "cs-ops:1.0.14"
   cs_python:
     image: "cs-python:4.101.2-p1"
   code_server_items:
