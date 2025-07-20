@@ -11,7 +11,7 @@
 
 - name: set role's variables
   set_fact:
-    dkb_ssh_pfx: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build -o StrictHostKeyChecking=no {{ cv.build.ssh.user }}@{{ cv.build.vm }}"
+    dkb_ssh_pfx: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{ cv.build.ssh.user }}@{{ cv.build.vm }}"
     dkb_rdkb_path: "/home/{{ cv.build.ssh.user }}/locgit/otvl_dvoptls/install_scripts/docker_build_tag.sh"
 
 - name: "{{ dkb_message }}"
