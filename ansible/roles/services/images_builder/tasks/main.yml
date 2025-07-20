@@ -44,7 +44,7 @@
   vars:
     dkb_message: "Build base image for code-server"
     dkb_cmd_dir: "docker/code_server"
-    dkb_add_args: "--build-arg CSV=4.101.2"
+    dkb_add_args: "--build-arg CSV=4.102.1"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.code_server.image }}"
 

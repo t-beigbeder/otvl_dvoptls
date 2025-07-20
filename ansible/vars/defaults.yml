@@ -77,12 +77,12 @@ dv:
       pub: "ssh-ed25519 pubkey id-ed-build"
       pri: "id-ed-build file content"
   code_server:
-    default_image: "code-server-python:4.101.2"
-    image: "code-server-base:4.101.2-p1"
+    default_image: "code-server-python:4.102.1"
+    image: "code-server-base:4.102.1"
   cs_ops:
     image: "cs-ops:1.0.14"
   cs_python:
-    image: "cs-python:4.101.2-p1"
+    image: "cs-python:4.102.1"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
