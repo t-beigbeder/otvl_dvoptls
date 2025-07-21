@@ -29,7 +29,7 @@ while [ true ] ; do
     sleep 15
     vin1=`networkctl | grep ether | grep routable | head -1 | cut -d' ' -f4`
     vin2=`networkctl | grep ether | grep routable | head -2 | tail -1 | cut -d' ' -f4`
-    if [ "`ip route | grep default | grep $vin2 | wc -l`" = "1" ] ; then
+    if [ "`ip route | grep default | grep $vin2 | wc -l`" = "0" ] ; then
         log "route configured: `ip route | grep default | grep $vin1`"
         sleep 60
         continue
