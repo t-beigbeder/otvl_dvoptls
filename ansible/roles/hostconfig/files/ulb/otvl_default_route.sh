@@ -27,15 +27,16 @@ fi
 while [ true ] ; do
     log $0 sleeping 15
     sleep 15
-    vin=`networkctl | grep ether | grep routable | head -1 | cut -d' ' -f4`
-    if [ "`ip route | grep default | grep $vin | wc -l`" = "2" ] ; then
-        log "route configured: `ip route | grep default | grep $vin | head -1`"
+    vin1=`networkctl | grep ether | grep routable | head -1 | cut -d' ' -f4`
+    vin2=`networkctl | grep ether | grep routable | head -2 | tail -1 | cut -d' ' -f4`
+    if [ "`ip route | grep default | grep $vin2 | wc -l`" = "1" ] ; then
+        log "route configured: `ip route | grep default | grep $vin1`"
         sleep 60
         continue
     fi
-    vdr=`ip route | grep default | grep $vin | sed -e 's/ proto.*$//'`
-    log running ip route add $vdr
-    ip route add $vdr
+    vdr=`ip route | grep default | grep $vin2`
+    log running ip route del $vdr
+    ip route del $vdr
     if [ $? -ne 0 ] ; then
         fat $0 exiting
     fi

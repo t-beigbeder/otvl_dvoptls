@@ -60,7 +60,7 @@
         name: "otvl_default_route"
         state: restarted
         daemon_reload: yes
-  when: odrs_config.changed and (cv.odr | default(false))
+  when: odrs_config.changed and (cv.odr | default(true))
 
 - name: "Create /etc/modules-load.d/k8s.conf file"
   copy:
