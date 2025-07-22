@@ -81,7 +81,7 @@ dv:
     image: "code-server-base:4.102.1"
     default_image: "cs-python:4.102.1"
   cs_ops:
-    image: "cs-ops:1.0.14"
+    image: "cs-ops:1.0.17"
   cs_python:
     image: "cs-python:4.102.1"
   code_server_items:
@@ -91,6 +91,7 @@ dv:
     # helm_uninstall: false
     # ingress_host: code-server.example.com
     # user: everybody
+    # # renew: openssl passwd -apr1
     # apr_password: "$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
     # sync_server: sync-server
     # node_label:
