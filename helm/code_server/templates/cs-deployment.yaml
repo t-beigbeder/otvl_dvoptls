@@ -18,6 +18,25 @@ spec:
         runAsUser: 2001
         runAsGroup: 2001
       initContainers:
+        - name: setup-htdl
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          image: {{ .Values.images.cs_ops }}
+          imagePullPolicy: Always
+          command:
+            - /usr/local/bin/cs_ops.sh
+            - setup
+            - all
+          volumeMounts:
+          - mountPath: /home/cs-user
+            name: home-volume
+          - mountPath: /tools
+            name: tools-volume
+          - mountPath: /data
+            name: data-volume
+          - mountPath: /local
+            name: ephemeral-volume
         - name: restore-home
           image: {{ .Values.images.cs_ops }}
           imagePullPolicy: Always

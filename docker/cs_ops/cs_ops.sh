@@ -1,5 +1,5 @@
 #!/bin/sh
-# - /configmap/sprik  /configmap/spubk trap hdl_shutd SIGTERM
+
 disp() {
     echo >&2 "$@"
 }
@@ -46,13 +46,19 @@ cso_restore() {
         vld=/$vdd
     fi    
     log cso_restore $vdd start
-    log "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -czf - . | tar -C $vld --no-overwrite-dir -xzf -"
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -czf - . | tar -C $vld --no-overwrite-dir -xzf -
+    log "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf -"
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf - || return $?
     log cso_restore $vdd done
 }
 
 if [ $# -ne 2 ] ; then
     fat "usage: $0 restore home|tools|data"
+fi
+if [ $1 = setup ] ; then
+    cmd chown 2001:2001 /home/cs-user /tools /data /local && \
+    cmd chmod go-w /home/cs-user /tools /data /local || fat $@ failed
+    log $@ stopping
+    exit 0
 fi
 set_sprik || fat $0 failed
 vsu=$SYNC_USER
@@ -64,7 +70,7 @@ if [ -z "$vsh" ] ; then
     vsh=172.25.0.7
 fi
 if [ $1 = restore ] ; then
-    cso_restore $2 || fat $0 failed
+    cso_restore $2 || fat $* failed
     log $@ stopping
     exit 0
 fi
