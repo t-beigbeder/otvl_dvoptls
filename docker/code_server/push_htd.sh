@@ -33,9 +33,31 @@ set_sprik() {
     else
         vb64f=/tmp/sprik
     fi
-    base64 -d < $vb64f > $HOME/.ssh/id_ssh_sync && \
-    chmod go-rw $HOME/.ssh/id_ssh_sync && \
-    true || return 1
+    if [ ! -e $HOME/.ssh/id_ssh_sync ] ; then
+        base64 -d < $vb64f > $HOME/.ssh/id_ssh_sync && \
+        chmod go-rw $HOME/.ssh/id_ssh_sync && \
+        true || return 1
+    fi
+}
+
+push_htd() {
+    vop="--dry-run"
+    if [ "$1" = "p" ] ; then
+        vop=""
+    fi
+    if [ "$1" = "c" ] ; then
+        vop="-c --dry-run"
+    fi
+    vdd=$2
+    if [ $vdd = home ] ; then
+        vld=/home/cs-user
+    else
+        vld=/$vdd
+    fi    
+    log push_htd $vop $vdd start
+    log rsync -i --partial -rlptD --delete $vop -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/id_ssh_sync" $vld/ $vsu@$vsh:/data/home/$vsu/$vdd
+    rsync -i --partial -rlptD --delete $vop -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/id_ssh_sync" $vld/ $vsu@$vsh:/data/home/$vsu/$vdd
+
 }
 
 if [ $# -ne 2 ] ; then
@@ -50,8 +72,6 @@ vsh=$SYNC_SERVER
 if [ -z "$vsh" ] ; then
     vsh=172.25.0.7
 fi
-if [ $1 = restore ] ; then
-    cso_restore $2 || fat $* failed
-    log $@ stopping
-    exit 0
-fi
+push_htd $* || fat $* failed
+log $@ stopping
+exit 0
