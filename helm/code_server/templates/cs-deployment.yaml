@@ -18,6 +18,25 @@ spec:
         runAsUser: 2001
         runAsGroup: 2001
       initContainers:
+        - name: setup-htdl
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          image: {{ .Values.images.cs_ops }}
+          imagePullPolicy: Always
+          command:
+            - /usr/local/bin/cs_ops.sh
+            - setup
+            - all
+          volumeMounts:
+          - mountPath: /home/cs-user
+            name: home-volume
+          - mountPath: /tools
+            name: tools-volume
+          - mountPath: /data
+            name: data-volume
+          - mountPath: /local
+            name: ephemeral-volume
         - name: restore-home
           image: {{ .Values.images.cs_ops }}
           imagePullPolicy: Always
@@ -125,30 +144,6 @@ spec:
             httpGet:
               path: /
               port: 8443
-        - name: backup-monitor
-          image: {{ .Values.images.cs_ops }}
-          imagePullPolicy: Always
-          env:
-          - name: SYNC_SERVER
-            value: {{ .Values.sync_server }}
-          - name: SYNC_USER
-            value: {{ .Values.user }}
-          command:
-            - /usr/local/bin/tini
-            - --
-            - /usr/local/bin/cs_ops.sh
-            - backup
-            - all
-          terminationGracePeriodSeconds: 120
-          volumeMounts:
-          - mountPath: /home/cs-user
-            name: home-volume
-          - mountPath: /tools
-            name: tools-volume
-          - mountPath: /data
-            name: data-volume
-          - mountPath: /configmap
-            name: cs-config-volume
 {{- if .Values.node_label }}
       nodeSelector:
         "otvl-agent": {{ .Values.node_label }}
