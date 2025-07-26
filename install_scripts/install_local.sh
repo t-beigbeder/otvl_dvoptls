@@ -67,6 +67,20 @@ launch_test_hosting() {
   tofu apply -auto-approve
 }
 
+reset_ovh_dns() {
+  log reset_ovh_dns
+  cd $vrrd/ovh_dns
+  PYTHONPATH=src cmd venv/bin/python -m ovh_dns -i $INGRESS --ip 0.0.0.0
+}
+
+set_ovh_dns() {
+  log set_ovh_dns
+  cd $vrrd/tf/otvl/test/hosting
+  vip=`tofu output -json ipv4s | jq .[1][0] | sed -e 's="==g'`
+  cd $vrrd/ovh_dns
+  PYTHONPATH=src cmd venv/bin/python -m ovh_dns -i $INGRESS --ip $vip
+}
+
 destroy_test_hosting() {
   log destroy_test_hosting
   cd $vrrd/tf/otvl/test/hosting
@@ -81,10 +95,13 @@ destroy_test_vlts() {
 
 log $0 starting
 . $HOME/.osenvrc
+INGRESS="t-ctr t-cs t-cs-bis"
 icmd "launch test vault server" launch_test_vlts n
 icmd "provision test secrets" provision_test_vlts n
 icmd "launch test hosting" launch_test_hosting n
+icmd "set OVH DNS for $INGRESS" set_ovh_dns n
 icmd "destroy test hosting" destroy_test_hosting n
 icmd "destroy test vault server" destroy_test_vlts n
+icmd "reset OVH DNS for $INGRESS" reset_ovh_dns n
 
 log $0 stopping
