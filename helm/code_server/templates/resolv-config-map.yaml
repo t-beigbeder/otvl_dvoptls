@@ -1,0 +1,8 @@
+{{- if .Values.dns_resolv_content }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-resolv-cmap
+binaryData:
+  resolv.conf: {{ .Values.dns_resolv_content }}
+{{- end }}

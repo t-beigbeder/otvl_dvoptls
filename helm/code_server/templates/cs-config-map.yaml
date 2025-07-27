@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-cs-cmap
 data:
-  "spubk": {{ .Values.spubk }}
-  "sprik": {{ .Values.sprik }}
+  spubk: {{ .Values.spubk }}
+  sprik: {{ .Values.sprik }}

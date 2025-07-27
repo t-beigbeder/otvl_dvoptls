@@ -16,5 +16,6 @@ user: cs-user
 apr_password: "$apr1$eh5iCNFs$VsvLPBjU0fkP.0ZURuZjo1"
 sync_server: sync-server
 node_label: otvl-agent-value
+dns_resolv_content:
 spubk:
 sprik:

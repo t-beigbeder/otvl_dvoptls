@@ -128,6 +128,11 @@ spec:
             name: ephemeral-volume
           - mountPath: /configmap
             name: cs-config-volume
+{{- if .Values.dns_resolv_content }}
+          - mountPath: /etc/resolv.conf
+            name: resolv-config-volume
+            subPath: resolv.conf
+{{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
@@ -160,6 +165,14 @@ spec:
       - name: cs-config-volume
         configMap:
           name: {{ .Release.Name }}-cs-cmap
+{{- if .Values.dns_resolv_content }}
+      - name: resolv-config-volume
+        configMap:
+          name: {{ .Release.Name }}-resolv-cmap
+          items:
+          - key: resolv.conf
+            path: resolv.conf
+{{- end }}
       tolerations:
       - key: "agent-deploy"
         value: "true"
