@@ -82,12 +82,12 @@ dv:
     default_image: "cs-python:4.102.1-p2"
   cs_ops:
     image: "cs-ops:1.0.21"
+  k8s_clients:
+    image: "k8s-clients:1.0"
   cs_python:
     image: "cs-python:4.102.1-p2"
   cs_pythonk:
     image: "cs-pythonk:4.102.1-p2"
-  k8s_clients:
-    image: "k8s-clients:1.0"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
