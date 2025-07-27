@@ -37,6 +37,16 @@
     dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:.config/.otvl/.secrets/ctr_password"
     private_key: "/home/{{ ansible_env.USER }}/.ssh/id_ed_build"
 
+- name: Build base image k8s-clients
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image k8s-clients"
+    dkb_cmd_dir: "docker/k8s_clients"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.k8s_clients.image }}"
+
 - name: Build base image for code-server
   include_role:
     name: commons
@@ -67,3 +77,13 @@
     dkb_cmd_dir: "docker/cs_python"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_python.image }}"
+
+- name: Build base image for cs-pythonk
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image for cs-pythonk"
+    dkb_cmd_dir: "docker/cs_pythonk"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.cs_pythonk.image }}"
