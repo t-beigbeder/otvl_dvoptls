@@ -31,3 +31,5 @@ for rec in recs:
     recc = oc.get(url)
     if recc["subDomain"] in args.ingress or args.all:
         sys.stdout.write(f"{recc}\n")
+
+oc.post("/domain/zone/otvl.org/refresh")
