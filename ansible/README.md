@@ -8,19 +8,16 @@
 
 ## TODO
 
-- handle single private network interface (tf modules, ip routes, k3s config check) (needed?)
-- add python virtualenv jq make to various CS derived images
+- kube in cs
+- docker in cs
+- cuda in debian
+- backup sync server data as object storage
 
 ## FIXME
 
-- configure CS custom image for various users
+- do not use sda1 when sync server data volume fails to attach
 
 ## RELEASED
-
-- ansible-galaxy collection community.crypto
-- add swap to debian VMs
-- exit NFS
-- synchronize home / tools / data directories through configuration
   
 ## DONE
 
@@ -31,3 +28,7 @@
 - agent node label missing
 - create env with home / tools / data / ephemeral directories
 - add bash-completion to code-server image
+- ansible-galaxy collection community.crypto
+- add swap to debian VMs
+- exit NFS
+- synchronize home / tools / data directories through configuration
