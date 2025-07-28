@@ -1,6 +1,12 @@
 ---
 # services/code_server/tasks/main.yml
 
+- name: Loads kubeconfig
+  ansible.builtin.slurp:
+    src: "{{ remote_user_home }}/.kube/config"
+  become: true
+  register: kubeconfig
+
 - name: Loop over code_server items for release with helm
   include_tasks: release_cs_item.yml
   loop: "{{ cv.code_server_items }}"

@@ -9,6 +9,11 @@ resources:
   limits:
     cpu: "1800m"
     memory: 3Gi
+host_aliases:
+  # hostAliases:
+  # - ip: "172.25.0.7"
+  #   hostnames:
+  #   - t-sk3s-sv-loc
 ingress:
   enabled: true
   # host: otvl-ctr.example.com, defaults to <release-name>.example.com

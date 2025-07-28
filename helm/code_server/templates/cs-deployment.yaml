@@ -17,6 +17,9 @@ spec:
       securityContext:
         runAsUser: 2001
         runAsGroup: 2001
+{{- if .Values.host_aliases }}
+      {{ toYaml .Values.host_aliases | nindent 6 }}
+{{- end }}
       initContainers:
         - name: setup-htdl
           securityContext:
