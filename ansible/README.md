@@ -8,7 +8,6 @@
 
 ## TODO
 
-- kube in cs
 - docker in cs
 - cuda in debian
 - backup sync server data as object storage
@@ -32,3 +31,4 @@
 - add swap to debian VMs
 - exit NFS
 - synchronize home / tools / data directories through configuration
+- kube in cs
