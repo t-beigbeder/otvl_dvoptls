@@ -4,8 +4,8 @@
 - name: Loads kubeconfig
   ansible.builtin.slurp:
     src: "{{ remote_user_home }}/.kube/config"
-  become: true
   register: kubeconfig
+  # TODO: when host configured for it
 
 - name: Loop over code_server items for release with helm
   include_tasks: release_cs_item.yml

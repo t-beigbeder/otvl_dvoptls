@@ -108,6 +108,10 @@ spec:
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
             value: {{ .Values.user }}
+{{- if .Values.kubeconfig }}
+          - name: KUBECONFIG
+            value: /etc/kubeconfig.yml
+{{- end }}
           command:
             - /usr/local/bin/tini
             - --
@@ -135,6 +139,11 @@ spec:
           - mountPath: /etc/resolv.conf
             name: resolv-config-volume
             subPath: resolv.conf
+{{- end }}
+{{- if .Values.kubeconfig }}
+          - mountPath: /etc/kubeconfig.yml
+            name: kubeconfig-config-volume
+            subPath: kubeconfig.yml
 {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -175,6 +184,14 @@ spec:
           items:
           - key: resolv.conf
             path: resolv.conf
+{{- end }}
+{{- if .Values.kubeconfig }}
+      - name: kubeconfig-config-volume
+        configMap:
+          name: {{ .Release.Name }}-kubeconfig-cmap
+          items:
+          - key: kubeconfig.yml
+            path: kubeconfig.yml
 {{- end }}
       tolerations:
       - key: "agent-deploy"

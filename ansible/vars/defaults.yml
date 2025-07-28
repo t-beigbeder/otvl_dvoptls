@@ -94,9 +94,18 @@ dv:
     # skip_hdeploy: false
     # helm_uninstall: false
     # ingress_host: code-server.example.com
+    # uid: 2025
     # user: everybody
     # # renew: openssl passwd -apr1
     # apr_password: "$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
     # sync_server: sync-server
-    # node_label:
+    # dns_resolv_content: base64 for overwritting /etc/resolv.conf
+    # host_aliases:
+    #   hostAliases:
+    #   - ip: ...
+    #     hostnames:
+    #     - ...
+    # node_label: with-this-gpu
+    # kubeconfig: true
+
 ###
