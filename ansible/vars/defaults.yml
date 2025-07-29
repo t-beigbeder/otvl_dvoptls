@@ -84,6 +84,8 @@ dv:
     image: "cs-ops:1.0.21"
   k8s_clients:
     image: "k8s-clients:1.0"
+  cs_kubdk:
+    image: "cs-kub-dk:4.102.1-p2"
   cs_python:
     image: "cs-python:4.102.1-p2"
   cs_pythonk:

@@ -58,6 +58,16 @@
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.code_server.image }}"
 
+- name: Build image for cs-kub-dk
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image for cs-kub-dk"
+    dkb_cmd_dir: "docker/cs_kubdk"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.cs_kubdk.image }}"
+
 - name: Build base image for cs-ops
   include_role:
     name: commons
