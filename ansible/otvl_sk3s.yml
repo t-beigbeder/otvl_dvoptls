@@ -1,0 +1,93 @@
+- hosts: all
+  gather_facts: False
+  tasks:
+  - name: Load default variables
+    include_vars:
+      dir: vars
+  - name: Combine default with inventory variables
+    set_fact:
+      cv: "{{ dv | combine(iv, recursive=True) }}"
+  - name: Check vars
+    include_role:
+      name: commons
+      tasks_from: check_vars
+  tags: always
+
+- hosts: all
+  gather_facts: True
+  become: no
+  tasks:
+  - name: Define var for non-root remote_user
+    set_fact:
+      remote_user_home: "{{ ansible_env.HOME }}"
+  tags: always
+
+- hosts: all
+  gather_facts: False
+  become: yes
+  roles:
+    - hostconfig
+  tags: hc
+
+- hosts: docker_run_group
+  gather_facts: False
+  become: yes
+  roles:
+    - docker/run
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: yes
+  roles:
+    - k8s_client
+  tags: k8s
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: yes
+  roles:
+    - sk3s_node
+    - nerdctl
+  tags: k3s
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: no
+  roles:
+    - role: roles/cert_manager
+      when: otvl_meta.k3s_server | default(false)
+  tags: cm
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: no
+  roles:
+    - role: roles/services/ctr
+      when: otvl_meta.k3s_server | default(false)
+  tags: ctr
+
+- hosts: images_builder_group
+  gather_facts: False
+  become: no
+  roles:
+    - services/images_builder
+  tags: ib
+
+- hosts: build_server_group
+  gather_facts: False
+  become: yes
+  roles:
+    - services/images_builder/server
+  tags: bs
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: no
+  roles:
+    - role: roles/services/code_server/user_login
+      when: otvl_meta.k3s_server | default(false)
+    - role: roles/services/code_server/user_home
+      when: otvl_meta.k3s_server | default(false)
+    - role: roles/services/code_server
+      when: otvl_meta.code_server | default(false)
+  tags: cs

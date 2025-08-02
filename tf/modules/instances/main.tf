@@ -17,6 +17,7 @@ resource "openstack_networking_port_v2" "ext" {
   security_group_ids = [
     var.external_sg_id
   ]
+  admin_state_up = "true"
 }
 
 resource "openstack_networking_port_v2" "loc" {
@@ -47,4 +48,26 @@ resource "openstack_compute_instance_v2" "instances" {
     "groups"    = var.instances_attrs[count.index].groups
     "otvl_meta" = var.instances_attrs[count.index].otvl_meta
   }
+  lifecycle {
+    ignore_changes = [security_groups]
+  }
+}
+
+locals {
+  syncs_instances_indexes = [for ii, ia in var.instances_attrs: ii if ia.is_sync_server]
+}
+
+resource "openstack_blockstorage_volume_v3" "volumes" {
+  count = length(local.syncs_instances_indexes)
+  name = var.instances_attrs[local.syncs_instances_indexes[count.index]].name
+  size = var.instances_attrs[local.syncs_instances_indexes[count.index]].sync_disk_size
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "openstack_compute_volume_attach_v2" "volatts" {
+  count = length(local.syncs_instances_indexes)
+  instance_id = openstack_compute_instance_v2.instances[local.syncs_instances_indexes[count.index]].id
+  volume_id = openstack_blockstorage_volume_v3.volumes[count.index].id
 }

@@ -1,0 +1,9 @@
+---
+# commons/tasks/check_vars.yml
+
+- name: Here commons/tasks/check_vars.yml
+  debug:
+    msg: "cv is {{ cv }}, otvl_meta is {{ otvl_meta }}"
+  when: cv.debug
+
+###

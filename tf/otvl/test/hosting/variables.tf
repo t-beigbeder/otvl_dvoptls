@@ -10,6 +10,10 @@ variable "loc_net_name" {
   description = "The name of the local network"
   type        = string
 }
+variable "loc_net_cidr" {
+  description = "The CIDR of the local network"
+  type        = string
+}
 variable "hosting_sg_name" {
   description = "The security group name for external access"
   type        = string
@@ -30,6 +34,10 @@ variable "dot_branch" {
   description = "Git branch devopstools"
   type        = string
 }
+variable "lops_repo" {
+  description = "Git repo devopstools local operations"
+  type        = string
+}
 variable "install_env" {
   description = "Environment to install"
   type        = string
@@ -42,12 +50,14 @@ variable "vlts_hostname" {
 variable "instances_attrs" {
   description = "Attributes for instances to create"
   type = list(object({
-    name        = string
-    groups      = string
-    otvl_meta   = string
-    ip_v4       = string
-    image_name  = string
-    flavor_name = string
+    name          = string
+    groups        = string
+    otvl_meta     = string
+    ip_v4         = string
+    image_name    = string
+    flavor_name   = string
+    is_sync_server = optional(bool, false)
+    sync_disk_size = optional(number, 0)
   }))
 }
 
@@ -62,6 +72,11 @@ variable "vlts_port" {
 }
 variable "hosting_ssh_exposed" {
   description = "do the computing hosts expose SSH"
+  type        = bool
+  default     = false
+}
+variable "hosting_cs_dvo" {
+  description = "do the computing hosts launch code-server for devops admin"
   type        = bool
   default     = false
 }

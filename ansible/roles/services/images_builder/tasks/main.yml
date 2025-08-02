@@ -1,0 +1,99 @@
+---
+# services/images_builder/tasks/main.yml
+
+- name: Write build ssh key
+  ansible.builtin.copy:
+    content: "{{ cv.build.ssh.pri }}"
+    dest: /home/{{ ansible_env.USER }}/.ssh/id_ed_build
+    mode: 0600
+
+- name: Write container registry password
+  ansible.builtin.copy:
+    content: "{{ cv.ctr.password }}"
+    dest: /home/{{ ansible_env.USER }}/.config/.otvl/.secrets/ctr_password
+    mode: 0600
+
+- name: Synchronize repositories
+  ansible.posix.synchronize:
+    src: "/home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/"
+    dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/otvl_dvoptls/"
+    private_key: "/home/{{ ansible_env.USER }}/.ssh/id_ed_build"
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=venv"
+
+- name: Create secrets dir on build server
+  block:
+    - command:
+        cmd: "ssh -i /home/{{ ansible_env.USER }}/.ssh/id_ed_build -o StrictHostKeyChecking=no {{ cv.build.ssh.user }}@{{ cv.build.vm }} mkdir -p .config/.otvl/.secrets"
+      register: rccs
+    - debug: var=rccs.cmd
+    - debug: var=rccs.stderr_lines
+    - debug: var=rccs.stdout_lines
+
+- name: Synchronize secrets
+  ansible.posix.synchronize:
+    src: "/home/{{ ansible_env.USER }}/.config/.otvl/.secrets/ctr_password"
+    dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:.config/.otvl/.secrets/ctr_password"
+    private_key: "/home/{{ ansible_env.USER }}/.ssh/id_ed_build"
+
+- name: Build base image k8s-clients
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image k8s-clients"
+    dkb_cmd_dir: "docker/k8s_clients"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.k8s_clients.image }}"
+
+- name: Build base image for code-server
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image for code-server"
+    dkb_cmd_dir: "docker/code_server"
+    dkb_add_args: "--build-arg CSV={{ cv.code_server.build_arg }}"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.code_server.image }}"
+
+- name: Build image for cs-kub-dk
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image for cs-kub-dk"
+    dkb_cmd_dir: "docker/cs_kubdk"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.cs_kubdk.image }}"
+
+- name: Build base image for cs-ops
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image for cs-ops"
+    dkb_cmd_dir: "docker/cs_ops"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.cs_ops.image }}"
+
+- name: Build base image for cs-python
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image for cs-python"
+    dkb_cmd_dir: "docker/cs_python"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.cs_python.image }}"
+
+- name: Build base image for cs-pythonk
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image for cs-pythonk"
+    dkb_cmd_dir: "docker/cs_pythonk"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.cs_pythonk.image }}"

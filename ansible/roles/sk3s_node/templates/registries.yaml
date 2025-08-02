@@ -1,0 +1,11 @@
+mirrors:
+  "{{ cv.ctr.ingress_host }}":
+    endpoint:
+      - "https://{{ cv.ctr.ingress_host }}"
+configs:
+  "{{ cv.ctr.ingress_host }}":
+    auth:
+      username: "{{ cv.ctr.login }}"
+      password: "{{ cv.ctr.password }}"
+    tls:
+      insecure_skip_verify: {{ cv.ctr.skip_verify | default(false) }}

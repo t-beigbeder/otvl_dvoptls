@@ -29,12 +29,14 @@ variable "ssh_pub" {
 variable "instances_attrs" {
   description = "Attributes for instances to create"
   type = list(object({
-    name        = string
-    groups      = string
-    otvl_meta   = string
-    ip_v4       = string
-    image_name  = string
-    flavor_name = string
-    user_data   = string
+    name          = string
+    groups        = string
+    otvl_meta     = string
+    ip_v4         = string
+    image_name    = string
+    flavor_name   = string
+    is_sync_server = optional(bool, false)
+    sync_disk_size = optional(number, 0)
+    user_data     = string
   }))
 }

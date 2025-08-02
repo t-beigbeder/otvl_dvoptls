@@ -1,0 +1,57 @@
+---
+# services/images_builder/server/tasks/main.yml
+
+- name: Install packages for server build
+  ansible.builtin.apt:
+    pkg:
+      - rsync
+    update_cache: "{{ cv.prod }}"
+    install_recommends: no
+    state: present
+
+- name: Create a group {{ cv.build.ssh.user }}
+  ansible.builtin.group:
+    name: "{{ cv.build.ssh.user }}"
+    gid: "{{ cv.build.ssh.uid }}"
+  become: yes
+
+- name: Create a user {{ cv.build.ssh.user }}
+  ansible.builtin.user:
+    name: "{{ cv.build.ssh.user }}"
+    uid: "{{ cv.build.ssh.uid }}"
+    group: "{{ cv.build.ssh.user }}"
+    groups: [ "docker" ]
+    home: "/home/{{ cv.build.ssh.user }}"
+    shell: /bin/bash
+  become: yes
+
+- name: Create build user /home/{{ cv.build.ssh.user }}/.ssh directory
+  file:
+    path: "/home/{{ cv.build.ssh.user }}/.ssh"
+    state: directory
+    owner: "{{ cv.build.ssh.user }}"
+    group: "{{ cv.build.ssh.user }}"
+    mode: 0700
+  become: true
+
+- name: Authorize build ssh key
+  ansible.builtin.lineinfile:
+    path: "/home/{{ cv.build.ssh.user }}/.ssh/authorized_keys"
+    create: true
+    owner: "{{ cv.build.ssh.user }}"
+    group: "{{ cv.build.ssh.user }}"
+    mode: 0600
+    line: "{{ cv.build.ssh.pub }}"
+    insertafter: EOF
+  become: true
+
+- name: Create build user /home/{{ cv.build.ssh.user }}/locgit directory
+  file:
+    path: "/home/{{ cv.build.ssh.user }}/locgit"
+    state: directory
+    owner: "{{ cv.build.ssh.user }}"
+    group: "{{ cv.build.ssh.user }}"
+    mode: 0700
+  become: true
+
+###

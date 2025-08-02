@@ -1,0 +1,81 @@
+---
+# hostconfig/tasks/main.yml
+
+- name: Add local IP addresses in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.* {{ item }}$'
+    line: "{{ cv.localhosts[item] }} {{ item }}"
+    state: present
+  with_items: "{{ cv.localhosts }}"
+
+- name: Create server root directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "{{ cv.config_paths.data }}"
+    - "{{ cv.config_paths.delivery }}"
+
+- name: Create non become root directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ remote_user_home }}/helm_values"
+  become: no
+
+- name: "Create /usr/local/bin utilities shell scripts"
+  copy:
+    src: "ulb/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  loop:
+    - otvl_default_route.sh
+    - otvl_get_private_itf.sh
+
+- name: "Create otvl_default_route systemd service file"
+  copy:
+    src: systemd/otvl_default_route.service
+    dest: /etc/systemd/system/otvl_default_route.service
+    owner: root
+    group: root
+    mode: 0644
+  register: odrs_config
+
+- name: Create and run systemd service for otvl_default_route
+  block:
+    - name: Enable otvl_default_route systemd service
+      systemd:
+        name: "otvl_default_route"
+        enabled: yes
+    - name: Restart otvl_default_route systemd service
+      systemd:
+        name: "otvl_default_route"
+        state: restarted
+        daemon_reload: yes
+  when: odrs_config.changed and (cv.odr | default(true))
+
+- name: "Create /etc/modules-load.d/k8s.conf file"
+  copy:
+    src: sysctl/mlk8s.conf
+    dest: /etc/modules-load.d/k8s.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "Create /etc/sysctl.d/k8s.conf file"
+  copy:
+    src: sysctl/sysctlk8s.conf
+    dest: /etc/sysctl.d/k8s.conf
+    owner: root
+    group: root
+    mode: 0644
+
+###

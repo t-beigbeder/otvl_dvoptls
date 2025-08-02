@@ -1,0 +1,113 @@
+---
+dv:
+  debug: false
+  prod: true
+  config_paths:
+    delivery: /otvl/delivery
+    data: /otvl/data
+  localhosts:
+    # fqdn: local-network-ip
+    # eg:
+    # t-sk3s-sv-loc: "172.25.0.7"
+  containerd:
+    # 1.6.32
+    release_url: "https://github.com/containerd/containerd/releases/download/v1.6.32/containerd-1.6.32-linux-amd64.tar.gz"
+    sha: "7acab4dda6edb7e8e0a6cfc3abd9f323db05a3d92a8a1842de8f6c9e28af501d"
+  runc:
+    # v1.1.13
+    release_url: "https://github.com/opencontainers/runc/releases/download/v1.1.13/runc.amd64"
+    sha: "bcfc299c1ab255e9d045ffaf2e324c0abaf58f599831a7c2c4a80b33f795de94"
+  cni_plugins:
+    # v1.5.0
+    release_url: "https://github.com/containernetworking/plugins/releases/download/v1.5.0/cni-plugins-linux-amd64-v1.5.0.tgz"
+    sha: "57a18478422cb321370e30a5ee6ce026321289cd9c94353ca697dddd7714f1a5"
+  nerdctl:
+    # 1.7.4
+    release_url: "https://github.com/containerd/nerdctl/releases/download/v1.7.4/nerdctl-1.7.4-linux-amd64.tar.gz"
+    sha: "71aee9d987b7fad0ff2ade50b038ad7e2356324edc02c54045960a3521b3e6a7"
+  buildkit:
+    # 0.14.1
+    release_url: "https://github.com/moby/buildkit/releases/download/v0.14.1/buildkit-v0.14.1.linux-amd64.tar.gz"
+    sha: "836208f50ab8856a91aa5bba455b8451bbe261318cbc92e9c0ca3e786135756c"
+  kubectl:
+    url: "https://dl.k8s.io/release/v1.33.1/bin/linux/amd64/kubectl"
+    sha: "5de4e9f2266738fd112b721265a0c1cd7f4e5208b670f811861f699474a100a3"
+  cmctl:
+    release_url: "https://github.com/cert-manager/cert-manager/releases/download/v1.12.17/cmctl-linux-amd64.tar.gz"
+    sha: "faa03a77059c617a9bb99516f500d4c9f62bf13f16bafb4ba2f2463b55716140"
+  helm:
+    release_url: "https://get.helm.sh/helm-v3.17.0-linux-amd64.tar.gz"
+    sha: "fb5d12662fde6eeff36ac4ccacbf3abed96b0ee2de07afdde4edb14e613aee24"
+  k9s:
+    release_url: "https://github.com/derailed/k9s/releases/download/v0.50.6/k9s_Linux_amd64.tar.gz"
+    sha: "5fc98f2dcf1d8fac6251f5a1ae1dc6fe7fe2b2d43b13bb3039e51ad492e2a70e"
+  opentofu:
+    release_url: "https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_linux_amd64.tar.gz"
+    sha: "19eda43eaa45bef3e21d87c58f31a6df73e8534ea30e78619a463bdfdb889cd2"
+  cert_manager:
+    # v1.18.0
+    release_url: "https://github.com/cert-manager/cert-manager/releases/download/v1.18.0/cert-manager.yaml"
+    sha: "b77844d683952ce529ea5f4ec249d32851a75a2819662ecc1d171ee218a51c56"
+    le_url: "https://acme-v02.api.letsencrypt.org/directory"
+    le_email: "acme@example.com"
+  k3s:
+    # hostname of the api server in a simple cluster
+    # sc_api_server:
+    # docker: false
+    traefik:
+      customize: true
+    default_namespace: "default"
+  ctr:
+    # release: ctr
+    # skip_hdeploy: false
+    # helm_uninstall: false
+    # uid: 2001
+    # fs_group: 2001
+    # ingress_host: ctr.example.com
+    # login: everybody
+    # password: knows
+    # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
+  traefik:
+    image: "traefik:v3.4"
+  build:
+    vm: build-hostname
+    ssh:
+      user: build-user
+      uid: build-uid
+      pub: "ssh-ed25519 pubkey id-ed-build"
+      pri: "id-ed-build file content"
+  code_server:
+    build_arg: "4.102.1"
+    image: "code-server-base:4.102.1-p2"
+    default_image: "cs-python:4.102.1-p2"
+  cs_ops:
+    image: "cs-ops:1.0.21"
+  k8s_clients:
+    image: "k8s-clients:1.0"
+  cs_kubdk:
+    image: "cs-kub-dk:4.102.1-p2"
+  cs_python:
+    image: "cs-python:4.102.1-p2"
+  cs_pythonk:
+    image: "cs-pythonk:4.102.1-p2"
+  code_server_items:
+  # - image: "lscr.io/linuxserver/code-server:4.101.1"
+    # release: code-server
+    # skip_hdeploy: false
+    # helm_uninstall: false
+    # ingress_host: code-server.example.com
+    # uid: 2025
+    # user: everybody
+    # # renew: openssl passwd -apr1
+    # apr_password: "$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
+    # sync_server: sync-server
+    # dns_resolv_content: base64 for overwritting /etc/resolv.conf
+    # host_aliases:
+    #   hostAliases:
+    #   - ip: ...
+    #     hostnames:
+    #     - ...
+    # node_label: with-this-gpu
+    # kubeconfig: true
+
+###

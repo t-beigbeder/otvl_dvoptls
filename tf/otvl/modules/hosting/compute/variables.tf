@@ -14,12 +14,20 @@ variable "loc_subnet_id" {
   description = "The local subnet id"
   type        = string
 }
+variable "loc_net_cidr" {
+  description = "The CIDR of the local network"
+  type        = string
+}
 variable "hosting_sg_id" {
   description = "The hosting sg id"
   type        = string
 }
 variable "hosting_ssh_exposed" {
   description = "do the computing hosts expose SSH"
+  type        = bool
+}
+variable "hosting_cs_dvo" {
+  description = "do the computing hosts launch code-server for devops admin"
   type        = bool
 }
 variable "ssh_key_name" {
@@ -38,6 +46,10 @@ variable "dot_branch" {
   description = "Git branch devopstools"
   type        = string
 }
+variable "lops_repo" {
+  description = "Git repo devopstools local operations"
+  type        = string
+}
 variable "install_env" {
   description = "Environment to install"
   type        = string
@@ -53,11 +65,13 @@ variable "vlts_port" {
 variable "instances_attrs" {
   description = "Attributes for instance to create"
   type = list(object({
-    name        = string
-    groups      = string
-    otvl_meta   = string
-    ip_v4       = string
-    image_name  = string
-    flavor_name = string
+    name          = string
+    groups        = string
+    otvl_meta     = string
+    ip_v4         = string
+    image_name    = string
+    flavor_name   = string
+    is_sync_server = optional(bool, false)
+    sync_disk_size = optional(number, 0)
   }))
 }
