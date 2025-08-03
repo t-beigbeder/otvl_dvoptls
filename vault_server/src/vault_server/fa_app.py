@@ -94,13 +94,17 @@ async def add_secret(name: str, secret: Secret,
 async def get_secret(name: str, key: str,
                      store: Annotated[dict, Depends(vault_store.store)],
                      creds: Annotated[HTTPBasicCredentials, Depends(security)],
+                     req: Request,
                      rsp: Response):
     if name not in store:
         rsp.status_code = status.HTTP_404_NOT_FOUND
         return {"message": "host not found"}
     if not is_host(creds, store[name]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"host {name} unauthenticated")
+    if key == "_hosts":
+        return {"value": store[key]}
     if key not in store[name]:
         rsp.status_code = status.HTTP_404_NOT_FOUND
         return {"message": "secret not found"}
+    store["_hosts"][name] = req.client.host
     return {"value": store[name][key]}
