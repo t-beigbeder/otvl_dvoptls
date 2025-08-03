@@ -10,15 +10,6 @@ data "openstack_networking_network_v2" "ext_net" {
   name = var.ext_net_name
 }
 
-data "openstack_networking_network_v2" "loc_net" {
-  name = var.loc_net_name
-}
-
-data "openstack_networking_subnet_v2" "loc_net_sn" {
-  network_id = data.openstack_networking_network_v2.loc_net.id
-  name       = var.loc_net_name
-}
-
 resource "openstack_networking_secgroup_v2" "ext" {
   name = var.vlts_sg_name
 }

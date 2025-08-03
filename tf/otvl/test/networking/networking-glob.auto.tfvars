@@ -1,1 +1,0 @@
-lops_dir/networking-glob.auto.tfvars

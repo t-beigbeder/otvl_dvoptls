@@ -3,7 +3,7 @@ write_files:
   - content: |
       #!/bin/sh
       export CI_LHN=${tf_loc_hostname}
-      export CI_LIP4=${tf_loc_ip_v4}
+      export CI_LIP4=FIXME
       export CI_DOT_REPO=${tf_dot_repo}
       export CI_DOT_BRANCH=${tf_dot_branch}
       export CI_LOPS_REPO=${tf_lops_repo}
@@ -13,7 +13,7 @@ write_files:
       export CI_VLTS_PORT=${tf_vlts_port}
       export CI_CS_DVO=${tf_cs_dvo}
       export CI_SYNC_SVR=${tf_is_sync_server}
-      export CI_LOC_CIDR=${tf_loc_net_cidr}
+      export CI_LOC_CIDR=FIXME
       export HOME=/root
       export pkgl="git virtualenv curl jq make"
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
