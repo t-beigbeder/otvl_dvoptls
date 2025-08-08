@@ -8,6 +8,7 @@
 
 ## TODO
 
+- pubnet -var vlts_hostname=1.2.3.4
 - docker in cs
 - cuda in debian
 - backup sync server data as object storage
