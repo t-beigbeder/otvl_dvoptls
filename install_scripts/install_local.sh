@@ -80,9 +80,7 @@ reset_ovh_dns() {
 set_ovh_dns() {
   log set_ovh_dns
   cd $vrrd/tf/otvl/test/hosting
-  vintn=1
-  vintn=0
-  vip=`tofu output -json ipv4s | jq .[$vintn][0] | sed -e 's="==g'`
+  vip=`tofu output -json ipv4s | jq .[1][0] | sed -e 's="==g'`
   cd $vrrd/ovh_dns
   PYTHONPATH=src cmd venv/bin/python -m ovh_dns -i $INGRESS --ip $vip
 }

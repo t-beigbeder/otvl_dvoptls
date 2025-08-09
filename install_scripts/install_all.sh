@@ -7,7 +7,8 @@ sd=`dirname $rp`
 ## endpre
 
 get_hip_from_vlts() {
-
+  log running get_hip_from_vlts
+  false
 }
 
 install_dot() {
