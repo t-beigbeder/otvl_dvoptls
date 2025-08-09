@@ -17,13 +17,27 @@ run_vlts_get_hosts() {
 
 get_hip_from_vlts() {
   log running get_hip_from_vlts
-  vdone=
-  vhf=
-  while [ -z "$vdone" ] ; do
+  vundone=
+  vhf=/root/.config/otvl_vlts/_hosts.yaml
+  while [ -z "$vundone" ] ; do
     cmd run_vlts_get_hosts
+    vundone=1
+    for vhi in $CI_HN_LIST ; do
+      if [ $vhi = $CI_LHN ] ; then
+        continue
+      fi
+      vt=`grep " $vhi" $vhf`
+      if [ -z "$vt" ] ; then
+        log get_hip_from_vlts: host $vhi not yet registered
+        vundone=
+      fi
+    done
+    if [ -z "$vundone" ] ; then sleep 10 ; fi
   done 
-  
+  cat $vhf | sed -e 's/ .*$/&-ext/' >> /etc/hosts && \
+  true
   false
+  return $?
 }
 
 install_dot() {
@@ -36,7 +50,7 @@ install_dot() {
   cmd cp /root/.config/otvl_vlts/install_env /home/debian/.config/.otvl/install_env && \
   cmd cp /root/.config/otvl_vlts/install_otvl_meta /home/debian/.config/.otvl/install_otvl_meta && \
   cmd cp /root/.config/otvl_vlts/install_groups /home/debian/.config/.otvl/install_groups && \
-  env | grep CI_ > /home/debian/.config/.otvl/ci_env && \
+  cmd cp /root/.otvl_ci_env /home/debian/.config/.otvl/ci_env && \
   cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
   cmd chown -R debian:debian /home/debian && \
   cmd su - debian -c "$sd/common/as_deb_install_dot.sh $CI_LOPS_REPO" && \

@@ -2,8 +2,9 @@
 write_files:
   - content: |
       #!/bin/sh
+      cat > /root/.otvl_ci_env <<EOF
       export CI_LHN=${tf_loc_hostname}
-      export CI_HN_LIST=${tf_hn_list}
+      export CI_HN_LIST="${tf_hn_list}"
       export CI_LIP4=FIXME
       export CI_DOT_REPO=${tf_dot_repo}
       export CI_DOT_BRANCH=${tf_dot_branch}
@@ -15,6 +16,7 @@ write_files:
       export CI_CS_DVO=${tf_cs_dvo}
       export CI_SYNC_SVR=${tf_is_sync_server}
       export CI_LOC_CIDR=FIXME
+      EOF
       export HOME=/root
       export pkgl="git virtualenv curl jq make"
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
@@ -48,7 +50,6 @@ write_files:
       echo $CI_INSTALL_ENV > /root/.config/otvl_vlts/install_env && \
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.otvl_meta' > /root/.config/otvl_vlts/install_otvl_meta && \
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.groups' > /root/.config/otvl_vlts/install_groups && \
-      env | grep '^CI_' | sed -e 's/^/export /' > /root/.otvl_ci_env && \
       /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
       true || exit 1
       echo `date`: command $0 is exiting
