@@ -44,6 +44,10 @@ gen_ansible_group_vars() {
   for vk in `cat .config/.otvl/ci_env | cut -d= -f1 | sed -e 's/export //'` ; do
     echo "  $vk: `get_ci_val $vk`"
   done
+  echo "ext_hosts:"
+  for vh in `cat .config/.otvl/ext_hosts | cut -d' ' -f2` ; do
+    echo "  $vh: `cat .config/.otvl/ext_hosts | grep $vh | cut -d' ' -f1`"
+  done
   echo "private_itf: FIXME"
 }
 

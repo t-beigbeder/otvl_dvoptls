@@ -5,7 +5,7 @@ dv:
   config_paths:
     delivery: /otvl/delivery
     data: /otvl/data
-  localhosts:
+  localhosts: []
     # fqdn: local-network-ip
     # eg:
     # t-sk3s-sv-loc: "172.25.0.7"

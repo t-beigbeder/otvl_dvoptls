@@ -67,7 +67,7 @@ if [ -z "$vsu" ] ; then
 fi
 vsh=$SYNC_SERVER
 if [ -z "$vsh" ] ; then
-    vsh=172.25.0.7
+    vsh=t-sk3s-sv-ext
 fi
 if [ $1 = restore ] ; then
     cso_restore $2 || fat $* failed

@@ -33,8 +33,10 @@ get_hip_from_vlts() {
       fi
     done
     if [ -z "$vundone" ] ; then sleep 10 ; fi
-  done 
-  cat $vhf | sed -e 's/ .*$/&-ext/' >> /etc/hosts && \
+  done
+  cat $vhf | sed -e 's/ .*$/&-ext/' > /home/debian/.config/.otvl/ext_hosts && \
+  cmd chown debian:debian /home/debian/.config/.otvl/ext_hosts && \
+  cat /home/debian/.config/.otvl/ext_hosts >> /etc/hosts && \
   true
   return $?
 }
@@ -58,6 +60,11 @@ install_dot() {
 }
 
 install_cs() {
+  systemctl status code-server@debian > /dev/null
+  if [ $? -eq 0 ] ; then
+    log code-server@debian already installed
+    return 0
+  fi
   log running "curl -fsSL https://code-server.dev/install.sh | sh"
   curl -fsSL https://code-server.dev/install.sh | sh && \
   cmd systemctl enable --now code-server@debian && \
@@ -99,4 +106,4 @@ cmd su - debian -c "$sd/run_ansible.sh" || fat "while running $sd/run_ansible.sh
 
 log $0 stopping
 
-# CI_LOPS_REPO=https://github.com/t-beigbeder/otvl_dvoptls /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh
+# /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh

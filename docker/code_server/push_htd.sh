@@ -70,7 +70,7 @@ if [ -z "$vsu" ] ; then
 fi
 vsh=$SYNC_SERVER
 if [ -z "$vsh" ] ; then
-    vsh=172.25.0.7
+    vsh=t-sk3s-sv-ext
 fi
 push_htd $* || fat $* failed
 log $@ stopping
