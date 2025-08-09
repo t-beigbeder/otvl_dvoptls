@@ -7,6 +7,7 @@ from utils.vlts_client import client_argparser
 parser = argparse.ArgumentParser()
 client_argparser(parser)
 parser.add_argument("--host", required=True)
+parser.add_argument("--get-hosts", default=False, action="store_true")
 args = parser.parse_args()
 
 logger = logging.getLogger("consumer")

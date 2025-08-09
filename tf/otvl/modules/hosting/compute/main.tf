@@ -9,11 +9,18 @@ terraform {
   }
 }
 locals {
+  hn_list = join(" ", [
+    for index, ia in var.instances_attrs :
+    ia.name
+  ])
+}
+locals {
   instances_user_data = [
     for index, ia in var.instances_attrs :
     base64encode(templatefile(
       "${path.module}/cloud-config.tftpl", {
         tf_loc_hostname  = ia.name
+        tf_hn_list       = local.hn_list
         tf_dot_repo      = var.dot_repo
         tf_dot_branch    = var.dot_branch
         tf_lops_repo     = var.lops_repo
