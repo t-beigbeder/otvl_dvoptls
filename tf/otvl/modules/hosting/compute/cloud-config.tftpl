@@ -46,6 +46,7 @@ write_files:
       echo $CI_INSTALL_ENV > /root/.config/otvl_vlts/install_env && \
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.otvl_meta' > /root/.config/otvl_vlts/install_otvl_meta && \
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.groups' > /root/.config/otvl_vlts/install_groups && \
+      env | grep '^CI_' > /root/.otvl_ci_env && \
       /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
       true || exit 1
       echo `date`: command $0 is exiting

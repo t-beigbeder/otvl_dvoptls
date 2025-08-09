@@ -6,6 +6,10 @@ sd=`dirname $rp`
 . $sd/locenv
 ## endpre
 
+get_hip_from_vlts() {
+
+}
+
 install_dot() {
   cd $sd/../ansible && \
   cmd mkdir -p /root/.config/.otvl/.secrets /home/debian/.config/.otvl/.secrets && \
@@ -37,6 +41,9 @@ install_cs() {
 }
 
 log $0 starting
+if [ -f /root/.otvl_ci_env ] ; then
+  . /root/.otvl_ci_env
+fi
 if [ "$CI_SYNC_SVR" = "1" ]; then
   cmd $sd/common/install_sync_svr.sh
 fi
@@ -44,6 +51,7 @@ install_dot || fat $0 failed
 if [ "$CI_CS_DVO" = "1" ] ; then
   install_cs || fat $0 failed
 fi
+get_hip_from_vlts || fat $0 failed
 ins_env=`cat /root/.config/otvl_vlts/install_env`
 ins_grps=`cat /root/.config/otvl_vlts/install_groups`
 ins_root=${sd}/${ins_env}
