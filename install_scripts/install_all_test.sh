@@ -36,7 +36,6 @@ get_hip_from_vlts() {
   done 
   cat $vhf | sed -e 's/ .*$/&-ext/' >> /etc/hosts && \
   true
-  false
   return $?
 }
 

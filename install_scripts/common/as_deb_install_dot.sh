@@ -22,18 +22,16 @@ git_clone_or_pull() {
   return $?
 }
 
-get_private_itf() {
-  vlip4=`cat /home/debian/.config/.otvl/ci_env | grep CI_LIP4 | cut -d= -f2`
-  vpriitf=`ip -4 -o ad | grep $vlip4 | cut -d' ' -f2`
-  echo $vpriitf
-}
-
 gen_ansible_hosts() {
   for g in `cat .config/.otvl/install_groups` ; do
     echo "$g:"
     echo "  hosts:"
     echo "    localhost:"
   done
+}
+
+get_ci_val() {
+  echo '"'`. .config/.otvl/ci_env ; eval echo '$'$1`'"'
 }
 
 gen_ansible_group_vars() {
@@ -43,10 +41,10 @@ gen_ansible_group_vars() {
   done
   echo "install_env: `cat .config/.otvl/install_env`"
   echo "ci_env:"
-  for kv in `cat .config/.otvl/ci_env` ; do
-    echo "  $kv" | sed -e 's/=/: /'
+  for vk in `cat .config/.otvl/ci_env | cut -d= -f1 | sed -e 's/export //'` ; do
+    echo "  $vk: `get_ci_val $vk`"
   done
-  echo "private_itf: `get_private_itf`"
+  echo "private_itf: FIXME"
 }
 
 as_deb_install_dot() {
