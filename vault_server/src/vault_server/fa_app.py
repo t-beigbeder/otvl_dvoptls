@@ -66,6 +66,8 @@ async def create_host(host: Host,
         rsp.status_code = status.HTTP_409_CONFLICT
         return
     present = host.name in store
+    if present and host.name in store["_hosts"]:
+        del store["_hosts"][host.name]
     store[host.name] = {"_hex_digest": server_digest(host)}
     logger.info(f"Creating new host {host.name} digest {store[host.name]['_hex_digest']}")
     rsp.status_code = status.HTTP_201_CREATED if not present else status.HTTP_200_OK
