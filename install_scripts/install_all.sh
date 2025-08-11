@@ -18,7 +18,7 @@ run_vlts_get_hosts() {
 get_hip_from_vlts() {
   log running get_hip_from_vlts
   vundone=
-  vhf=/root/.config/otvl_vlts/_hosts.yaml
+  vhf=/root/.config/otvl_vlts/ext_hosts
   while [ -z "$vundone" ] ; do
     cmd run_vlts_get_hosts
     vundone=1
@@ -35,6 +35,7 @@ get_hip_from_vlts() {
     if [ -z "$vundone" ] ; then sleep 10 ; fi
   done
   cat $vhf | sed -e 's/ .*$/&-ext/' > /home/debian/.config/.otvl/ext_hosts && \
+  cp /root/.config/otvl_vlts/ext_hosts.yaml /home/debian/.config/.otvl/ext_hosts.yaml && \
   cmd chown debian:debian /home/debian/.config/.otvl/ext_hosts && \
   cat /home/debian/.config/.otvl/ext_hosts >> /etc/hosts && \
   true
