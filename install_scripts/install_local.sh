@@ -67,7 +67,7 @@ launch_test_hosting() {
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
   cd $vrrd/tf/otvl/test/hosting
   vaa="-auto-approve"
-  vaa=
+  #vaa=
   cmd tofu apply $vaa -var vlts_hostname=$vipv4s
 }
 

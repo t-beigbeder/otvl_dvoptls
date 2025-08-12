@@ -66,3 +66,14 @@ resource "openstack_networking_secgroup_rule_v2" "int_k3s_api_server" {
   remote_group_id   = openstack_networking_secgroup_v2.ext.id
   security_group_id = openstack_networking_secgroup_v2.ext.id
 }
+
+resource "openstack_networking_secgroup_rule_v2" "int_k3s_flannel_vxlan" {
+  count             = var.hosting_ssh_exposed ? 1 : 0
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "udp"
+  port_range_min    = 8472
+  port_range_max    = 8472
+  remote_group_id   = openstack_networking_secgroup_v2.ext.id
+  security_group_id = openstack_networking_secgroup_v2.ext.id
+}
