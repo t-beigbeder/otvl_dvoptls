@@ -12,7 +12,7 @@
     src: "{{ remote_user_home }}/.config/.otvl/ext_hosts.yaml"
   register: ext_hosts_b64
 
-- name: Builds hostAliases from _exthosts.yaml
+- name: Builds ext_hosts from _exthosts.yaml
   set_fact:
     ext_hosts: "{{ ext_hosts_b64.content | b64decode | from_yaml }}"
 
@@ -20,13 +20,26 @@
   debug:
     msg: "ext_hosts is {{ ext_hosts }}"
 
-- name: Builds hostAliases from _exthosts.yaml
+- name: Builds ext_hosts_aliases_str from ext_hosts
   set_fact:
-    ext_hosts_aliases: "{{ lookup('ansible.builtin.template', 'ext_hosts_aliases.yaml') }}"
+    ext_hosts_aliases_str: "{{ lookup('ansible.builtin.template', 'ext_hosts_aliases.yaml') }}"
+
+- name: Debug this
+  debug:
+    msg: "ext_hosts_aliases_str is {{ ext_hosts_aliases_str }}"
+
+- name: Builds hostAliases from ext_hosts_aliases_str
+  set_fact:
+    ext_hosts_aliases: "{{ ext_hosts_aliases_str | from_yaml }}"
 
 - name: Debug this
   debug:
     msg: "ext_hosts_aliases is {{ ext_hosts_aliases }}"
+
+
+- name: Debug this
+  debug:
+    msg: "ext_hosts_aliases is {{ ext_hosts_aliasez }}"
 
 - name: Loop over code_server items for release with helm
   include_tasks: release_cs_item.yml
