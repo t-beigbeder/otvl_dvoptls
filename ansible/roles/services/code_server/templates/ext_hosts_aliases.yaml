@@ -1,0 +1,9 @@
+hostAliases:
+- ip: "172.25.0.7"
+  hostnames:
+  - t-sk3s-sv-loc
+{% for ehn, ehi in ext_hosts.items() -%}
+- "{{ ehi }}"
+  hostnames:
+  - "{{ ehn }}"
+{% endfor %}
