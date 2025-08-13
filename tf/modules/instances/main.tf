@@ -20,16 +20,6 @@ resource "openstack_networking_port_v2" "ext" {
   admin_state_up = "true"
 }
 
-resource "openstack_networking_port_v2" "loc" {
-  count = length(var.instances_attrs)
-  network_id = var.loc_net_id
-  fixed_ip {
-    subnet_id  = var.loc_subnet_id
-    ip_address = var.instances_attrs[count.index].ip_v4
-  }
-  admin_state_up = "true"
-}
-
 resource "openstack_compute_instance_v2" "instances" {
   count = length(var.instances_attrs)
   name        = var.instances_attrs[count.index].name
@@ -40,9 +30,6 @@ resource "openstack_compute_instance_v2" "instances" {
   security_groups = []
   network {
     port = openstack_networking_port_v2.ext[count.index].id
-  }
-  network {
-    port = openstack_networking_port_v2.loc[count.index].id
   }
   metadata = {
     "groups"    = var.instances_attrs[count.index].groups

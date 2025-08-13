@@ -5,7 +5,7 @@ dv:
   config_paths:
     delivery: /otvl/delivery
     data: /otvl/data
-  localhosts:
+  localhosts: []
     # fqdn: local-network-ip
     # eg:
     # t-sk3s-sv-loc: "172.25.0.7"
@@ -102,11 +102,7 @@ dv:
     # apr_password: "$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
     # sync_server: sync-server
     # dns_resolv_content: base64 for overwritting /etc/resolv.conf
-    # host_aliases:
-    #   hostAliases:
-    #   - ip: ...
-    #     hostnames:
-    #     - ...
+    # ext_hosts_aliases: true
     # node_label: with-this-gpu
     # kubeconfig: true
 

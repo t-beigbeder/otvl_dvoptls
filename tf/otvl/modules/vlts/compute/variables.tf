@@ -6,14 +6,6 @@ variable "ext_net_id" {
   description = "The external network id"
   type        = string
 }
-variable "loc_net_id" {
-  description = "The local network id"
-  type        = string
-}
-variable "loc_subnet_id" {
-  description = "The local subnet id"
-  type        = string
-}
 variable "vlts_sg_id" {
   description = "vlts sg id"
   type        = string
@@ -44,7 +36,6 @@ variable "instance_attrs" {
     name        = string
     groups      = string
     otvl_meta   = string
-    ip_v4       = string
     image_name  = string
     flavor_name = string
   })

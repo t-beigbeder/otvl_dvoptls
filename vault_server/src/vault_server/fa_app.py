@@ -66,6 +66,8 @@ async def create_host(host: Host,
         rsp.status_code = status.HTTP_409_CONFLICT
         return
     present = host.name in store
+    if present and host.name in store["_hosts"]:
+        del store["_hosts"][host.name]
     store[host.name] = {"_hex_digest": server_digest(host)}
     logger.info(f"Creating new host {host.name} digest {store[host.name]['_hex_digest']}")
     rsp.status_code = status.HTTP_201_CREATED if not present else status.HTTP_200_OK
@@ -94,13 +96,17 @@ async def add_secret(name: str, secret: Secret,
 async def get_secret(name: str, key: str,
                      store: Annotated[dict, Depends(vault_store.store)],
                      creds: Annotated[HTTPBasicCredentials, Depends(security)],
+                     req: Request,
                      rsp: Response):
     if name not in store:
         rsp.status_code = status.HTTP_404_NOT_FOUND
         return {"message": "host not found"}
     if not is_host(creds, store[name]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"host {name} unauthenticated")
+    if key == "_hosts":
+        return {"value": store[key]}
     if key not in store[name]:
         rsp.status_code = status.HTTP_404_NOT_FOUND
         return {"message": "secret not found"}
+    store["_hosts"][name] = req.client.host
     return {"value": store[name][key]}

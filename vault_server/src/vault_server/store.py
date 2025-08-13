@@ -1,6 +1,9 @@
 import datetime
 
-_store = {"_create_at": datetime.datetime.now(datetime.timezone.utc).isoformat()}
+_store = {
+    "_create_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    "_hosts": {}
+}
 
 
 async def store():
@@ -9,7 +12,10 @@ async def store():
 
 def reset():
     global _store
-    _store = {"_create_at": datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    _store = {
+        "_create_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "_hosts": {}
+    }
 
 
 def get():

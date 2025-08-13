@@ -63,8 +63,12 @@ provision_test_vlts() {
 
 launch_test_hosting() {
   log launch_test_hosting
+  cd $vrrd/tf/otvl/test/vlts
+  vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
   cd $vrrd/tf/otvl/test/hosting
-  tofu apply -auto-approve
+  vaa="-auto-approve"
+  #vaa=
+  cmd tofu apply $vaa -var vlts_hostname=$vipv4s
 }
 
 reset_ovh_dns() {
@@ -83,8 +87,10 @@ set_ovh_dns() {
 
 destroy_test_hosting() {
   log destroy_test_hosting
+  cd $vrrd/tf/otvl/test/vlts
+  vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
   cd $vrrd/tf/otvl/test/hosting
-  tofu destroy -exclude module.compute.module.instances.openstack_blockstorage_volume_v3.volumes
+  cmd tofu destroy -exclude module.compute.module.instances.openstack_blockstorage_volume_v3.volumes -var vlts_hostname=$vipv4s
 }
 
 destroy_test_vlts() {

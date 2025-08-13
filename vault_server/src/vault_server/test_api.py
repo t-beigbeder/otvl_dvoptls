@@ -54,6 +54,11 @@ class TestApi(unittest.TestCase):
         gs1 = json.loads(rsp.content)
         self.assertIn("value", gs1)
         self.assertEqual(s1.value, gs1["value"])
+        rsp = client.get("/host/h1/secret/_hosts", auth=("h1", "p1"))
+        self.assertEqual(status.HTTP_200_OK, rsp.status_code)
+        gsh = json.loads(rsp.content)
+        self.assertIn("value", gsh)
+        self.assertEqual(gsh["value"]["h1"], "testclient")
 
     def test_update_host(self):
         self.assertNotIn("h1", store.get())
@@ -68,6 +73,12 @@ class TestApi(unittest.TestCase):
         self.assertEqual(status.HTTP_201_CREATED, rsp.status_code)
         rsp = client.get("/host/h1/secret/s1", auth=("h1", "p1d"))
         self.assertEqual(status.HTTP_200_OK, rsp.status_code)
+        self.assertIn("h1", store.get()["_hosts"])
+        rsp = client.post("/host?force=1", auth=("localhost", "p"), content=h1d.model_dump_json())
+        self.assertEqual(status.HTTP_200_OK, rsp.status_code)
+        self.assertNotIn("h1", store.get()["_hosts"])
+        rsp = client.get("/host/h1/secret/s1", auth=("h1", "p1d"))
+        self.assertEqual(status.HTTP_404_NOT_FOUND, rsp.status_code)
 
     def test_update_secret(self):
         h1 = Host(name="h1", password="p1")

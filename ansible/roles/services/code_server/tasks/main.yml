@@ -7,6 +7,23 @@
   register: kubeconfig
   # TODO: when host configured for it
 
+- name: Loads _exthosts.yaml
+  ansible.builtin.slurp:
+    src: "{{ remote_user_home }}/.config/.otvl/ext_hosts.yaml"
+  register: ext_hosts_b64
+
+- name: Builds ext_hosts from _exthosts.yaml
+  set_fact:
+    ext_hosts: "{{ ext_hosts_b64.content | b64decode | from_yaml }}"
+
+- name: Builds ext_hosts_aliases_str from ext_hosts
+  set_fact:
+    ext_hosts_aliases_str: "{{ lookup('ansible.builtin.template', 'ext_hosts_aliases.yaml') }}"
+
+- name: Builds hostAliases from ext_hosts_aliases_str
+  set_fact:
+    ext_hosts_aliases: "{{ ext_hosts_aliases_str | from_yaml }}"
+
 - name: Loop over code_server items for release with helm
   include_tasks: release_cs_item.yml
   loop: "{{ cv.code_server_items }}"

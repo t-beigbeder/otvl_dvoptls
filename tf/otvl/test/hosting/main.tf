@@ -18,7 +18,6 @@ terraform {
 module "network" {
   source              = "../../modules/hosting/network"
   ext_net_name        = var.ext_net_name
-  loc_net_name        = var.loc_net_name
   hosting_sg_name     = var.hosting_sg_name
   hosting_ssh_exposed = var.hosting_ssh_exposed
 }
@@ -26,9 +25,6 @@ module "network" {
 module "compute" {
   source              = "../../modules/hosting/compute"
   ext_net_id          = module.network.ext_net_id
-  loc_net_id          = module.network.loc_net_id
-  loc_subnet_id       = module.network.loc_subnet_id
-  loc_net_cidr        = var.loc_net_cidr
   hosting_sg_id       = module.network.hosting_sg_id
   hosting_ssh_exposed = var.hosting_ssh_exposed
   hosting_cs_dvo      = var.hosting_cs_dvo

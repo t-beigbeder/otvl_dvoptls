@@ -18,7 +18,7 @@ qa:	## launch QA tests
 .PHONY: run
 run: export PYTHONPATH=src
 run: ## run vault server
-	venv/bin/python -m vault_server
+	venv/bin/python -m vault_server --log-config src/vault_server/log_config.yml --no-ccert --admin-digest 8ab70636e423eed09f1cb41b288f8f94d6afb823ef82b08e2ce10dfdf0a55adf
 
 .PHONY: test
 test: export PYTHONPATH=src

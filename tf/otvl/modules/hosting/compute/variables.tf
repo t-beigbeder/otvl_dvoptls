@@ -6,18 +6,6 @@ variable "ext_net_id" {
   description = "The external network id"
   type        = string
 }
-variable "loc_net_id" {
-  description = "The local network id"
-  type        = string
-}
-variable "loc_subnet_id" {
-  description = "The local subnet id"
-  type        = string
-}
-variable "loc_net_cidr" {
-  description = "The CIDR of the local network"
-  type        = string
-}
 variable "hosting_sg_id" {
   description = "The hosting sg id"
   type        = string
@@ -68,7 +56,6 @@ variable "instances_attrs" {
     name          = string
     groups        = string
     otvl_meta     = string
-    ip_v4         = string
     image_name    = string
     flavor_name   = string
     is_sync_server = optional(bool, false)
