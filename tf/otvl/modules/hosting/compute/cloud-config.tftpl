@@ -23,6 +23,7 @@ write_files:
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
       echo `date`: command $0 is starting
       apt-get update && \
+      apt-get upgrade -y && \
       apt-get install -y --no-install-recommends $pkgl && \
       fallocate -l 1G /swapfile && \
       chmod 600 /swapfile && \
