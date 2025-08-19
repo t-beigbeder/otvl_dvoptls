@@ -1,4 +1,6 @@
 #cloud-config
+package_update: true
+package_upgrade: true
 write_files:
   - content: |
       #!/bin/sh
@@ -23,7 +25,6 @@ write_files:
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
       echo `date`: command $0 is starting
       apt-get update && \
-      apt-get -o Dpkg::Options::='--force-confold' --force-yes -fuy upgrade && \
       apt-get install -y --no-install-recommends $pkgl && \
       fallocate -l 1G /swapfile && \
       chmod 600 /swapfile && \
