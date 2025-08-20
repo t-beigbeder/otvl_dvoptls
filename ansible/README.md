@@ -8,14 +8,14 @@
 
 ## TODO
 
-- pubnet -var vlts_hostname=1.2.3.4
-- docker in cs
+- debian13
 - cuda in debian
 - backup sync server data as object storage
 
 ## FIXME
 
 - do not use sda1 when sync server data volume fails to attach
+- wait for ctr cert before build
 
 ## RELEASED
   
@@ -33,3 +33,5 @@
 - exit NFS
 - synchronize home / tools / data directories through configuration
 - kube in cs
+- pubnet -var vlts_hostname=1.2.3.4
+- docker in cs

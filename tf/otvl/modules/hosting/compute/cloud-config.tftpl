@@ -1,4 +1,6 @@
 #cloud-config
+package_update: true
+package_upgrade: true
 write_files:
   - content: |
       #!/bin/sh
@@ -22,7 +24,6 @@ write_files:
       export pkgl="git virtualenv curl jq make"
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
       echo `date`: command $0 is starting
-      apt-get update && \
       apt-get install -y --no-install-recommends $pkgl && \
       fallocate -l 1G /swapfile && \
       chmod 600 /swapfile && \
