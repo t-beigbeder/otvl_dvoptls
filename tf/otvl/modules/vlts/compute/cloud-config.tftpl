@@ -1,4 +1,6 @@
 #cloud-config
+package_update: true
+package_upgrade: true
 users:
   - default
   - name: sa-vlts
@@ -15,7 +17,6 @@ write_files:
       export CI_DOT_BRANCH=${tf_dot_branch}
       export HOME=/root
       echo `date`: command $0 is starting
-      apt-get update && \
       apt-get install -y --no-install-recommends git virtualenv fail2ban python3-systemd && \
       mkdir -p /root/clinit /root/locgit && cd /root/locgit && \
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
