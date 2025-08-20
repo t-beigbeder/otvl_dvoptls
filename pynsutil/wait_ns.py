@@ -3,6 +3,8 @@ import sys
 import socket
 import time
 
+# this waits until the IP addresses provisioned locally (through vault server)
+# and through DNS are identical
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--local", required=True)

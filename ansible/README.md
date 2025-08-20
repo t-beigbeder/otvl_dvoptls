@@ -8,16 +8,13 @@
 
 ## TODO
 
-- debian13
 - cuda in debian
+- debian13
 - backup sync server data as object storage
 
 ## FIXME
 
 - do not use sda1 when sync server data volume fails to attach
-- wait for ctr cert before build
-  - python3 /home/debian/locgit/otvl_dvoptls/pynsutil/wait_ns.py -l t-sk3s-sv-ext -n t-ctr.otvl.org
-  - python3 /home/debian/locgit/otvl_dvoptls/pynsutil/wait_cert.py -u https://t-ctr.otvl.org
 
 ## RELEASED
   
@@ -37,3 +34,4 @@
 - kube in cs
 - pubnet -var vlts_hostname=1.2.3.4
 - docker in cs
+- wait for ctr cert before build

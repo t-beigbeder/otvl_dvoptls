@@ -5,4 +5,4 @@ help:	## show this help
 
 .PHONY: qa
 qa:	## launch QA tests
-	flake8 wait_ns.py
+	flake8 wait_ns.py wait_cert.py

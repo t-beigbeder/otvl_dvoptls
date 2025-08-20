@@ -5,6 +5,9 @@ from urllib.error import HTTPError
 import time
 
 
+# this simply waits until the (https) URL may be opened
+# a HTTP error is still a success
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-u", "--url", required=True)
 args = parser.parse_args()
