@@ -34,3 +34,4 @@ log $0 will reboot now && \
 cmd reboot && \
 true || fat $0 failed
 log $0 stopping
+cmd sleep 60
