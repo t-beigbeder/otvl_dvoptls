@@ -40,7 +40,7 @@ write_files:
         sleep 120
         echo `date`: $0 error before reboot cleared
       fi
-      /root/bin/otvl_clinit_installer.sh 2>&1 >> /root/clinit/persist/log.txt
+      /root/bin/otvl_clinit_installer.sh >> /root/clinit/persist/log.txt 2>&1
       vst=$?
       echo $vst > /root/clinit/persist/error
       if [ $vst -ne 0 ] ; then
