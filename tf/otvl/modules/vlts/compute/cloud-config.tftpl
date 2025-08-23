@@ -12,7 +12,7 @@ write_files:
       [Service]
       Type=oneshot
       RemainAfterExit=yes
-      ExecStart=/bin/sh /root/bin/otvl_cloud_init_persist.sh
+      ExecStart=/bin/sh /root/bin/otvl_clinit_launcher.sh
       [Install]
       WantedBy=multi-user.target
     path: /etc/systemd/system/otvl_clinit.service
@@ -20,12 +20,34 @@ write_files:
   - content: |
       #!/bin/sh
       echo `date`: command $0 is starting
+      mkdir -p /root/clinit/persist && \
+      echo > /root/clinit/persist/status && \
       systemctl daemon-reload && \
       systemctl enable otvl_clinit && \
       systemctl start otvl_clinit && \
       true || exit 1
       echo `date`: command $0 is exiting
-    path: /root/bin/otvl_cloud_init.sh
+    path: /root/bin/otvl_clinit.sh
+    owner: root:root
+    permissions: '0750'
+  - content: |
+      #!/bin/sh
+      echo `date`: command $0 is starting
+      /root/bin/otvl_clinit_installer.sh 2>&1 >> /root/clinit/persist/log.txt
+      if [ $? -ne 0 ] ; then
+        echo `date`: $0 error occured, sleep 300 and reboot
+        sleep 300
+        echo `date`: $0 reboot
+        reboot
+        sleep 300
+      fi
+      if [ "`cat /root/clinit/persist/status`" = "reboot" ] ; then
+        echo `date`: $0 requested reboot
+        reboot
+        sleep 300
+      fi
+      echo `date`: command $0 is exiting
+    path: /root/bin/otvl_clinit_launcher.sh
     owner: root:root
     permissions: '0750'
   - content: |
@@ -41,7 +63,7 @@ write_files:
       if [ ! -f /root/clinit/persist/phase1 ] ; then
         echo phase1: rebooting
         touch /root/clinit/persist/phase1
-        reboot
+        echo reboot
         sleep 60
       fi
       apt-get install -y --no-install-recommends git virtualenv fail2ban python3-systemd && \
@@ -56,7 +78,7 @@ write_files:
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0
-    path: /root/bin/otvl_cloud_init_persist.sh
+    path: /root/bin/otvl_clinit_installer.sh
     owner: root:root
     permissions: '0750'
   - content: |
@@ -110,4 +132,4 @@ write_files:
       ${tf_pki_fca_c}
     path: /root/pki/fca.otvl.c.pem
 runcmd:
-  - [ /root/bin/otvl_cloud_init.sh ]
+  - [ /root/bin/otvl_clinit.sh ]
