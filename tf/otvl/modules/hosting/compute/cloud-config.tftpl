@@ -3,6 +3,55 @@ package_update: true
 package_upgrade: true
 write_files:
   - content: |
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      ExecStart=/bin/sh /root/bin/otvl_clinit_launcher.sh
+      [Install]
+      WantedBy=multi-user.target
+    path: /etc/systemd/system/otvl_clinit.service
+    permissions: '0644'
+  - content: |
+      #!/bin/sh
+      echo `date`: command $0 is starting
+      mkdir -p /root/clinit/persist && \
+      echo phase0 > /root/clinit/persist/status && \
+      echo > /root/clinit/persist/request && \
+      systemctl daemon-reload && \
+      systemctl enable otvl_clinit && \
+      systemctl start otvl_clinit && \
+      true || exit 1
+      echo `date`: command $0 is exiting
+    path: /root/bin/otvl_clinit.sh
+    owner: root:root
+    permissions: '0750'
+  - content: |
+      #!/bin/sh
+      echo `date`: command $0 is starting
+      if [ "`cat /root/clinit/persist/error`" != "0" ] ; then
+        echo `date`: $0 error occured before reboot, sleeping 120
+        sleep 120
+        echo `date`: $0 error before reboot cleared
+      fi
+      /root/bin/otvl_clinit_installer.sh 2>&1 >> /root/clinit/persist/log.txt
+      vst=$?
+      echo $vst > /root/clinit/persist/error
+      if [ $vst -ne 0 ] ; then
+        echo `date`: $0 error occured, reboot and restart
+        reboot
+        sleep inf
+      fi
+      if [ "`cat /root/clinit/persist/request`" = "reboot" ] ; then
+        echo `date`: $0 requested reboot
+        echo > /root/clinit/persist/request
+        reboot
+        sleep inf
+      fi
+      echo `date`: command $0 is exiting
+    path: /root/bin/otvl_clinit_launcher.sh
+    owner: root:root
+    permissions: '0750'
+  - content: |
       #!/bin/sh
       cat > /root/.otvl_ci_env <<EOF
       export CI_LHN=${tf_loc_hostname}
@@ -24,6 +73,10 @@ write_files:
       export pkgl="git virtualenv curl jq make"
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
       echo `date`: command $0 is starting
+      if [ "`cat /root/clinit/persist/status`" = "final" ] ; then
+        echo `date`: $0 installed status is final, exiting
+        exit 0
+      fi
       apt-get install -y --no-install-recommends $pkgl && \
       fallocate -l 1G /swapfile && \
       chmod 600 /swapfile && \
@@ -56,7 +109,7 @@ write_files:
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0
-    path: /root/bin/otvl_cloud_init.sh
+    path: /root/bin/otvl_clinit_installer.sh
     owner: debian:debian
     permissions: '0700'
   - content: |
@@ -83,4 +136,4 @@ write_files:
       ${tf_pki_fca_c}
     path: /root/pki/fca.otvl.c.pem
 runcmd:
-  - [ /root/bin/otvl_cloud_init.sh ]
+  - [ /root/bin/otvl_clinit.sh ]

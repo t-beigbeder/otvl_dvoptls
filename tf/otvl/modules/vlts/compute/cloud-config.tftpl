@@ -23,6 +23,7 @@ write_files:
       mkdir -p /root/clinit/persist && \
       echo phase0 > /root/clinit/persist/status && \
       echo > /root/clinit/persist/request && \
+      echo 0 > /root/clinit/persist/error && \
       systemctl daemon-reload && \
       systemctl enable otvl_clinit && \
       systemctl start otvl_clinit && \
@@ -34,19 +35,24 @@ write_files:
   - content: |
       #!/bin/sh
       echo `date`: command $0 is starting
+      if [ "`cat /root/clinit/persist/error`" != "0" ] ; then
+        echo `date`: $0 error occured before reboot, sleeping 120
+        sleep 120
+        echo `date`: $0 error before reboot cleared
+      fi
       /root/bin/otvl_clinit_installer.sh 2>&1 >> /root/clinit/persist/log.txt
       vst=$?
       echo $vst > /root/clinit/persist/error
-      if [ $? -ne 0 ] ; then
+      if [ $vst -ne 0 ] ; then
         echo `date`: $0 error occured, reboot and restart
         reboot
-        sleep 300
+        sleep inf
       fi
       if [ "`cat /root/clinit/persist/request`" = "reboot" ] ; then
         echo `date`: $0 requested reboot
         echo > /root/clinit/persist/request
         reboot
-        sleep 300
+        sleep inf
       fi
       echo `date`: command $0 is exiting
     path: /root/bin/otvl_clinit_launcher.sh
@@ -61,12 +67,6 @@ write_files:
       export CI_DOT_BRANCH=${tf_dot_branch}
       export HOME=/root
       echo `date`: command $0 is starting
-      if [ "`cat /root/clinit/persist/status`" = "phase0" ] ; then
-        echo `date`: $0 test phase0 request reboot
-        echo reboot > /root/clinit/persist/request
-        echo phase1 > /root/clinit/persist/status
-        exit 0
-      fi
       echo final > /root/clinit/persist/status
       apt-get install -y --no-install-recommends git virtualenv fail2ban python3-systemd && \
       mkdir -p /root/clinit /root/locgit && cd /root/locgit && \
