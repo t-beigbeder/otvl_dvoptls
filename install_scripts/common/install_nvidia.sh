@@ -27,4 +27,3 @@ cmd apt-get install -y cuda-toolkit-13-0 && \
 cmd apt-get install -y nvidia-driver-cuda nvidia-kernel-dkms && \
 true || fat $0 failed
 log $0 stopping
-cmd sleep 60
