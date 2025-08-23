@@ -78,13 +78,15 @@ write_files:
         echo `date`: $0 installed status is final, exiting
         exit 0
       fi
-      apt-get install -y --no-install-recommends $pkgl && \
-      fallocate -l 1G /swapfile && \
-      chmod 600 /swapfile && \
-      mkswap /swapfile && \
-      swapon /swapfile && \
-      echo "/swapfile swap swap defaults 0 0" >> /etc/fstab && \
-      true || exit 1
+      if [ ! -e /swapfile ] ; then
+        apt-get install -y --no-install-recommends $pkgl && \
+        fallocate -l 1G /swapfile && \
+        chmod 600 /swapfile && \
+        mkswap /swapfile && \
+        swapon /swapfile && \
+        echo "/swapfile swap swap defaults 0 0" >> /etc/fstab && \
+        true || exit 1
+      fi
       if [ "$CI_SSH_EXPOSED" = "1" ] ; then systemctl restart fail2ban ; fi
 
       mkdir -p /home/debian/locgit /root/.config/otvl_vlts && \
