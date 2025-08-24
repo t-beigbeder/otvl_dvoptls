@@ -30,8 +30,8 @@ upd_fstab_and_mount() {
     if [ "`grep /dev/${vdk}1 /etc/fstab`" != "" ] ; then
       return 0
     fi
-    vuid=`blkid -o value /dev/${vdk}1`
-    echo "$vuid /data ext4 nofail 0 0" >> /etc/fstab && \
+    vuid=`blkid -o value /dev/${vdk}1 | head -1`
+    echo "$vuid /data ext4 defaults 0 0" >> /etc/fstab && \
     cmd mount /data && \
     true
     return $?
