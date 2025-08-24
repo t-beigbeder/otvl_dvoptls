@@ -30,16 +30,14 @@ upd_fstab_and_mount() {
     if [ "`grep /dev/${vdk}1 /etc/fstab`" != "" ] ; then
       return 0
     fi
-    echo "/dev/${vdk}1 /data ext4 nofail 0 0" >> /etc/fstab && \
+    vuid=`blkid -o value /dev/${vdk}1`
+    echo "$vuid /data ext4 nofail 0 0" >> /etc/fstab && \
     cmd mount /data && \
     true
     return $?
 }
 
 log $0 starting
-if [ -z "$CI_LOC_CIDR" ] ; then
-  fat "variable CI_LOC_CIDR is unset"
-fi
 vdk=`lsblk -P -x NAME -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
 cmd apt-get install -y --no-install-recommends parted rsync && \
 cmd run_parted && \
