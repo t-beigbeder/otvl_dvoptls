@@ -27,10 +27,10 @@ run_mkfs() {
 }
 
 upd_fstab_and_mount() {
-    if [ "`grep /dev/${vdk}1 /etc/fstab`" != "" ] ; then
+    vuid=`blkid -o value /dev/${vdk}1 | head -1`
+    if [ "`grep $vuid /etc/fstab`" != "" ] ; then
       return 0
     fi
-    vuid=`blkid -o value /dev/${vdk}1 | head -1`
     echo "UUID=$vuid /data ext4 defaults 0 0" >> /etc/fstab && \
     cmd mount /data && \
     true
