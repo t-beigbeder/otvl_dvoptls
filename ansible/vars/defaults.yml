@@ -106,5 +106,10 @@ dv:
     # ext_hosts_aliases: true
     # node_label: with-this-gpu
     # kubeconfig: true
-
+  otvl_web_services:
+  # - name: blog-test
+    # skip_build: false
+    # skip_hdeploy: true
+    # helm_uninstall: true
+    # repo: otvl_blog/blog
 ###

@@ -13,14 +13,21 @@
     dest: /home/{{ ansible_env.USER }}/.config/.otvl/.secrets/ctr_password
     mode: 0600
 
-- name: Synchronize repositories
-  ansible.posix.synchronize:
-    src: "/home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/"
-    dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/otvl_dvoptls/"
-    private_key: "/home/{{ ansible_env.USER }}/.ssh/id_ed_build"
-    rsync_opts:
-      - "--exclude=.git"
-      - "--exclude=venv"
+- name: Loop over otvl_web sites to prepare build
+  include_tasks: prepare_otvl_web_build.yml
+  loop: "{{ cv.otvl_web_services }}"
+  loop_control:
+    loop_var: current_item
+
+- name: Loop over repositories to synchronize
+  include_tasks: synchronize_repository.yml
+  loop:
+  - otvl_dvoptls
+  - otvl_web
+  - otvl_blog
+  - otvl_sites
+  loop_control:
+    loop_var: current_item
 
 - name: Create secrets dir on build server
   block:
