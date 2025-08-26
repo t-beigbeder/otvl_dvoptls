@@ -1,0 +1,19 @@
+---
+# services/images_builder/tasks/run_otvl_web_build.yml
+
+- name: Here services/images_builder/tasks/run_otvl_web_build.yml
+  debug:
+    msg: "Run build for {{ current_item.name }}"
+
+- name: run_otvl_web_build {{ current_item.name }}
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build image app {{ current_item.name }}"
+    dkb_cmd_dir: "{{ current_item.repo_dir }}"
+    docker_file: "otvl-web-app/Dockerfile"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ current_item.name }}-app:{{ current_item.image_version }}"
+
+###

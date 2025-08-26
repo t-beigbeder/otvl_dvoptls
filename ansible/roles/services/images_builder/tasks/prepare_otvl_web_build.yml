@@ -3,9 +3,9 @@
 
 - name: Here services/images_builder/tasks/prepare_otvl_web_build.yml
   debug:
-    msg: "Prepare build for {{ current_item }}"
+    msg: "Prepare build for {{ current_item.name }}"
 
-- name: prepare_otvl_web_build {{ current_item }}
+- name: prepare_otvl_web_build {{ current_item.name }}
   block:
     - command:
         chdir: "/home/{{ ansible_env.USER }}/locgit"

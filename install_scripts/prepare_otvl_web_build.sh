@@ -11,9 +11,8 @@ prepare_otvl_web_build() {
   vrepo_dir=$vlg/$1
   vow=$vlg/otvl_web
   cmd cd $vrepo_dir && \
-  cmd echo rm -fr otvl_web && \
-  cmd echo cp -r $vow $vrepo_dir && \
-  cmd false && \
+  cmd rm -fr otvl_web && \
+  cmd cp -r $vow $vrepo_dir && \
   true || return 1
   return 0
 }

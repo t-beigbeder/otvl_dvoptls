@@ -66,6 +66,12 @@
     - debug: var=wctr.stderr_lines
     - debug: var=wctr.stdout_lines
   
+- name: Loop over otvl_web sites to build
+  include_tasks: run_otvl_web_build.yml
+  loop: "{{ cv.otvl_web_services }}"
+  loop_control:
+    loop_var: current_item
+
 - name: Build base image k8s-clients
   include_role:
     name: commons
@@ -82,7 +88,7 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for code-server"
-    dkb_cmd_dir: "docker/code_server"
+    dkb_cmd_dir: "otvl_dvoptls/docker/code_server"
     dkb_add_args: "--build-arg CSV={{ cv.code_server.build_arg }}"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.code_server.image }}"
@@ -93,7 +99,7 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for cs-kub-dk"
-    dkb_cmd_dir: "docker/cs_kubdk"
+    dkb_cmd_dir: "otvl_dvoptls/docker/cs_kubdk"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_kubdk.image }}"
 
@@ -103,7 +109,7 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for cs-ops"
-    dkb_cmd_dir: "docker/cs_ops"
+    dkb_cmd_dir: "otvl_dvoptls/docker/cs_ops"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_ops.image }}"
 
@@ -113,7 +119,7 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for cs-python"
-    dkb_cmd_dir: "docker/cs_python"
+    dkb_cmd_dir: "otvl_dvoptls/docker/cs_python"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_python.image }}"
 
@@ -123,6 +129,6 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image for cs-pythonk"
-    dkb_cmd_dir: "docker/cs_pythonk"
+    dkb_cmd_dir: "otvl_dvoptls/docker/cs_pythonk"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_pythonk.image }}"
