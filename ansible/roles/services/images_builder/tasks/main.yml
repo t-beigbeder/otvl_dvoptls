@@ -37,6 +37,28 @@
     dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:.config/.otvl/.secrets/ctr_password"
     private_key: "/home/{{ ansible_env.USER }}/.ssh/id_ed_build"
 
+- name: Wait for DNS update for CTR FQDN
+  block:
+    - debug:
+        msg: "python3 /home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/pynsutil/wait_ns.py -l {{ ci_env.CI_LHN }}-ext -n {{ cv.ctr.ingress_host }}"
+    - command:
+        cmd: "python3 /home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/pynsutil/wait_ns.py -l {{ ci_env.CI_LHN }}-ext -n {{ cv.ctr.ingress_host }}"
+      register: wdns
+    - debug: var=wdns.cmd
+    - debug: var=wdns.stderr_lines
+    - debug: var=wdns.stdout_lines
+
+- name: Wait for letencrypt cert ready for CTR
+  block:
+    - debug:
+        msg: "python3 /home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/pynsutil/wait_cert.py -u https://{{ cv.ctr.ingress_host }}"
+    - command:
+        cmd: "python3 /home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/pynsutil/wait_cert.py -u https://{{ cv.ctr.ingress_host }}"
+      register: wctr
+    - debug: var=wctr.cmd
+    - debug: var=wctr.stderr_lines
+    - debug: var=wctr.stdout_lines
+  
 - name: Build base image k8s-clients
   include_role:
     name: commons

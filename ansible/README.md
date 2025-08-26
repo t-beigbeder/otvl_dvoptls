@@ -8,14 +8,13 @@
 
 ## TODO
 
-- debian13
 - cuda in debian
+- debian13
 - backup sync server data as object storage
 
 ## FIXME
 
 - do not use sda1 when sync server data volume fails to attach
-- wait for ctr cert before build
 
 ## RELEASED
   
@@ -35,3 +34,4 @@
 - kube in cs
 - pubnet -var vlts_hostname=1.2.3.4
 - docker in cs
+- wait for ctr cert before build

@@ -78,6 +78,17 @@ install_cs() {
 }
 
 log $0 starting
+if [ "`grep has_gpu /root/.config/otvl_vlts/install_otvl_meta`" != "" ] ; then
+  if [ "`cat /root/clinit/persist/status`" = "phase0" ] ; then
+    cmd $sd/common/install_nvidia.sh && \
+    echo phase1 > /root/clinit/persist/status && \
+    echo reboot > /root/clinit/persist/request && \
+    log $0 requested reboot && \
+    exit 0 || exit 1
+  fi
+  log nvidia installed with success
+fi
+
 if [ -f /root/.otvl_ci_env ] ; then
   . /root/.otvl_ci_env
 fi
@@ -103,8 +114,7 @@ for grp in $ins_grps ; do
   fi
 done
 
-cmd su - debian -c "$sd/run_ansible.sh" || fat "while running $sd/run_ansible.sh"
+cmd su - debian -c "$sd/run_ansible.sh" || fat "while running $sd/run_ansible.sh" || fat $0 failed
+echo final > /root/clinit/persist/status
 
 log $0 stopping
-
-# /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh

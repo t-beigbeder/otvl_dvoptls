@@ -64,6 +64,7 @@ dv:
     # uid: 2001
     # fs_group: 2001
     # ingress_host: ctr.example.com
+    # ingress_alt_host: alt-ctr.example.com
     # login: everybody
     # password: knows
     # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"

@@ -13,4 +13,5 @@ resources:
 ingress:
   enabled: true
   # host: otvl-ctr.example.com, defaults to <release-name>.example.com
+  # alt_host: alt-otvl-ctr.example.com, defaults to alt-<release-name>.example.com
 apr_credentials: "ctrlogin:"

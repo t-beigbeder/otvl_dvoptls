@@ -1,0 +1,23 @@
+import argparse
+import sys
+from urllib import request
+from urllib.error import HTTPError
+import time
+
+
+# this simply waits until the (https) URL may be opened
+# a HTTP error is still a success
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-u", "--url", required=True)
+args = parser.parse_args()
+while True:
+    try:
+        r = request.urlopen(args.url)
+        sys.exit(0)
+    except HTTPError as hex:
+        sys.stderr.write(f"{hex}... OK, exiting\n")
+        sys.exit(0)
+    except Exception as ex:
+        sys.stderr.write(f"{ex}\n")
+        time.sleep(60)

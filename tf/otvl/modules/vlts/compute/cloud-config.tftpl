@@ -9,6 +9,56 @@ users:
     no_create_home: true
 write_files:
   - content: |
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      ExecStart=/bin/sh /root/bin/otvl_clinit_launcher.sh
+      [Install]
+      WantedBy=multi-user.target
+    path: /etc/systemd/system/otvl_clinit.service
+    permissions: '0644'
+  - content: |
+      #!/bin/sh
+      echo `date`: command $0 is starting
+      mkdir -p /root/clinit/persist && \
+      echo phase0 > /root/clinit/persist/status && \
+      echo > /root/clinit/persist/request && \
+      echo 0 > /root/clinit/persist/error && \
+      systemctl daemon-reload && \
+      systemctl enable otvl_clinit && \
+      systemctl start otvl_clinit && \
+      true || exit 1
+      echo `date`: command $0 is exiting
+    path: /root/bin/otvl_clinit.sh
+    owner: root:root
+    permissions: '0750'
+  - content: |
+      #!/bin/sh
+      echo `date`: command $0 is starting
+      if [ "`cat /root/clinit/persist/error`" != "0" ] ; then
+        echo `date`: $0 error occured before reboot, sleeping 120
+        sleep 120
+        echo `date`: $0 error before reboot cleared
+      fi
+      /root/bin/otvl_clinit_installer.sh >> /root/clinit/persist/log.txt 2>&1
+      vst=$?
+      echo $vst > /root/clinit/persist/error
+      if [ $vst -ne 0 ] ; then
+        echo `date`: $0 error occured, reboot and restart
+        reboot
+        sleep inf
+      fi
+      if [ "`cat /root/clinit/persist/request`" = "reboot" ] ; then
+        echo `date`: $0 requested reboot
+        echo > /root/clinit/persist/request
+        reboot
+        sleep inf
+      fi
+      echo `date`: command $0 is exiting
+    path: /root/bin/otvl_clinit_launcher.sh
+    owner: root:root
+    permissions: '0750'
+  - content: |
       #!/bin/sh
       export CI_LHN=${tf_loc_hostname}
       export CI_VLTS_PORT=${tf_vlts_port}
@@ -17,6 +67,7 @@ write_files:
       export CI_DOT_BRANCH=${tf_dot_branch}
       export HOME=/root
       echo `date`: command $0 is starting
+      echo final > /root/clinit/persist/status
       apt-get install -y --no-install-recommends git virtualenv fail2ban python3-systemd && \
       mkdir -p /root/clinit /root/locgit && cd /root/locgit && \
       git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
@@ -29,7 +80,7 @@ write_files:
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0
-    path: /root/bin/otvl_cloud_init.sh
+    path: /root/bin/otvl_clinit_installer.sh
     owner: root:root
     permissions: '0750'
   - content: |
@@ -83,4 +134,4 @@ write_files:
       ${tf_pki_fca_c}
     path: /root/pki/fca.otvl.c.pem
 runcmd:
-  - [ /root/bin/otvl_cloud_init.sh ]
+  - [ /root/bin/otvl_clinit.sh ]

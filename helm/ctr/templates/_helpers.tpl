@@ -8,3 +8,13 @@ Set the ingress hostname
 {{- printf "%s.example.com" .Release.Name }}
 {{- end -}}
 {{- end }}
+{{/*
+Set the ingress alternate hostname
+*/}}
+{{- define "otvl-ctr-ingress-alt-hostname" -}}
+{{- if .Values.ingress.alt_host -}}
+{{- print .Values.ingress.alt_host -}}
+{{- else -}}
+{{- printf "alt-%s.example.com" .Release.Name }}
+{{- end -}}
+{{- end }}
