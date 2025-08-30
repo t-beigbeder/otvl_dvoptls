@@ -1,0 +1,10 @@
+---
+# services/otvl_web/tasks/main.yml
+
+- name: Loop over otvl_web items for release with helm
+  include_tasks: release_ow_item.yml
+  loop: "{{ cv.otvl_web_services }}"
+  loop_control:
+    loop_var: current_item
+
+###

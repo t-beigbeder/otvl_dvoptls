@@ -71,7 +71,7 @@
     tasks_from: rdocker_build
   vars:
     dkb_message: "Build base image k8s-clients"
-    dkb_cmd_dir: "docker/k8s_clients"
+    dkb_cmd_dir: "otvl_dvoptls/docker/k8s_clients"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.k8s_clients.image }}"
 
