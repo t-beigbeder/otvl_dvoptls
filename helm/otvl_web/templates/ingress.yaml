@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - {{ include "otvl-cs-ingress-hostname" . }}
+        - {{ include "otvl-ows-ingress-hostname" . }}
       secretName: {{ .Release.Name }}
   rules:
-    - host: {{ include "otvl-cs-ingress-hostname" . }}
+    - host: {{ include "otvl-ows-ingress-hostname" . }}
       http:
         paths:
           - path: /

@@ -18,16 +18,16 @@ spec:
         runAsUser: {{ .Values.uid }}
         runAsGroup: {{ .Values.uid }}
       containers:
-        - name: cs-proxy
+        - name: ows-proxy
           image: {{ .Values.images.traefik }}
           command: ["/usr/local/bin/traefik"]
           args: ["--configFile=/traefik/static-config.yml"]
           ports:
             - containerPort: 5000
           volumeMounts:
-            - name: cs-config-vol
+            - name: ows-config-vol
               mountPath: /traefik
       volumes:
-        - name: cs-config-vol
+        - name: ows-config-vol
           configMap:
             name: {{ .Release.Name }}-proxy-cmap
