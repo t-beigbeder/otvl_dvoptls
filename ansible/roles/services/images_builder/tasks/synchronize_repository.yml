@@ -1,0 +1,17 @@
+---
+# services/images_builder/tasks/synchronize_repository.yml
+
+- name: Here services/images_builder/tasks/synchronize_repository.yml
+  debug:
+    msg: "Synchronize /home/{{ ansible_env.USER }}/locgit/{{ current_item }}/ to {{ cv.build.ssh.user }}@{{ cv.build.vm }}"
+
+- name: synchronize_repository {{ current_item }}
+  ansible.posix.synchronize:
+    src: "/home/{{ ansible_env.USER }}/locgit/{{ current_item }}/"
+    dest: "{{ cv.build.ssh.user }}@{{ cv.build.vm }}:locgit/{{ current_item }}/"
+    private_key: "/home/{{ ansible_env.USER }}/.ssh/id_ed_build"
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=venv"
+
+###
