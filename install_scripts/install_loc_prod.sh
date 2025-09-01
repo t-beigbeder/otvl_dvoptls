@@ -101,7 +101,7 @@ destroy_vlts() {
 
 log $0 starting
 . $HOME/.osenvrc
-INGRESS="blog"
+INGRESS="p-ctr p-alt-ctr blog"
 icmd "launch vault server" launch_vlts n
 icmd "provision prod secrets" provision_prod_vlts n
 icmd "launch prod hosting" launch_prod_hosting n

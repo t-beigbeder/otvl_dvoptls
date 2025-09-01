@@ -1,5 +1,5 @@
 images:
-  ows_app: d-ctr.otvl.org/ows-app:0.0.1
+  ows_app: t-ctr.otvl.org/ows-app:0.0.1
   traefik: traefik:v3.4
 resources:
   requests:
