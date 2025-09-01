@@ -11,10 +11,9 @@
 - cuda in debian
 - debian13
 - backup sync server data as object storage
+- active hosts to periodically reconnect to vault server when reprovisioned
 
 ## FIXME
-
-- do not use sda1 when sync server data volume fails to attach
 
 ## RELEASED
   
@@ -35,3 +34,4 @@
 - pubnet -var vlts_hostname=1.2.3.4
 - docker in cs
 - wait for ctr cert before build
+- do not use sda1 when sync server data volume fails to attach
