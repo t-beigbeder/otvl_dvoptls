@@ -1,1 +1,1 @@
-kubectl run -it csops --rm --image=t-ctr.otvl.org/cs-ops:1.0.0 -- bash
+kubectl run -it csops --rm --image=d-ctr.otvl.org/cs-ops:1.0.0 -- bash

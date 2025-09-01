@@ -1,5 +1,5 @@
-FROM t-ctr.otvl.org/k8s-clients:1.0 as KC
-FROM t-ctr.otvl.org/code-server-base:4.102.1-p2
+FROM d-ctr.otvl.org/k8s-clients:1.0 as KC
+FROM d-ctr.otvl.org/code-server-base:4.102.1-p2
 USER root
 COPY --from=KC /usr/local/bin /usr/local/bin
 RUN apt-get update \

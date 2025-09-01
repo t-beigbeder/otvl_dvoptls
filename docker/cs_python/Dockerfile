@@ -1,4 +1,4 @@
-FROM t-ctr.otvl.org/code-server-base:4.102.1-p2
+FROM d-ctr.otvl.org/code-server-base:4.102.1-p2
 
 USER root
 RUN apt-get update \

@@ -101,7 +101,7 @@ destroy_test_vlts() {
 
 log $0 starting
 . $HOME/.osenvrc
-INGRESS="t-ctr t-alt-ctr t-cs t-cs-bis t-blog t-adq"
+INGRESS="d-ctr d-alt-ctr t-cs t-cs-bis t-blog t-adq"
 icmd "launch test vault server" launch_test_vlts n
 icmd "provision test secrets" provision_test_vlts n
 icmd "launch test hosting" launch_test_hosting n
