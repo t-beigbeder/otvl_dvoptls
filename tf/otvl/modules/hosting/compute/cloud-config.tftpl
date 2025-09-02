@@ -3,6 +3,28 @@ package_update: true
 package_upgrade: true
 write_files:
   - content: |
+      #!/bin/sh
+      . /root/.otvl_ci_env && \
+      cd /home/debian/locgit/otvl_dvoptls/vault_server && \
+      PYTHONPATH=src /root/venv/bin/python -m consumer \
+        -s tvlts.otvl.org -p $CI_VLTS_PORT \
+        -c /root/pki/cli.otvl.c.pem -k /root/pki/cli.otvl.k.pem \
+        --cas /root/pki/fca.otvl.c.pem \
+        --host $CI_LHN && \
+      true
+    path: /root/bin/otvl_update_vlts.sh
+    owner: root:root
+    permissions: '0750'
+  - content: |
+      [Service]
+      ExecStart=/bin/sh /root/bin/otvl_update_vlts.sh
+      Restart=always
+      RestartSec=60
+      [Install]
+      WantedBy=multi-user.target
+    path: /etc/systemd/system/otvl_update_vlts.service
+    permissions: '0644'
+  - content: |
       [Service]
       Type=oneshot
       RemainAfterExit=yes
@@ -109,6 +131,9 @@ write_files:
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.otvl_meta' > /root/.config/otvl_vlts/install_otvl_meta && \
       curl http://169.254.169.254/openstack/latest/meta_data.json | jq -r '.meta.groups' > /root/.config/otvl_vlts/install_groups && \
       /home/debian/locgit/otvl_dvoptls/install_scripts/install_all.sh && \
+      systemctl daemon-reload && \
+      systemctl enable otvl_update_vlts && \
+      systemctl start otvl_update_vlts && \
       true || exit 1
       echo `date`: command $0 is exiting
       exit 0
