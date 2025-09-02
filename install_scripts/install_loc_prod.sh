@@ -80,7 +80,7 @@ reset_ovh_dns() {
 set_ovh_dns() {
   log set_ovh_dns
   cd $vrrd/tf/otvl/prod/hosting
-  vip=`tofu output -json ipv4s | jq .[1][0] | sed -e 's="==g'`
+  vip=`tofu output -json ipv4s | jq .[0][0] | sed -e 's="==g'`
   cd $vrrd/ovh_dns
   PYTHONPATH=src cmd venv/bin/python -m ovh_dns -i $INGRESS --ip $vip
 }
@@ -101,7 +101,7 @@ destroy_vlts() {
 
 log $0 starting
 . $HOME/.osenvrc
-INGRESS="p-ctr p-alt-ctr blog"
+INGRESS="blog"
 icmd "launch vault server" launch_vlts n
 icmd "provision prod secrets" provision_prod_vlts n
 icmd "launch prod hosting" launch_prod_hosting n

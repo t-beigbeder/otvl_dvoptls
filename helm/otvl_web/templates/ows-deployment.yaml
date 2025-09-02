@@ -18,6 +18,13 @@ spec:
         - name: apache
           image: {{ .Values.images.ows_app }}
           imagePullPolicy: Always
+          env:
+          - name: OWS_INGRESS_HOST
+            value: {{ include "otvl-ows-ingress-hostname" . }}
+          command:
+            - /bin/bash
+            - -c
+            - /shell/launcher.sh
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
