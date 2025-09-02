@@ -19,7 +19,7 @@ write_files:
       [Service]
       ExecStart=/bin/sh /root/bin/otvl_update_vlts.sh
       Restart=always
-      RestartSec=60
+      RestartSec=180
       [Install]
       WantedBy=multi-user.target
     path: /etc/systemd/system/otvl_update_vlts.service

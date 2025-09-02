@@ -11,11 +11,12 @@
 - cuda in debian
 - debian13
 - backup sync server data as object storage
-- active hosts to periodically reconnect to vault server when reprovisioned
 
 ## FIXME
 
 ## RELEASED
+
+- active hosts to periodically reconnect to vault server when reprovisioned
   
 ## DONE
 
