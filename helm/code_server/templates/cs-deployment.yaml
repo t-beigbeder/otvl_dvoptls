@@ -26,7 +26,7 @@ spec:
             runAsUser: 0
             runAsGroup: 0
           image: {{ .Values.images.cs_ops }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command:
             - /usr/local/bin/cs_ops.sh
             - setup
@@ -42,7 +42,7 @@ spec:
             name: ephemeral-volume
         - name: restore-home
           image: {{ .Values.images.cs_ops }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
@@ -61,7 +61,7 @@ spec:
             name: cs-config-volume
         - name: restore-tools
           image: {{ .Values.images.cs_ops }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
@@ -80,7 +80,7 @@ spec:
             name: cs-config-volume
         - name: restore-data
           image: {{ .Values.images.cs_ops }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
@@ -100,7 +100,7 @@ spec:
       containers:
         - name: code-server
           image: {{ .Values.images.codeserver }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
           - name: TZ
             value: Etc/UTC
