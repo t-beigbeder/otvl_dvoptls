@@ -8,6 +8,9 @@
 
 ## TODO
 
+- otvl web configure 404 error document to mkdocs generated one on all sites
+- adq configure reverse proxy to authenticate adherents, remove it from sitemap.xml
+- otvl web tune lastmod on all sites
 - cuda in debian
 - debian13
 - backup sync server data as object storage
