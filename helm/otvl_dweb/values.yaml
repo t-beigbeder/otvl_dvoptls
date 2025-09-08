@@ -17,3 +17,5 @@ gbranch: updates-to-test
 srepo: ows-user@t-sk3s-sv:/data/backups/apps/otvl_sites/assets/blog
 speriod: 600
 sprik:
+apr_credentials:
+private_prefixes: []
