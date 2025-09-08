@@ -14,5 +14,6 @@
     dkb_cmd_dir: "{{ current_item.repo_dir }}"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ current_item.release }}-app:{{ current_item.image_version }}"
-
+  when: "not current_item.skip_build"
+  
 ###
