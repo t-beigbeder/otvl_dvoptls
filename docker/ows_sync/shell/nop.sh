@@ -26,8 +26,6 @@ cmd() {
 }
 
 log $0 starting
-while [ true ] ; do
-  cmd /shell/synchronizer.sh
-  cmd sleep $OWS_PERIOD_SECONDS
-done
+cmd echo nop && \
+true || fat $0 failed
 log $0 stopping

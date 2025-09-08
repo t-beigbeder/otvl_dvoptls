@@ -1,0 +1,19 @@
+images:
+  apache: t-ctr.otvl.org/ows-apache:1.1
+  sync: t-ctr.otvl.org/ows-sync:1.1
+  traefik: traefik:v3.4
+resources:
+  requests:
+    cpu: "250m"
+    memory: 256Mi
+  limits:
+    cpu: "500m"
+    memory: 512Mi
+ingress:
+  enabled: true
+  # host: ows-app.example.com, defaults to <release-name>.example.com
+grepo: https://github.com/t-beigbeder/otvl_blog
+gbranch: updates-to-test
+srepo: ows-user@t-sk3s-sv:/data/backups/apps/otvl_sites/assets/blog
+speriod: 600
+sprik:

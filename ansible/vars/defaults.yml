@@ -108,8 +108,8 @@ dv:
     # node_label: with-this-gpu
     # kubeconfig: true
   ows_build: false
-  ows_apache_image: "ows-apache:1.0"
-  ows_sync_image: "ows-sync:1.0"
+  ows_apache_image: "ows-apache:1.1"
+  ows_sync_image: "ows-sync:1.1"
   otvl_web_sites:
   # - release: blog-test
     # skip_build: false
