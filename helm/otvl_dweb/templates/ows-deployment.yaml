@@ -51,7 +51,7 @@ spec:
           - name: OWS_SYNC_BRANCH
             value: {{ .Values.gbranch }}
           - name: OWS_SYNC_KEY
-            value: /etc/id_ows_sync
+            value: /configmap/sprik
           - name: OWS_SYNC_SREPO
             value: {{ .Values.srepo }}
           - name: OWS_INGRESS_HOST
@@ -65,9 +65,14 @@ spec:
           volumeMounts:
           - mountPath: /export
             name: site-volume
+          - mountPath: /configmap
+            name: ows-config-volume
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       restartPolicy: Always
       volumes:
       - name: site-volume
         emptyDir:
+      - name: ows-config-volume
+        configMap:
+          name: {{ .Release.Name }}-ows-cmap

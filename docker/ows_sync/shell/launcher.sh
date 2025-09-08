@@ -26,6 +26,8 @@ cmd() {
 }
 
 log $0 starting
+cmd base64 -d < $OWS_SYNC_KEY.b64 > $HOME/.ssh/id_ows_sync_dec
+cmd chmod go-rw $HOME/.ssh/id_ows_sync_dec
 while [ true ] ; do
   cmd /shell/synchronizer.sh
   cmd sleep $OWS_PERIOD_SECONDS

@@ -84,6 +84,7 @@ export_site() {
   cmd rm -rf previous && \
   cmd mv current previous && \
   cmd mv new current && \
+  cmd mkdir -p previous/5a7 && \
   cmd mv previous/5a7 current && \
   true
   return $?
@@ -93,7 +94,7 @@ sync_from_server() {
   log sync_from_server starting
   cmd cd $OWS_EXPORT_SITE/current && \
   cmd mkdir -p 5a7 && \
-  cmd rsync -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $OWS_SYNC_KEY" -a -i --delete $OWS_SYNC_SREPO/ $OWS_EXPORT_SITE/current/5a7 > $HOME/.sstatus && \
+  cmd rsync -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/id_ows_sync_dec" -a -i --delete $OWS_SYNC_SREPO/ $OWS_EXPORT_SITE/current/5a7 > $HOME/.sstatus && \
   cmd cat $HOME/.sstatus && \
   true
   return $?
