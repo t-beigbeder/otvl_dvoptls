@@ -22,7 +22,9 @@ spec:
           - name: OWS_INGRESS_HOST
             value: {{ include "otvl-ows-ingress-hostname" . }}
           command:
-            - /usr/local/bin/httpd-foreground
+            - /bin/bash
+            - -c
+            - /shell/launcher.sh
           volumeMounts:
           - mountPath: /web
             name: site-volume
