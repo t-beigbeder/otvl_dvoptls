@@ -1,5 +1,5 @@
 images:
-  codeserver: t-ctr.otvl.org/code-server-base:4.102.1-define-it
+  codeserver: t-ctr.otvl.org/code-server-base:4.104.1-define-it
   cs_ops: t-ctr.otvl.org/cs-ops:0.0.1
   traefik: traefik:v3.4
 resources:

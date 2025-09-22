@@ -3,4 +3,4 @@ name: otvl-code-server
 description: code-server with home, tools and data restored from server
 type: application
 version: 0.1.10
-appVersion: "4.102.1"
+appVersion: "4.104.1"
