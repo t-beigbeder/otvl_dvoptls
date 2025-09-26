@@ -79,19 +79,19 @@ dv:
       pri: "id-ed-build file content"
   cs_build: false
   code_server:
-    build_arg: "4.102.1"
-    image: "code-server-base:4.102.1-p2"
-    default_image: "cs-python:4.102.1-p2"
+    build_arg: "4.104.1"
+    image: "code-server-base:4.104.1-p1"
+    default_image: "cs-python:4.104.1-p1"
   cs_ops:
     image: "cs-ops:1.0.21"
   k8s_clients:
     image: "k8s-clients:1.0"
   cs_kubdk:
-    image: "cs-kub-dk:4.102.1-p2"
+    image: "cs-kub-dk:4.104.1-p1"
   cs_python:
-    image: "cs-python:4.102.1-p2"
+    image: "cs-python:4.104.1-p1"
   cs_pythonk:
-    image: "cs-pythonk:4.102.1-p2"
+    image: "cs-pythonk:4.104.1-p1"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
@@ -108,18 +108,20 @@ dv:
     # node_label: with-this-gpu
     # kubeconfig: true
   ows_build: false
-  ows_apache_image: "ows-apache:1.1"
-  ows_sync_image: "ows-sync:1.3"
+  ows_apache_image: "ows-apache:1.3"
+  ows_sync_image: "ows-sync:1.4"
   ows:
     ssh:
       user: build-user
       uid: build-uid
       pub: "ssh-ed25519 pubkey id-ed-build"
       pri: "id-ed-build file content"
-  otvl_web_sites:
-  # - release: blog-test
-    # skip_build: false
-    # skip_hdeploy: true
-    # helm_uninstall: true
-    # repo_dir: otvl_blog/blog
+  otvl_web_services:
+#  - release: blog-test
+#    skip_hdeploy: false
+#    helm_uninstall: true
+#    ingress_host: t-blog.example.com
+#    grepo: https://github.com/repo_for_site
+#    gbranch: br
+#    srepo: ssh-user@ssh-host:/path/to/5a7
 ###

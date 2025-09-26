@@ -81,13 +81,6 @@
     image: "{{ cv.ows_sync_image }}"
   when: "cv.ows_build | default(false)"
 
-- name: Loop over otvl_web sites to build
-  include_tasks: run_otvl_web_build.yml
-  loop: "{{ cv.otvl_web_services }}"
-  loop_control:
-    loop_var: current_item
-  when: "cv.ows_build | default(false)"
-
 - name: Build base image k8s-clients
   include_role:
     name: commons

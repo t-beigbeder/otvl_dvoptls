@@ -35,7 +35,8 @@ git_clone_or_pull() {
   if [ -d $vlrd ] ; then
     cmd cd $vlrd && \
     cmd git remote update && \
-    cmd git pull | tee $HOME/.gstatus && \
+    cmd git pull > $HOME/.gstatus && \
+    cmd cat $HOME/.gstatus && \
     true
   else
     cmd cd $HOME && \
