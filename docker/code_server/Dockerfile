@@ -1,6 +1,6 @@
 FROM debian:12
 
-ARG CSV=4.101.2
+ARG CSV=4.101.2-sample
 
 RUN apt-get update \
   && apt-get install -y \
