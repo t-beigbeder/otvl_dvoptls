@@ -7,8 +7,8 @@
     tasks_from: helm_release
   vars:
     title: "otvl-web application {{ current_item.release }}"
-    chart_sp: "otvl_web"
-    vf_template_sp: "otvl_web.yaml"
+    chart_sp: "otvl_dweb"
+    vf_template_sp: "otvl_dweb.yaml"
     release_name: "{{ current_item.release }}"
     uninstall: "{{ current_item.helm_uninstall | default(false) }}"
   when: not current_item.skip_hdeploy | default(false)

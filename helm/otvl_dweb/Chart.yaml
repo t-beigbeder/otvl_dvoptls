@@ -1,0 +1,6 @@
+apiVersion: v2
+name: otvl-dweb
+description: otvl-web static web server with remote synchronization
+type: application
+version: 0.1.0
+appVersion: "1.0"

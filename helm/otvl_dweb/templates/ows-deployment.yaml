@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-ows
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}-ows
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: {{ .Release.Name }}-ows
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}-ows
+    spec:
+      containers:
+        - name: apache
+          image: {{ .Values.images.apache }}
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: OWS_INGRESS_HOST
+            value: {{ include "otvl-ows-ingress-hostname" . }}
+          command:
+            - /bin/bash
+            - -c
+            - /shell/launcher.sh
+          volumeMounts:
+          - mountPath: /web
+            name: site-volume
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            periodSeconds: 60
+            timeoutSeconds: 2
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            periodSeconds: 60
+            timeoutSeconds: 2
+            httpGet:
+              path: /
+              port: 80
+        - name: sync
+          image: {{ .Values.images.sync }}
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: OWS_SYNC_GREPO
+            value: {{ .Values.grepo }}
+          - name: OWS_SYNC_BRANCH
+            value: {{ .Values.gbranch }}
+          - name: OWS_SYNC_KEY
+            value: /configmap/sprik
+          - name: OWS_SYNC_SREPO
+            value: {{ .Values.srepo }}
+          - name: OWS_INGRESS_HOST
+            value: {{ include "otvl-ows-ingress-hostname" . }}
+          - name: OWS_PERIOD_SECONDS
+            value: "{{ .Values.speriod }}"
+          command:
+            - /bin/bash
+            - -c
+            - /shell/launcher.sh
+          volumeMounts:
+          - mountPath: /export
+            name: site-volume
+          - mountPath: /configmap
+            name: ows-config-volume
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      restartPolicy: Always
+      volumes:
+      - name: site-volume
+        emptyDir:
+      - name: ows-config-volume
+        configMap:
+          name: {{ .Release.Name }}-ows-cmap

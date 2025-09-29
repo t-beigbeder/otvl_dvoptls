@@ -23,22 +23,32 @@ data:
   "dynamic-conf.yml": |
     http:
       routers:
+{{- range $index, $url := .Values.private_prefixes }}
+        to-app-private{{ $index }}:
+          rule: "PathPrefix(`{{ $url }}`)"
+          middlewares:
+            - basic-auth
+            - https-header
+          service: ows
+{{- end }}
         to-app:
           rule: "PathPrefix(`/`)"
           middlewares:
             - https-header
-          service: cs
+          service: ows
       middlewares:
+{{- if .Values.apr_credentials }}
         basic-auth:
           basicAuth:
             users:
-              - "{{ .Values.user }}:{{ .Values.apr_password }}"
+              - "{{ .Values.apr_credentials }}"
+{{- end }}
         https-header:
           headers:
             customRequestHeaders:
               X-Forwarded-Proto: "https"
       services:
-        "cs":
+        "ows":
           loadBalancer:
             servers:
               - url: "http://{{ .Release.Name }}-ows:80"

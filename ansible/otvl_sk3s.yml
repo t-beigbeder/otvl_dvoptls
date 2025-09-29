@@ -84,8 +84,10 @@
   gather_facts: False
   become: no
   roles:
+    - role: roles/services/otvl_web/sync_server
+      when: otvl_meta.ows_synchro | default(true)
     - role: roles/services/otvl_web
-      when: otvl_meta.code_server | default(false)
+      when: otvl_meta.ows_server | default(false)
   tags: ows
 
 - hosts: sk3s_group

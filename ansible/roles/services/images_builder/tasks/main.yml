@@ -58,12 +58,28 @@
     - debug: var=wctr.cmd
     - debug: var=wctr.stderr_lines
     - debug: var=wctr.stdout_lines
-  
-- name: Loop over otvl_web sites to build
-  include_tasks: run_otvl_web_build.yml
-  loop: "{{ cv.otvl_web_services }}"
-  loop_control:
-    loop_var: current_item
+
+- name: Build Apache image for otl_web sites
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image k8s-clients"
+    dkb_cmd_dir: "otvl_dvoptls/docker/ows_apache"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.ows_apache_image }}"
+  when: "cv.ows_build | default(false)"
+
+- name: Build Synchronization image for otl_web sites
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image k8s-clients"
+    dkb_cmd_dir: "otvl_dvoptls/docker/ows_sync"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ cv.ows_sync_image }}"
+  when: "cv.ows_build | default(false)"
 
 - name: Build base image k8s-clients
   include_role:
@@ -74,7 +90,7 @@
     dkb_cmd_dir: "otvl_dvoptls/docker/k8s_clients"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.k8s_clients.image }}"
-  when: "{{ cv.cs_build | default(false) }}"
+  when: "cv.cs_build | default(false)"
 
 - name: Build base image for code-server
   include_role:

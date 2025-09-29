@@ -1,0 +1,47 @@
+---
+# services/otvl_web/sync_server/tasks/main.yml
+
+- name: Install packages for sync server
+  ansible.builtin.apt:
+    pkg:
+      - rsync
+    update_cache: "{{ cv.prod }}"
+    install_recommends: no
+    state: present
+
+- name: Create a group {{ cv.ows.ssh.user }}
+  ansible.builtin.group:
+    name: "{{ cv.ows.ssh.user }}"
+    gid: "{{ cv.ows.ssh.uid }}"
+  become: yes
+
+- name: Create a user {{ cv.ows.ssh.user }}
+  ansible.builtin.user:
+    name: "{{ cv.ows.ssh.user }}"
+    uid: "{{ cv.ows.ssh.uid }}"
+    group: "{{ cv.ows.ssh.user }}"
+    home: "/home/{{ cv.ows.ssh.user }}"
+    shell: /bin/bash
+  become: yes
+
+- name: Create build user /home/{{ cv.ows.ssh.user }}/.ssh directory
+  file:
+    path: "/home/{{ cv.ows.ssh.user }}/.ssh"
+    state: directory
+    owner: "{{ cv.ows.ssh.user }}"
+    group: "{{ cv.ows.ssh.user }}"
+    mode: 0700
+  become: true
+
+- name: Authorize build ssh key
+  ansible.builtin.lineinfile:
+    path: "/home/{{ cv.ows.ssh.user }}/.ssh/authorized_keys"
+    create: true
+    owner: "{{ cv.ows.ssh.user }}"
+    group: "{{ cv.ows.ssh.user }}"
+    mode: 0600
+    line: "{{ cv.ows.ssh.pub }}"
+    insertafter: EOF
+  become: true
+
+###
