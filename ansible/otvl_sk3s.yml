@@ -15,7 +15,7 @@
 
 - hosts: all
   gather_facts: True
-  become: no
+  become: false
   tasks:
   - name: Define var for non-root remote_user
     set_fact:
@@ -24,27 +24,27 @@
 
 - hosts: all
   gather_facts: False
-  become: yes
+  become: true
   roles:
     - hostconfig
   tags: hc
 
 - hosts: docker_run_group
   gather_facts: False
-  become: yes
+  become: true
   roles:
     - docker/run
 
 - hosts: sk3s_group
   gather_facts: False
-  become: yes
+  become: true
   roles:
     - k8s_client
   tags: k8s
 
 - hosts: sk3s_group
   gather_facts: False
-  become: yes
+  become: true
   roles:
     - sk3s_node
     - nerdctl
@@ -52,7 +52,7 @@
 
 - hosts: sk3s_group
   gather_facts: False
-  become: no
+  become: false
   roles:
     - role: roles/cert_manager
       when: otvl_meta.k3s_server | default(false)
@@ -60,7 +60,7 @@
 
 - hosts: sk3s_group
   gather_facts: False
-  become: no
+  become: false
   roles:
     - role: roles/services/ctr
       when: otvl_meta.k3s_server | default(false)
@@ -68,31 +68,31 @@
 
 - hosts: images_builder_group
   gather_facts: False
-  become: no
+  become: false
   roles:
     - services/images_builder
   tags: ib
 
 - hosts: build_server_group
   gather_facts: False
-  become: yes
+  become: true
   roles:
     - services/images_builder/server
   tags: bs
 
 - hosts: sk3s_group
   gather_facts: False
-  become: no
+  become: false
   roles:
     - role: roles/services/otvl_web/sync_server
-      when: otvl_meta.ows_synchro | default(true)
+      when: otvl_meta.ows_synchro | default(false)
     - role: roles/services/otvl_web
       when: otvl_meta.ows_server | default(false)
   tags: ows
 
 - hosts: sk3s_group
   gather_facts: False
-  become: no
+  become: false
   roles:
     - role: roles/services/code_server/user_login
       when: otvl_meta.k3s_server | default(false)

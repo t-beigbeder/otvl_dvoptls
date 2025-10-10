@@ -13,7 +13,7 @@
   ansible.builtin.group:
     name: "{{ cv.build.ssh.user }}"
     gid: "{{ cv.build.ssh.uid }}"
-  become: yes
+  become: true
 
 - name: Create a user {{ cv.build.ssh.user }}
   ansible.builtin.user:
@@ -23,7 +23,7 @@
     groups: [ "docker" ]
     home: "/home/{{ cv.build.ssh.user }}"
     shell: /bin/bash
-  become: yes
+  become: true
 
 - name: Create build user /home/{{ cv.build.ssh.user }}/.ssh directory
   file:

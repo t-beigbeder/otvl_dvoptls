@@ -30,7 +30,7 @@
     url: "{{ url }}"
     dest: "{{ kfu_dlv }}/{{ dload_name }}"
     checksum: "sha256:{{ sha }}"
-  become: yes
+  become: true
   register: kfu_downl
 
 - name: "{{ kapp_message }}"
