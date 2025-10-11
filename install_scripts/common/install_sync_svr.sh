@@ -6,6 +6,18 @@ sd=`dirname $rp`
 . $sd/../locenv
 ## endpre
 
+get_data_disk() {
+  lsblk -P -o NAME,TYPE | fgrep disk | while read tdk ; do
+    tdv=`echo $tdk | sed -e 's/NAME..//' | sed -e 's/. TYPE=.*$//'`
+    # tct=`lsblk -P -o NAME,TYPE,MOUNTPOINT | fgrep ${tdv} | wc -l`
+    trt=`lsblk -P -o NAME,TYPE,MOUNTPOINT | fgrep ${tdv} | grep MOUNTPOINT=\"/\"`
+    if [ -z "$trt" ] ; then
+      echo $tdv
+      return
+    fi
+  done
+}
+
 run_parted() {
   if [ "`lsblk -P -o NAME | grep $vdk | wc -l`" != "1" ] ; then
     return 0
@@ -27,22 +39,31 @@ run_mkfs() {
 }
 
 upd_fstab_and_mount() {
-    if [ "`grep " /data " /etc/fstab`" != "" ] ; then
+    if [ "`grep " /$vmdir " /etc/fstab`" != "" ] ; then
       return 0
     fi
     vuid=`blkid -o value /dev/${vdk}1 | head -1`
-    echo "UUID=$vuid /data ext4 defaults 0 0" >> /etc/fstab && \
-    cmd mount /data && \
+    echo "UUID=$vuid /$vmdir ext4 defaults 0 0" >> /etc/fstab && \
+    cmd mount /$vmdir && \
     true
     return $?
 }
 
 log $0 starting
-vdk=`lsblk -P -x NAME -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
+vmdir=data
+if [ "`grep /$vmdir /etc/fstab`" != "" ] ; then
+  log $0 stopping, /$vmdir already in /etc/fstab
+  exit 0
+fi
+# vdk=`lsblk -P -x NAME -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
+vdk=`get_data_disk`
+if [ -z "$vdk" ] ; then
+  fat "no data disk detected"
+fi
 cmd apt-get install -y --no-install-recommends parted rsync && \
 cmd run_parted && \
 cmd run_mkfs && \
-cmd mkdir -p /data && \
+cmd mkdir -p /$vmdir && \
 cmd upd_fstab_and_mount && \
 true || fat $0 failed
 log $0 stopping
