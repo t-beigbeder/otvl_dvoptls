@@ -56,8 +56,8 @@
   when: (otvl_meta.k3s_agent | default(false)) and not (otvl_meta.has_gpu | default(false))
   register: k3s_svc_create
 
-- name: Install the k3s agent with gpu-deploy taint if absent
-  shell: "curl -sfL https://get.k3s.io | sh -s - agent -s https://{{ cv.k3s.sc_api_server }}:6443 --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(false) }} --node-taint gpu-deploy=true:NoExecute --node-label otvl-agent={{ ci_env.CI_LHN }}"
+- name: Install the k3s agent with nvidia.com/gpu taint if absent
+  shell: "curl -sfL https://get.k3s.io | sh -s - agent -s https://{{ cv.k3s.sc_api_server }}:6443 --token-file /root/.config/.otvl/.secrets/k3s_token {{ '--docker' if cv.k3s.docker | default(false) }} --node-taint nvidia.com/gpu=true:NoSchedule --node-label otvl-agent={{ ci_env.CI_LHN }}"
   args:
     creates: /etc/systemd/system/{{ k3s_svc_name }}.service
   when: (otvl_meta.k3s_agent | default(false)) and (otvl_meta.has_gpu | default(false))
