@@ -27,7 +27,7 @@ cmd add-apt-repository -y contrib && \
 cmd apt-get install -y cuda-toolkit-13-0 && \
 cmd apt-get install -y nvidia-driver-cuda nvidia-kernel-dkms && \
 cmd wget https://nvidia.github.io/libnvidia-container/gpgkey && \
-cmd rm /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
+cmd rm -f /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
 cmd gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg < gpgkey && \
 cmd rm gpgkey && \
 cmd wget https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list && \
