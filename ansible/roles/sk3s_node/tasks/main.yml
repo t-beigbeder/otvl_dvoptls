@@ -106,4 +106,18 @@
   become: false
   when: otvl_meta.k3s_server | default(false)
 
+- name: Install Nvidia GPU operator
+  block:
+    - command:
+        cmd: "/home/{{ ansible_env.USER }}/locgit/otvl_dvoptls/install_scripts/common/install_gpu_operator.sh"
+      register: igo
+      ignore_errors: true
+    - debug: var=igo.cmd
+    - debug: var=igo.stderr_lines
+    - debug: var=igo.stdout_lines
+    - fail:
+      when: igo.rc != 0
+  become: false
+  when: (otvl_meta.k3s_server | default(false)) and (cv.nvidia.has_gpu | default(false))
+
 ###
