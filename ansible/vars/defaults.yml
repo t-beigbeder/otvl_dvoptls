@@ -77,6 +77,8 @@ dv:
       uid: build-uid
       pub: "ssh-ed25519 pubkey id-ed-build"
       pri: "id-ed-build file content"
+  nvidia:
+    # has_gpu: false
   cs_build: false
   code_server:
     build_arg: "4.104.1"

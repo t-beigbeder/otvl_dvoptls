@@ -25,7 +25,7 @@
     shell: /bin/bash
   become: true
 
-- name: Create build user /home/{{ cv.ows.ssh.user }}/.ssh directory
+- name: Create ows user /home/{{ cv.ows.ssh.user }}/.ssh directory
   file:
     path: "/home/{{ cv.ows.ssh.user }}/.ssh"
     state: directory
@@ -34,7 +34,7 @@
     mode: 0700
   become: true
 
-- name: Authorize build ssh key
+- name: Authorize ows ssh key
   ansible.builtin.lineinfile:
     path: "/home/{{ cv.ows.ssh.user }}/.ssh/authorized_keys"
     create: true
