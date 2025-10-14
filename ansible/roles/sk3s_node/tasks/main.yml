@@ -118,6 +118,6 @@
     - fail:
       when: igo.rc != 0
   become: false
-  when: (otvl_meta.k3s_server | default(false)) and (cv.nvidia.has_gpu | default(false))
+  when: (otvl_meta.k3s_server | default(false)) and (cv.gpu_operator | default(false))
 
 ###
