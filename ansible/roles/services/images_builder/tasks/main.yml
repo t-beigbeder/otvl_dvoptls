@@ -148,7 +148,7 @@
     image: "{{ cv.cs_pythonk.image }}"
   when: "{{ cv.cs_build | default(false) }}"
 
-- name: Build base image for cs-pythonk
+- name: Build base image for cs-py-gpu
   include_role:
     name: commons
     tasks_from: rdocker_build
@@ -157,4 +157,4 @@
     dkb_cmd_dir: "otvl_dvoptls/docker/cs_py_gpu"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_pythonk.image }}"
-  when: "{{ cv.cs_build | default(false) }}"
+  when: "{{ cv.cs_build | default(false) and false }}"
