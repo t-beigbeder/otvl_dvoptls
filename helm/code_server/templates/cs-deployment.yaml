@@ -193,8 +193,7 @@ spec:
           - key: kubeconfig.yml
             path: kubeconfig.yml
 {{- end }}
+{{- if .Values.tolerations }}
       tolerations:
-      - key: "agent-deploy"
-        value: "true"
-        effect: "NoExecute"
-      restartPolicy: Always
+        {{- toYaml .Values.tolerations | nindent 8 }}
+{{- end }}
