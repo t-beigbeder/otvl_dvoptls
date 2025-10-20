@@ -1,16 +1,42 @@
-FROM t-ctr.otvl.org/cs-python:4.104.1-p1
+FROM ubuntu:24.04
 
-# Install PyTorch with pip (https://pytorch.org/get-started/locally/)
-RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cu130 \
-    'torch' \
-    'torchaudio' \
-    'torchvision'
+ARG CSV=4.101.2-sample
 
-# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#dockerfiles
-ENV NVIDIA_VISIBLE_DEVICES="all" \
-    NVIDIA_DRIVER_CAPABILITIES="compute,utility"
+RUN apt-get update \
+  && apt-get install -y \
+    curl \
+    locales \
+    openssh-client \
+    rsync \
+    procps \
+    vim-tiny \
+    bash-completion \
+    git \
+    python3 \
+    python3-pip \
+    virtualenv \
+    make \
+    dnsutils \
+  && rm -rf /var/lib/apt/lists/*
 
-# Puts the nvidia-smi binary (system management interface) on path
-# with associated library files to execute it
-ENV PATH="${PATH}:/usr/local/nvidia/bin" \
-    LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/nvidia/lib64"
+# https://wiki.debian.org/Locale#Manually
+RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
+  && locale-gen
+
+RUN mkdir -p /usr/local/lib /usr/local/bin /home/cs-user \
+  && curl -fL https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 -o /usr/local/bin/tini \
+  && chmod +x /usr/local/bin/tini \
+  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash cs-user \
+  && curl -fL https://github.com/coder/code-server/releases/download/v$CSV/code-server-$CSV-linux-amd64.tar.gz \
+  | tar -C /usr/local/lib -xz \
+  && mv /usr/local/lib/code-server-$CSV-linux-amd64 /usr/local/lib/code-server-$CSV \
+  && ln -s /usr/local/lib/code-server-$CSV/bin/code-server /usr/local/bin/code-server
+COPY entrypoint.sh push_htd.sh /usr/local/bin/
+
+EXPOSE 8443
+
+USER 2001
+ENV LANG=en_US.UTF-8
+ENV USER=cs-user
+ENV HOME=/home/cs-user
+ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
