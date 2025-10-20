@@ -93,6 +93,10 @@ dv:
     image: "cs-python:4.104.1-p1"
   cs_pythonk:
     image: "cs-pythonk:4.104.1-p1"
+  cs_py_gpu:
+    image: "cs-py-gpu:4.104.1-p2"
+  cuda_test:
+    image: "cuda-test:13.0.1-ubuntu24.04-1"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
