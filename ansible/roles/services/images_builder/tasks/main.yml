@@ -68,7 +68,7 @@
     dkb_cmd_dir: "otvl_dvoptls/docker/cuda_test"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cuda_test.image }}"
-  when: "{{ cv.cs_build | default(false) and true }}"
+  when: "cv.cs_build | default(false) and false"
 
 - name: Build image for cs-py-gpu
   include_role:
@@ -80,7 +80,7 @@
     dkb_add_args: "--build-arg CSV={{ cv.code_server.build_arg }}"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_py_gpu.image }}"
-  when: "{{ cv.cs_build | default(false) and true }}"
+  when: "cv.cs_build | default(false) and false"
 
 - name: Build Apache image for otl_web sites
   include_role:
