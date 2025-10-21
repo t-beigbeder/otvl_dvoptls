@@ -80,7 +80,7 @@
     dkb_add_args: "--build-arg CSV={{ cv.code_server.build_arg }}"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_py_gpu.image }}"
-  when: "cv.cs_build | default(false) and false"
+  when: "cv.cs_build | default(false) and true"
 
 - name: Build Apache image for otl_web sites
   include_role:
