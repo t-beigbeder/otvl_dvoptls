@@ -23,7 +23,8 @@ spec:
             permanent: true
             # enable cert-manager to bypass redirection during http challenge   
             priority: 1000
+      websecure:
         transport:
           respondingTimeouts:
-            readTimeout: 370
-            idleTimeout: 740
+            readTimeout: 680
+            idleTimeout: 660
