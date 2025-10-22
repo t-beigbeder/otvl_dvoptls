@@ -25,5 +25,5 @@ spec:
             priority: 1000
         transport:
           respondingTimeouts:
-            readTimeout: 180
-            idleTimeout: 360
+            readTimeout: 370
+            idleTimeout: 740
