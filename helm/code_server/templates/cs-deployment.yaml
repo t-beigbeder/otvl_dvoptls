@@ -14,6 +14,9 @@ spec:
       labels:
         app.kubernetes.io/name: {{ .Release.Name }}-cs
     spec:
+{{- if .Values.nvidia }}
+      runtimeClassName: nvidia
+{{- end }}
       securityContext:
         runAsUser: 2001
         runAsGroup: 2001
