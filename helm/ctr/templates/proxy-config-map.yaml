@@ -21,8 +21,7 @@ data:
         address: ':5000'
         transport:
           respondingTimeouts:
-            readTimeout: 720
-            idleTimeout: 700
+            readTimeout: 360
         
   "dynamic-conf.yml": |
     http:

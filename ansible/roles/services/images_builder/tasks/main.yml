@@ -59,29 +59,6 @@
     - debug: var=wctr.stderr_lines
     - debug: var=wctr.stdout_lines
 
-- name: Build image for cuda-test
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image for cuda-test"
-    dkb_cmd_dir: "otvl_dvoptls/docker/cuda_test"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.cuda_test.image }}"
-  when: "cv.cs_build | default(false) and false"
-
-- name: Build image for cs-py-gpu
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image for cs-py-gpu"
-    dkb_cmd_dir: "otvl_dvoptls/docker/cs_py_gpu"
-    dkb_add_args: "--build-arg CSV={{ cv.code_server.build_arg }}"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.cs_py_gpu.image }}"
-  when: "cv.cs_build | default(false) and true"
-
 - name: Build Apache image for otl_web sites
   include_role:
     name: commons

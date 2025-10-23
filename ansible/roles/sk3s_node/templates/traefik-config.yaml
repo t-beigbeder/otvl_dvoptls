@@ -26,5 +26,4 @@ spec:
       websecure:
         transport:
           respondingTimeouts:
-            readTimeout: 680
-            idleTimeout: 660
+            readTimeout: 300
