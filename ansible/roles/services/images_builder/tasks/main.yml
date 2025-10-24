@@ -1,6 +1,15 @@
 ---
 # services/images_builder/tasks/main.yml
 
+- name: Install packages for image builder
+  ansible.builtin.apt:
+    pkg:
+      - rsync
+    update_cache: "{{ cv.prod }}"
+    install_recommends: no
+    state: present
+  become: true
+
 - name: Write build ssh key
   ansible.builtin.copy:
     content: "{{ cv.build.ssh.pri }}"
