@@ -62,7 +62,7 @@ while [ -z "$vdk" ] ; do
     log $0 "no data disk detected, sleeping 30s"
     sleep 30
   fi
-do,e
+done
 cmd apt-get install -y --no-install-recommends parted rsync && \
 cmd run_parted && \
 cmd run_mkfs && \
