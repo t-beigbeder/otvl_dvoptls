@@ -55,11 +55,14 @@ if [ "`grep /$vmdir /etc/fstab`" != "" ] ; then
   log $0 stopping, /$vmdir already in /etc/fstab
   exit 0
 fi
-# vdk=`lsblk -P -x NAME -o NAME,TYPE | fgrep disk | tail -1 | sed -e s/NAME=.// | sed -e 's/" .*$//'`
-vdk=`get_data_disk`
-if [ -z "$vdk" ] ; then
-  fat "no data disk detected"
-fi
+vdk=
+while [ -z "$vdk" ] ; do
+  vdk=`get_data_disk`
+  if [ -z "$vdk" ] ; then
+    log $0 "no data disk detected, sleeping 30s"
+    sleep 30
+  fi
+do,e
 cmd apt-get install -y --no-install-recommends parted rsync && \
 cmd run_parted && \
 cmd run_mkfs && \
