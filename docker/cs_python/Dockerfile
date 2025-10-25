@@ -1,4 +1,4 @@
-FROM t-ctr.otvl.org/code-server-base:4.104.1-p1
+FROM t-ctr.otvl.org/code-server-base:4.104.1-p3
 
 USER root
 RUN apt-get update \

@@ -48,16 +48,6 @@ cso_restore() {
     log cso_restore $vdd start
     log "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf -"
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf - || return $?
-    if [ $vdd = home ] ; then
-        vld=/home/cs-user
-        for vr in $HOME/locgit/* ; do
-            if [ ! -d $vr/.otvl/init.d ] ; then continue ; fi
-            for vs in `ls $vr/.otvl/init.d/*.sh 2> /dev/null` ; do
-                cmd $vs || return 1
-            done
-        done
-    fi    
-    
     log cso_restore $vdd done
 }
 

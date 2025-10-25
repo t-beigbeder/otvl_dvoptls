@@ -81,22 +81,18 @@ dv:
   cs_build: false
   code_server:
     build_arg: "4.104.1"
-    image: "code-server-base:4.104.1-p1"
-    default_image: "cs-python:4.104.1-p1"
+    image: "code-server-base:4.104.1-p3"
+    default_image: "cs-python:4.104.1-p3"
   cs_ops:
-    image: "cs-ops:1.1.0"
+    image: "cs-ops:1.1.1"
   k8s_clients:
     image: "k8s-clients:1.0"
   cs_kubdk:
-    image: "cs-kub-dk:4.104.1-p1"
+    image: "cs-kub-dk:4.104.1-p3"
   cs_python:
-    image: "cs-python:4.104.1-p1"
+    image: "cs-python:4.104.1-p3"
   cs_pythonk:
-    image: "cs-pythonk:4.104.1-p1"
-  cs_py_gpu:
-    image: "cs-py-gpu:4.104.1-p2"
-  cuda_test:
-    image: "cuda-test:13.0.1-ubuntu24.04-1"
+    image: "cs-pythonk:4.104.1-p3"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
