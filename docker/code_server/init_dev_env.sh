@@ -27,9 +27,12 @@ cmd() {
     return $st
 }
 
-set -eu
-cd $HOME
-if [ ! -f .bashrc ] ; then
-    cp /etc/skel/.bashrc .bashrc
-fi
-exec "$@"
+log $@ starting
+for vr in $HOME/locgit/* ; do
+    if [ ! -d $vr/.otvl/init.d ] ; then continue ; fi
+    for vs in `ls $vr/.otvl/init.d/*.sh 2> /dev/null` ; do
+        cmd $vs
+    done
+done
+log $@ stopping
+exit 0

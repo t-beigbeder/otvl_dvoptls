@@ -1,5 +1,5 @@
 FROM t-ctr.otvl.org/k8s-clients:1.0 as KC
-FROM t-ctr.otvl.org/cs-python:4.104.1-p3
+FROM t-ctr.otvl.org/cs-python:4.104.1-p4
 USER root
 COPY --from=KC /usr/local/bin /usr/local/bin
 RUN apt-get update \

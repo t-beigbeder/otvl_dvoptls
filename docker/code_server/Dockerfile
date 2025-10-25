@@ -26,7 +26,7 @@ RUN mkdir -p /usr/local/lib /usr/local/bin /home/cs-user \
   | tar -C /usr/local/lib -xz \
   && mv /usr/local/lib/code-server-$CSV-linux-amd64 /usr/local/lib/code-server-$CSV \
   && ln -s /usr/local/lib/code-server-$CSV/bin/code-server /usr/local/bin/code-server
-COPY entrypoint.sh push_htd.sh /usr/local/bin/
+COPY entrypoint.sh push_htd.sh init_dev_env.sh /usr/local/bin/
 
 EXPOSE 8443
 

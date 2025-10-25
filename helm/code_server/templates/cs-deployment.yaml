@@ -43,7 +43,7 @@ spec:
             name: data-volume
           - mountPath: /local
             name: ephemeral-volume
-        - name: restore-home
+        - name: restore-all
           image: {{ .Values.images.cs_ops }}
           imagePullPolicy: IfNotPresent
           env:
@@ -56,35 +56,22 @@ spec:
             - --
             - /usr/local/bin/cs_ops.sh
             - restore
-            - home
+            - all
           volumeMounts:
           - mountPath: /home/cs-user
             name: home-volume
-          - mountPath: /configmap
-            name: cs-config-volume
-        - name: restore-tools
-          image: {{ .Values.images.cs_ops }}
-          imagePullPolicy: IfNotPresent
-          env:
-          - name: SYNC_SERVER
-            value: {{ .Values.sync_server }}
-          - name: SYNC_USER
-            value: {{ .Values.user }}
-          command:
-            - /usr/local/bin/tini
-            - --
-            - /usr/local/bin/cs_ops.sh
-            - restore
-            - tools
-          volumeMounts:
           - mountPath: /tools
             name: tools-volume
+          - mountPath: /data
+            name: data-volume
           - mountPath: /configmap
             name: cs-config-volume
-        - name: restore-data
-          image: {{ .Values.images.cs_ops }}
+        - name: init-dev-env
+          image: {{ .Values.images.codeserver }}
           imagePullPolicy: IfNotPresent
           env:
+          - name: TZ
+            value: Etc/UTC
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
@@ -92,12 +79,16 @@ spec:
           command:
             - /usr/local/bin/tini
             - --
-            - /usr/local/bin/cs_ops.sh
-            - restore
-            - data
+            - /usr/local/bin/init_dev_env.sh
           volumeMounts:
+          - mountPath: /home/cs-user
+            name: home-volume
+          - mountPath: /tools
+            name: tools-volume
           - mountPath: /data
             name: data-volume
+          - mountPath: /local
+            name: ephemeral-volume
           - mountPath: /configmap
             name: cs-config-volume
       containers:
