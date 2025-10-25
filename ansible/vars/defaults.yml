@@ -84,7 +84,7 @@ dv:
     image: "code-server-base:4.104.1-p1"
     default_image: "cs-python:4.104.1-p1"
   cs_ops:
-    image: "cs-ops:1.0.21"
+    image: "cs-ops:1.1.0"
   k8s_clients:
     image: "k8s-clients:1.0"
   cs_kubdk:
