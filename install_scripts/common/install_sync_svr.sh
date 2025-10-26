@@ -63,7 +63,7 @@ while [ -z "$vdk" ] ; do
     sleep 30
   fi
 done
-cmd apt-get install -y --no-install-recommends parted rsync && \
+cmd apt-get install -y --no-install-recommends parted rsync cryptsetup && \
 cmd run_parted && \
 cmd run_mkfs && \
 cmd mkdir -p /$vmdir && \
