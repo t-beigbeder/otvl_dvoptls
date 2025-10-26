@@ -8,12 +8,13 @@
     update_cache: "{{ cv.prod }}"
     install_recommends: no
     state: present
+  become: true
 
 - name: Create a group {{ cv.ows.ssh.user }}
   ansible.builtin.group:
     name: "{{ cv.ows.ssh.user }}"
     gid: "{{ cv.ows.ssh.uid }}"
-  become: yes
+  become: true
 
 - name: Create a user {{ cv.ows.ssh.user }}
   ansible.builtin.user:
@@ -22,9 +23,9 @@
     group: "{{ cv.ows.ssh.user }}"
     home: "/home/{{ cv.ows.ssh.user }}"
     shell: /bin/bash
-  become: yes
+  become: true
 
-- name: Create build user /home/{{ cv.ows.ssh.user }}/.ssh directory
+- name: Create ows user /home/{{ cv.ows.ssh.user }}/.ssh directory
   file:
     path: "/home/{{ cv.ows.ssh.user }}/.ssh"
     state: directory
@@ -33,7 +34,7 @@
     mode: 0700
   become: true
 
-- name: Authorize build ssh key
+- name: Authorize ows ssh key
   ansible.builtin.lineinfile:
     path: "/home/{{ cv.ows.ssh.user }}/.ssh/authorized_keys"
     create: true

@@ -52,7 +52,7 @@ cso_restore() {
 }
 
 if [ $# -ne 2 ] ; then
-    fat "usage: $0 restore home|tools|data"
+    fat "usage: $0 restore home|tools|data|all"
 fi
 if [ $1 = setup ] ; then
     cmd chown 2001:2001 /home/cs-user /tools /data /local && \
@@ -60,6 +60,7 @@ if [ $1 = setup ] ; then
     log $@ stopping
     exit 0
 fi
+
 set_sprik || fat $0 failed
 vsu=$SYNC_USER
 if [ -z "$vsu" ] ; then
@@ -70,7 +71,13 @@ if [ -z "$vsh" ] ; then
     vsh=t-sk3s-sv-ext
 fi
 if [ $1 = restore ] ; then
-    cso_restore $2 || fat $* failed
+    if [ $2 = all ] ; then
+        for vt in home tools data ; do
+            cso_restore $vt || fat $* failed
+        done
+    else
+        cso_restore $2 || fat $* failed
+    fi
     log $@ stopping
     exit 0
 fi

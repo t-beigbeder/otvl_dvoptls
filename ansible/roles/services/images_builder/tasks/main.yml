@@ -1,6 +1,15 @@
 ---
 # services/images_builder/tasks/main.yml
 
+- name: Install packages for image builder
+  ansible.builtin.apt:
+    pkg:
+      - rsync
+    update_cache: "{{ cv.prod }}"
+    install_recommends: no
+    state: present
+  become: true
+
 - name: Write build ssh key
   ansible.builtin.copy:
     content: "{{ cv.build.ssh.pri }}"
@@ -115,7 +124,7 @@
     image: "{{ cv.cs_kubdk.image }}"
   when: "{{ cv.cs_build | default(false) }}"
 
-- name: Build base image for cs-ops
+- name: Build image for cs-ops
   include_role:
     name: commons
     tasks_from: rdocker_build
@@ -126,7 +135,7 @@
     image: "{{ cv.cs_ops.image }}"
   when: "{{ cv.cs_build | default(false) }}"
 
-- name: Build base image for cs-python
+- name: Build image for cs-python
   include_role:
     name: commons
     tasks_from: rdocker_build
@@ -137,7 +146,7 @@
     image: "{{ cv.cs_python.image }}"
   when: "{{ cv.cs_build | default(false) }}"
 
-- name: Build base image for cs-pythonk
+- name: Build image for cs-pythonk
   include_role:
     name: commons
     tasks_from: rdocker_build

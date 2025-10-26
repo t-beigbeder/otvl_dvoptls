@@ -27,7 +27,7 @@
     mode: 0755
   with_items:
     - "{{ remote_user_home }}/helm_values"
-  become: no
+  become: false
 
 - name: "Create /usr/local/bin utilities shell scripts"
   copy:

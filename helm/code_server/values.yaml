@@ -2,13 +2,8 @@ images:
   codeserver: t-ctr.otvl.org/code-server-base:4.104.1-define-it
   cs_ops: t-ctr.otvl.org/cs-ops:0.0.1
   traefik: traefik:v3.4
-resources:
-  requests:
-    cpu: "1500m"
-    memory: 1Gi
-  limits:
-    cpu: "1800m"
-    memory: 3Gi
+nvidia: false
+resources: {}
 host_aliases:
   # hostAliases:
   # - ip: "172.25.0.7"

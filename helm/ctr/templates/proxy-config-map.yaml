@@ -19,7 +19,10 @@ data:
     entryPoints:
       web:
         address: ':5000'
-
+        transport:
+          respondingTimeouts:
+            readTimeout: 360
+        
   "dynamic-conf.yml": |
     http:
       routers:

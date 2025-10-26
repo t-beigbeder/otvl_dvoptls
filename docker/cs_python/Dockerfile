@@ -1,9 +1,10 @@
-FROM t-ctr.otvl.org/code-server-base:4.104.1-p1
+FROM t-ctr.otvl.org/code-server-base:4.104.1-p4
 
 USER root
 RUN apt-get update \
   && apt-get install -y \
     python3 \
+    python3-pip \
     virtualenv \
     make \
     dnsutils \

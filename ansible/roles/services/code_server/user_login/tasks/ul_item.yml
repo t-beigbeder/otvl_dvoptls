@@ -5,7 +5,7 @@
   ansible.builtin.group:
     name: "{{ current_item.user }}"
     gid: "{{ current_item.uid }}"
-  become: yes
+  become: true
 
 - name: Create a user {{ current_item.user }}
   ansible.builtin.user:
@@ -15,6 +15,6 @@
     home: "/data/home/{{ current_item.user }}"
     create_home: false
     shell: /bin/bash
-  become: yes
+  become: true
 
 ###
