@@ -77,7 +77,7 @@ spec:
           - name: SYNC_USER
             value: {{ .Values.user }}
           - name: HAS_NVIDIA
-            value: {{ .Values.nvidia }}
+            value: {{ quote .Values.nvidia }}
           command:
             - /usr/local/bin/tini
             - --
@@ -105,7 +105,7 @@ spec:
           - name: SYNC_USER
             value: {{ .Values.user }}
           - name: HAS_NVIDIA
-            value: {{ .Values.nvidia }}
+            value: {{ quote .Values.nvidia }}
 {{- if .Values.kubeconfig }}
           - name: KUBECONFIG
             value: /etc/kubeconfig.yml
