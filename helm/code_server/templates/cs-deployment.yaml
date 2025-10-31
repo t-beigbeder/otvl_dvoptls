@@ -76,6 +76,8 @@ spec:
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
             value: {{ .Values.user }}
+          - name: HAS_NVIDIA
+            value: {{ .Values.nvidia }}
           command:
             - /usr/local/bin/tini
             - --
