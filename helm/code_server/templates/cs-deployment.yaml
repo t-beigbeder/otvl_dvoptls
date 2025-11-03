@@ -72,6 +72,8 @@ spec:
           env:
           - name: TZ
             value: Etc/UTC
+          - name: XDG_CACHE_HOME
+            value: /local/cache
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
@@ -100,6 +102,8 @@ spec:
           env:
           - name: TZ
             value: Etc/UTC
+          - name: XDG_CACHE_HOME
+            value: /local/cache
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
