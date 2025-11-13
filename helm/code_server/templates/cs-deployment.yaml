@@ -104,6 +104,8 @@ spec:
             value: Etc/UTC
           - name: XDG_CACHE_HOME
             value: /local/cache
+          - name: TMPDIR
+            value: /local/tmp
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
