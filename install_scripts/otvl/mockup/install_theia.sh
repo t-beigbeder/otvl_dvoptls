@@ -9,6 +9,6 @@ sd=`dirname $rp`
 log $0 starting
 cmd sudo $sd/install_theia_prereqs.sh && \
 cmd cd $HOME/locgit && \
-cmd echo git clone https://github.com/eclipse-theia/theia && \
+cmd git clone --single-branch --depth 1 https://github.com/eclipse-theia/theia && \
 true || fat $0 failed
 log $0 stopping
