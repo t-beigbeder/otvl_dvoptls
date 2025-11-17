@@ -72,10 +72,14 @@ spec:
           env:
           - name: TZ
             value: Etc/UTC
+          - name: XDG_CACHE_HOME
+            value: /local/cache
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
             value: {{ .Values.user }}
+          - name: HAS_NVIDIA
+            value: {{ quote .Values.nvidia }}
           command:
             - /usr/local/bin/tini
             - --
@@ -98,10 +102,16 @@ spec:
           env:
           - name: TZ
             value: Etc/UTC
+          - name: XDG_CACHE_HOME
+            value: /local/cache
+          - name: TMPDIR
+            value: /local/tmp
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
             value: {{ .Values.user }}
+          - name: HAS_NVIDIA
+            value: {{ quote .Values.nvidia }}
 {{- if .Values.kubeconfig }}
           - name: KUBECONFIG
             value: /etc/kubeconfig.yml

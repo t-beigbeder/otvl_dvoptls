@@ -55,8 +55,9 @@ if [ $# -ne 2 ] ; then
     fat "usage: $0 restore home|tools|data|all"
 fi
 if [ $1 = setup ] ; then
-    cmd chown 2001:2001 /home/cs-user /tools /data /local && \
-    cmd chmod go-w /home/cs-user /tools /data /local || fat $@ failed
+    cmd mkdir /local/cache /local/tmp && \
+    cmd chown 2001:2001 /home/cs-user /tools /data /local /local/cache /local/tmp && \
+    cmd chmod go-w /home/cs-user /tools /data /local /local/cache /local/tmp || fat $@ failed
     log $@ stopping
     exit 0
 fi

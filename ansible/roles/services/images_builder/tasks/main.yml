@@ -111,7 +111,7 @@
     dkb_add_args: "--build-arg CSV={{ cv.code_server.build_arg }}"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.code_server.image }}"
-  when: "{{ cv.cs_build | default(false) }}"
+  when: "cv.cs_build | default(false)"
 
 - name: Build image for cs-kub-dk
   include_role:
@@ -122,7 +122,7 @@
     dkb_cmd_dir: "otvl_dvoptls/docker/cs_kubdk"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_kubdk.image }}"
-  when: "{{ cv.cs_build | default(false) }}"
+  when: "cv.cs_build | default(false)"
 
 - name: Build image for cs-ops
   include_role:
@@ -133,7 +133,7 @@
     dkb_cmd_dir: "otvl_dvoptls/docker/cs_ops"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_ops.image }}"
-  when: "{{ cv.cs_build | default(false) }}"
+  when: "cv.cs_build | default(false)"
 
 - name: Build image for cs-python
   include_role:
@@ -144,7 +144,7 @@
     dkb_cmd_dir: "otvl_dvoptls/docker/cs_python"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_python.image }}"
-  when: "{{ cv.cs_build | default(false) }}"
+  when: "cv.cs_build | default(false)"
 
 - name: Build image for cs-pythonk
   include_role:
@@ -155,4 +155,4 @@
     dkb_cmd_dir: "otvl_dvoptls/docker/cs_pythonk"
     ctr_reg: "{{ cv.ctr.ingress_host }}"
     image: "{{ cv.cs_pythonk.image }}"
-  when: "{{ cv.cs_build | default(false) }}"
+  when: "cv.cs_build | default(false)"
