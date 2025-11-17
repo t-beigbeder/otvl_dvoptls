@@ -93,6 +93,10 @@ dv:
     image: "cs-python:4.105.1"
   cs_pythonk:
     image: "cs-pythonk:4.105.1"
+  theia:
+    build_arg: "1.66.2-ba"
+    image: "theia-base:1.66.2"
+    default_image: "theia-base:1.66.2"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
