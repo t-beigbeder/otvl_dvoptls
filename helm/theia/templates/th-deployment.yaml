@@ -35,7 +35,7 @@ spec:
             - setup
             - all
           volumeMounts:
-          - mountPath: /home/th-user
+          - mountPath: /home/cs-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume
@@ -58,7 +58,7 @@ spec:
             - restore
             - all
           volumeMounts:
-          - mountPath: /home/th-user
+          - mountPath: /home/cs-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume
@@ -85,7 +85,7 @@ spec:
             - --
             - /usr/local/bin/init_dev_env.sh
           volumeMounts:
-          - mountPath: /home/th-user
+          - mountPath: /home/cs-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume
@@ -124,7 +124,7 @@ spec:
             - /home/theia/examples/browser/lib/backend/main.js
             - --hostname=0.0.0.0
           volumeMounts:
-          - mountPath: /home/th-user
+          - mountPath: /home/cs-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume

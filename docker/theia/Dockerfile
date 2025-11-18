@@ -31,11 +31,11 @@ RUN apt-get update \
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
   && locale-gen
 
-RUN mkdir -p /usr/local/lib /usr/local/bin /home/th-user \
+RUN mkdir -p /usr/local/lib /usr/local/bin /home/cs-user \
   && curl -fL https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 -o /usr/local/bin/tini \
   && chmod +x /usr/local/bin/tini \
-  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash th-user \
-  && chown -R 2001:2001 /home/th-user
+  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash cs-user \
+  && chown -R 2001:2001 /home/cs-user
 
 COPY --from=thb /home/theia/plugins /home/theia/plugins
 COPY --from=thb /home/theia/examples/browser /home/theia/examples/browser
@@ -45,8 +45,8 @@ EXPOSE 3000
 
 USER 2001
 ENV LANG=en_US.UTF-8
-ENV USER=th-user
-ENV HOME=/home/th-user
+ENV USER=cs-user
+ENV HOME=/home/cs-user
 ENV SHELL=/bin/bash
 ENV THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins
 ENV USE_LOCAL_GIT true

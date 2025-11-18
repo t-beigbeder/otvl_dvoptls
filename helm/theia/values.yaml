@@ -15,7 +15,7 @@ host_aliases:
 ingress:
   enabled: true
   # host: otvl-ctr.example.com, defaults to <release-name>.example.com
-user: th-user
+user: cs-user
 apr_password: "$apr1$eh5iCNFs$VsvLPBjU0fkP.0ZURuZjo1"
 sync_server: sync-server
 node_label: otvl-agent-value
