@@ -117,7 +117,7 @@ write_files:
       cd /home/debian/locgit && \
       curl -I $CI_DOT_REPO --retry 3 --retry-all --connect-timeout 3 && \
       rm -rf /home/debian/locgit/* && \
-      git clone --single-branch --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
+      git clone --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
       chown -R debian:debian otvl_dvoptls && \
       cd otvl_dvoptls/vault_server && virtualenv /root/venv && \
       /root/venv/bin/pip install -r requirements.txt && \
