@@ -95,7 +95,7 @@ dv:
     image: "cs-pythonk:4.105.1"
   theia:
     build_arg: "1.66.2-ba"
-    image: "theia-base:1.66.2"
+    image: "theia-base:1.66.2-p2"
     default_image: "theia-base:1.66.2"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
@@ -112,6 +112,7 @@ dv:
     # ext_hosts_aliases: true
     # node_label: with-this-gpu
     # kubeconfig: true
+  theia_items:
   ows_build: false
   ows_apache_image: "ows-apache:1.3"
   ows_sync_image: "ows-sync:1.4"

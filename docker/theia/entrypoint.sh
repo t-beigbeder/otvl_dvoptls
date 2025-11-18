@@ -30,6 +30,6 @@ cmd() {
 set -eu
 cd $HOME
 if [ ! -f .bashrc ] ; then
-    cp /etc/skel/.bashrc .bashrc
+    cp /etc/skel/.bashrc .bashrc || echo continue under error
 fi
 exec "$@"
