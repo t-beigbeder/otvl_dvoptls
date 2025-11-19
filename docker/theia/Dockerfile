@@ -48,6 +48,15 @@ COPY entrypoint.sh push_htd.sh init_dev_env.sh /usr/local/bin/
 
 EXPOSE 3000
 
+RUN apt-get update \
+  && apt-get install -y \
+    python3 \
+    python3-pip \
+    virtualenv \
+    make \
+    dnsutils \
+  && rm -rf /var/lib/apt/lists/*
+  
 USER 2001
 ENV LANG=en_US.UTF-8
 ENV USER=cs-user
