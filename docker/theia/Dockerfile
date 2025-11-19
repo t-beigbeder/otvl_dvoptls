@@ -6,7 +6,7 @@ RUN apt-get update \
   && apt-get install -y libxkbfile-dev libsecret-1-dev git
 
 WORKDIR /home
-RUN git clone --single-branch --depth 1 https://github.com/eclipse-theia/theia
+RUN git clone --single-branch --branch v$THV https://github.com/eclipse-theia/theia
 COPY theia theia
 WORKDIR theia
 RUN npm install \
