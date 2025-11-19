@@ -22,12 +22,12 @@ cmd cd && \
 cmd nvm install Jod && \
 cmd node -v && \
 cmd cd locgit && \
-cmd git clone --single-branch --depth 1 https://github.com/eclipse-theia/theia && \
-cmd cd theia && \
-cmd npm install && \
-cmd npm run build:browser && \
-cmd npm run download:plugins && \
-cmd npm run start:browser && \
+# cmd git clone --single-branch --depth 1 https://github.com/eclipse-theia/theia && \
+# cmd cd theia && \
+# cmd npm install && \
+# cmd npm run build:browser && \
+# cmd npm run download:plugins && \
+# cmd npm run start:browser && \
 true || fat $0 failed
 
 log $0 stopping

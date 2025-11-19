@@ -22,8 +22,6 @@
   },
   "theiaPluginsDir": "../../plugins",
   "dependencies": {
-    "@theia/api-provider-sample": "1.66.2",
-    "@theia/api-samples": "1.66.2",
     "@theia/bulk-edit": "1.66.2",
     "@theia/callhierarchy": "1.66.2",
     "@theia/collaboration": "1.66.2",

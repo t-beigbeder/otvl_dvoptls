@@ -95,7 +95,7 @@ dv:
     image: "cs-pythonk:4.105.1"
   theia:
     build_arg: "1.66.2"
-    image: "theia-base:1.66.2-p3"
+    image: "theia-base:1.66.2-p4"
     default_image: "theia-base:1.66.2"
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"

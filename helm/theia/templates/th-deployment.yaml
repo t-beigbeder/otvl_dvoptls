@@ -122,6 +122,7 @@ spec:
             - /usr/local/bin/entrypoint.sh
             - node
             - /home/theia/examples/browser/lib/backend/main.js
+            - /home/cs-user
             - --hostname=0.0.0.0
           volumeMounts:
           - mountPath: /home/cs-user

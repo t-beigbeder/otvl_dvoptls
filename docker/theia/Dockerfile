@@ -9,11 +9,11 @@ WORKDIR /home
 RUN git clone --single-branch --branch v$THV https://github.com/eclipse-theia/theia
 COPY theia theia
 WORKDIR theia
-RUN npm install \
-  && npm run build:browser \
-  && npm run download:plugins
+RUN npm install
+RUN npm run build:browser
+RUN (npm run download:plugins || npm run download:plugins || npm run download:plugins)
 
-FROM node:22-bullseye-slim
+FROM debian:12
 
 RUN apt-get update \
   && apt-get install -y \
@@ -25,6 +25,11 @@ RUN apt-get update \
     vim-tiny \
     bash-completion \
     git \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+RUN apt-get update \
+  && apt-get install -y nsolid \
   && rm -rf /var/lib/apt/lists/*
 
 # https://wiki.debian.org/Locale#Manually
