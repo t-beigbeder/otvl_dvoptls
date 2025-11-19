@@ -1,4 +1,4 @@
-FROM node:22-bullseye as thb
+from node:22-bullseye as thb
 
 ARG THV=1.66.2-sample
 
@@ -11,9 +11,9 @@ COPY theia theia
 WORKDIR theia
 RUN npm install
 RUN npm run build:browser
-RUN (npm run download:plugins || npm run download:plugins || npm run download:plugins)
+RUN (npm run download:plugins || npm run download:plugins || npm run download-ie:plugins)
 
-FROM debian:12
+from debian:12
 
 RUN apt-get update \
   && apt-get install -y \
@@ -54,5 +54,5 @@ ENV USER=cs-user
 ENV HOME=/home/cs-user
 ENV SHELL=/bin/bash
 ENV THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins
-ENV USE_LOCAL_GIT true
+ENV USE_LOCAL_GIT=true
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
