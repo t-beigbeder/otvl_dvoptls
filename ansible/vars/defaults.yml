@@ -85,11 +85,11 @@ dv:
   theia:
     image:
       name: theia-build
-      version: "1.66.2"
+      version: "1.66.2-p1"
   dv_ide:
     image:
       name: dv-ide
-      version: "1.66.2"
+      version: "1.66.2-p1"
   k8s_clients:
     image: k8s-clients:1.0.1
   code_server:

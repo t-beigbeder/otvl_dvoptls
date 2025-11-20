@@ -1,0 +1,1 @@
+kubectl run -it dvops --rm --image=t-ctr.otvl.org/dv-ide:1.66.2 --node /home/theia/applications/browser/lib/backend/main.js
