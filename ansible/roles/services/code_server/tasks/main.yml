@@ -30,4 +30,10 @@
   loop_control:
     loop_var: current_item
 
+- name: Loop over theia items for release with helm
+  include_tasks: release_theia_item.yml
+  loop: "{{ cv.theia_items }}"
+  loop_control:
+    loop_var: current_item
+
 ###

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-th
+spec:
+  selector:
+    app.kubernetes.io/name: {{ .Release.Name }}-th
+  ports:
+    - name: "th-port"
+      port: 3000
+      protocol: TCP

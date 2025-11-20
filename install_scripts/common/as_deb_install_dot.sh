@@ -16,7 +16,7 @@ git_clone_or_pull() {
   else
     cmd curl -I $1 && \
     cmd cd $HOME/locgit && \
-    cmd git clone --single-branch $1 && \
+    cmd git clone $1 && \
     true
   fi
   return $?
