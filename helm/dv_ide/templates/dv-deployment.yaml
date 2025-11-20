@@ -67,7 +67,7 @@ spec:
           - mountPath: /configmap
             name: dv-config-volume
         - name: init-dev-env
-          image: {{ .Values.images.codeserver }}
+          image: {{ .Values.images.dv_dev }}
           imagePullPolicy: IfNotPresent
           env:
           - name: TZ
@@ -97,7 +97,7 @@ spec:
             name: dv-config-volume
       containers:
         - name: code-server
-          image: {{ .Values.images.codeserver }}
+          image: {{ .Values.images.dv_ide }}
           imagePullPolicy: IfNotPresent
           env:
           - name: TZ
@@ -120,14 +120,10 @@ spec:
             - /usr/local/bin/tini
             - --
             - /usr/local/bin/entrypoint.sh
-            - /usr/local/bin/code-server
-            - --bind-addr
-            - "0.0.0.0:3000"
-            - --disable-telemetry
-            - --auth
-            - "none"
-            - --app-name
-            - code-server-for-{{ .Values.user }}
+            - node
+            - /home/theia/applications/browser/lib/backend/main.js
+            - /home/dv-user
+            - --hostname=0.0.0.0
           volumeMounts:
           - mountPath: /home/dv-user
             name: home-volume

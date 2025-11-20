@@ -1,5 +1,5 @@
 ---
-# services/code_server/tasks/main.yml
+# services/dv_ide/tasks/main.yml
 
 - name: Loads kubeconfig
   ansible.builtin.slurp:
@@ -24,15 +24,9 @@
   set_fact:
     ext_hosts_aliases: "{{ ext_hosts_aliases_str | from_yaml }}"
 
-- name: Loop over code_server items for release with helm
-  include_tasks: release_cs_item.yml
-  loop: "{{ cv.code_server_items }}"
-  loop_control:
-    loop_var: current_item
-
-- name: Loop over theia items for release with helm
-  include_tasks: release_theia_item.yml
-  loop: "{{ cv.theia_items }}"
+- name: Loop over dv_ide items for release with helm
+  include_tasks: release_dv_item.yml
+  loop: "{{ cv.dv_ide_items }}"
   loop_control:
     loop_var: current_item
 

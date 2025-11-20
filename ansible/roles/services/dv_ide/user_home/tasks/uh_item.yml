@@ -1,5 +1,5 @@
 ---
-# services/code_server/user_home/tasks/uh_item.yml
+# services/dv_ide/user_home/tasks/uh_item.yml
 
 - name: Create sync server home directory
   file:

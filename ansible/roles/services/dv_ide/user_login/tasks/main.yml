@@ -1,0 +1,10 @@
+---
+# services/dv_ide/user_login/tasks/main.yml
+
+- name: Loop over dv_ide items for user login create
+  include_tasks: ul_item.yml
+  loop: "{{ cv.dv_ide_items }}"
+  loop_control:
+    loop_var: current_item
+
+###

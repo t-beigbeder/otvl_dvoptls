@@ -1,14 +1,14 @@
 ---
-# services/code_server/tasks/release_cs_item.yml
+# services/dv_ide/tasks/release_cs_item.yml
 
-- name: Here services/code_server/tasks/release_cs_item.yml
+- name: Here services/dv_ide/tasks/release_theia_item.yml
   include_role:
     name: commons
     tasks_from: helm_release
   vars:
     title: "code-server application {{ current_item.release }}"
-    chart_sp: "code_server"
-    vf_template_sp: "code_server.yaml"
+    chart_sp: "theia"
+    vf_template_sp: "theia.yaml"
     release_name: "{{ current_item.release }}"
     uninstall: "{{ current_item.helm_uninstall | default(false) }}"
   when: not current_item.skip_hdeploy | default(false)
