@@ -38,17 +38,17 @@ set_sprik() {
     true || return 1
 }
 
-cso_restore() {
+dvo_restore() {
     vdd=$1
     if [ $vdd = home ] ; then
-        vld=/home/cs-user
+        vld=/home/dv-user
     else
         vld=/$vdd
     fi    
-    log cso_restore $vdd start
+    log dvo_restore $vdd start
     log "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf -"
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf - || return $?
-    log cso_restore $vdd done
+    log dvo_restore $vdd done
 }
 
 if [ $# -ne 2 ] ; then
@@ -56,8 +56,8 @@ if [ $# -ne 2 ] ; then
 fi
 if [ $1 = setup ] ; then
     cmd mkdir /local/cache /local/tmp && \
-    cmd chown 2001:2001 /home/cs-user /tools /data /local /local/cache /local/tmp && \
-    cmd chmod go-w /home/cs-user /tools /data /local /local/cache /local/tmp || fat $@ failed
+    cmd chown 2001:2001 /home/dv-user /tools /data /local /local/cache /local/tmp && \
+    cmd chmod go-w /home/dv-user /tools /data /local /local/cache /local/tmp || fat $@ failed
     log $@ stopping
     exit 0
 fi
@@ -74,10 +74,10 @@ fi
 if [ $1 = restore ] ; then
     if [ $2 = all ] ; then
         for vt in home tools data ; do
-            cso_restore $vt || fat $* failed
+            dvo_restore $vt || fat $* failed
         done
     else
-        cso_restore $2 || fat $* failed
+        dvo_restore $2 || fat $* failed
     fi
     log $@ stopping
     exit 0

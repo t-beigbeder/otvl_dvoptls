@@ -1,4 +1,4 @@
-FROM debian:12
+FROM debian:13-slim
 
 RUN apt-get update \
   && apt-get install -y \
@@ -10,8 +10,8 @@ RUN apt-get update \
   && mkdir -p /usr/local/bin \
   && curl -fL https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 -o /usr/local/bin/tini \
   && chmod +x /usr/local/bin/tini \
-  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash cs-user
+  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash dv-user
 
-COPY cs_ops.sh /usr/local/bin/
-ENV USER=cs-user
+COPY dv_ops.sh /usr/local/bin/
+ENV USER=dv-user
 USER 2001

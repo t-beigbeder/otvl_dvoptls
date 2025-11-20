@@ -1,0 +1,35 @@
+FROM debian:12
+
+USER root
+RUN apt-get update \
+  && apt-get install -y \
+    curl \
+    locales \
+    openssh-client \
+    rsync \
+    procps \
+    vim-tiny \
+    bash-completion \
+    git \
+    python3 \
+    python3-pip \
+    virtualenv \
+    make \
+    dnsutils \
+  && rm -rf /var/lib/apt/lists/*
+
+# https://wiki.debian.org/Locale#Manually
+RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
+  && locale-gen
+
+RUN mkdir -p /usr/local/lib /usr/local/bin /home/dv-user \
+  && curl -fL https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 -o /usr/local/bin/tini \
+  && chmod +x /usr/local/bin/tini \
+  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash th-user
+COPY entrypoint.sh push_htd.sh init_dev_env.sh /usr/local/bin/
+
+USER 2001
+ENV LANG=en_US.UTF-8
+ENV USER=th-user
+ENV HOME=/home/th-user
+ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]

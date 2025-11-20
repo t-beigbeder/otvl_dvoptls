@@ -1,0 +1,20 @@
+---
+# services/images_builder/tasks/build_image.yml
+
+- name: Here services/images_builder/tasks/build_image.yml, display message
+  debug:
+    msg: "Build image for {{ current_item }}"
+
+- name: Here services/images_builder/tasks/build_image.yml, do build
+  include_role:
+    name: commons
+    tasks_from: rdocker_build
+  vars:
+    dkb_message: "Build base image {{ current_item.image }}"
+    dkb_cmd_dir: "{{ current_item.dkb_cmd_dir }}"
+    dkb_add_args: "{{ current_item.dkb_add_args }}"
+    ctr_reg: "{{ cv.ctr.ingress_host }}"
+    image: "{{ current_item.image }}"
+  when: "current_item.do_build | default(false)"
+
+###

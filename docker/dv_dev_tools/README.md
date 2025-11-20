@@ -1,0 +1,1 @@
+kubectl run -it dvops --rm --image=t-ctr.otvl.org/dv-dev-tools:1.0.0 -- bash

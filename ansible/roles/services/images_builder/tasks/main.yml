@@ -26,6 +26,7 @@
   include_tasks: synchronize_repository.yml
   loop:
   - otvl_dvoptls
+  - theia-ide
   - otvl_blog
   - otvl_adq
   loop_control:
@@ -68,103 +69,25 @@
     - debug: var=wctr.stderr_lines
     - debug: var=wctr.stdout_lines
 
-- name: Build Theia image
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image theia-base"
-    dkb_cmd_dir: "otvl_dvoptls/docker/theia"
-    dkb_add_args: "--build-arg THV={{ cv.theia.build_arg }}"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.theia.image }}"
-  when: "cv.cs_build | default(false)"
 
-- name: Build Apache image for otl_web sites
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image k8s-clients"
-    dkb_cmd_dir: "otvl_dvoptls/docker/ows_apache"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.ows_apache_image }}"
-  when: "cv.ows_build | default(false)"
-
-- name: Build Synchronization image for otl_web sites
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image k8s-clients"
-    dkb_cmd_dir: "otvl_dvoptls/docker/ows_sync"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.ows_sync_image }}"
-  when: "cv.ows_build | default(false)"
-
-- name: Build base image k8s-clients
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image k8s-clients"
-    dkb_cmd_dir: "otvl_dvoptls/docker/k8s_clients"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.k8s_clients.image }}"
-  when: "cv.cs_build | default(false)"
-
-- name: Build base image for code-server
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image for code-server"
-    dkb_cmd_dir: "otvl_dvoptls/docker/code_server"
-    dkb_add_args: "--build-arg CSV={{ cv.code_server.build_arg }}"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.code_server.image }}"
-  when: "cv.cs_build | default(false)"
-
-- name: Build image for cs-kub-dk
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image for cs-kub-dk"
-    dkb_cmd_dir: "otvl_dvoptls/docker/cs_kubdk"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.cs_kubdk.image }}"
-  when: "cv.cs_build | default(false)"
-
-- name: Build image for cs-ops
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image for cs-ops"
-    dkb_cmd_dir: "otvl_dvoptls/docker/cs_ops"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.cs_ops.image }}"
-  when: "cv.cs_build | default(false)"
-
-- name: Build image for cs-python
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image for cs-python"
-    dkb_cmd_dir: "otvl_dvoptls/docker/cs_python"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.cs_python.image }}"
-  when: "cv.cs_build | default(false)"
-
-- name: Build image for cs-pythonk
-  include_role:
-    name: commons
-    tasks_from: rdocker_build
-  vars:
-    dkb_message: "Build base image for cs-pythonk"
-    dkb_cmd_dir: "otvl_dvoptls/docker/cs_pythonk"
-    ctr_reg: "{{ cv.ctr.ingress_host }}"
-    image: "{{ cv.cs_pythonk.image }}"
-  when: "cv.cs_build | default(false)"
+- name: Loop over images to build
+  include_tasks: build_image.yml
+  loop:
+  - image: "{{ cv.dv_ops.image }}"
+    do_build: "{{cv.dv_ops_build | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/dv_ops
+  - image: "{{ cv.dv_dev_tools.image }}"
+    do_build: "{{cv.dv_ops_build | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/dv_dev_tools
+  - image: "{{ cv.k8s_clients.image }}"
+    do_build: "{{cv.ide_build | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/k8s_clients
+  - image: "{{ cv.theia.image.name }}:{{ cv.theia.image.version }}"
+    do_build: "{{cv.dv_ops_build | default(false) }}"
+    dkb_cmd_dir: theia-ide
+  - image: "{{ cv.dv_ide.image.name }}:{{ cv.dv_ide.image.version }}"
+    do_build: "{{cv.ide_build | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/dv_ide
+    dkb_add_args: "--build-arg THEIA_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.theia.image.name }}:{{ cv.theia.image.version }} --build-arg K8S_CLIENTS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.k8s_clients.image }} --build-arg DV_DEV_TOOLS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.dv_dev_tools.image }}"
+  loop_control:
+    loop_var: current_item
