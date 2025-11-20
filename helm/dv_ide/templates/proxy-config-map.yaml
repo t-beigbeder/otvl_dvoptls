@@ -28,7 +28,7 @@ data:
           middlewares:
             - basic-auth
             - https-header
-          service: th
+          service: cs
       middlewares:
         basic-auth:
           basicAuth:
@@ -39,7 +39,7 @@ data:
             customRequestHeaders:
               X-Forwarded-Proto: "https"
       services:
-        "th":
+        "cs":
           loadBalancer:
             servers:
-              - url: "http://{{ .Release.Name }}-th:3000"
+              - url: "http://{{ .Release.Name }}-dv:3000"

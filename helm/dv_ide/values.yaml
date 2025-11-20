@@ -1,6 +1,6 @@
 images:
-  theia: t-ctr.otvl.org/theia-base:1.66.2-define-it
-  cs_ops: t-ctr.otvl.org/cs-ops:0.0.1
+  dv_ide: t-ctr.otvl.org/dv-ide:1.66.2-p1-tbd
+  dv_ops: t-ctr.otvl.org/dv-ops:1.0.0-tbd
   traefik: traefik:v3.4
 nvidia: false
 resources:
@@ -15,7 +15,7 @@ host_aliases:
 ingress:
   enabled: true
   # host: otvl-ctr.example.com, defaults to <release-name>.example.com
-user: cs-user
+user: dv-user
 apr_password: "$apr1$eh5iCNFs$VsvLPBjU0fkP.0ZURuZjo1"
 sync_server: sync-server
 node_label: otvl-agent-value

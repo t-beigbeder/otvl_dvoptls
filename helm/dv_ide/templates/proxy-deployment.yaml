@@ -18,16 +18,16 @@ spec:
         runAsUser: {{ .Values.uid }}
         runAsGroup: {{ .Values.uid }}
       containers:
-        - name: th-proxy
+        - name: dv-proxy
           image: {{ .Values.images.traefik }}
           command: ["/usr/local/bin/traefik"]
           args: ["--configFile=/traefik/static-config.yml"]
           ports:
             - containerPort: 5000
           volumeMounts:
-            - name: th-config-vol
+            - name: dv-config-vol
               mountPath: /traefik
       volumes:
-        - name: th-config-vol
+        - name: dv-config-vol
           configMap:
             name: {{ .Release.Name }}-proxy-cmap

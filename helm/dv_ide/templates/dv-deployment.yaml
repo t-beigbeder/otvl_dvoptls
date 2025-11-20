@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-cs
+  name: {{ .Release.Name }}-dv
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Release.Name }}-cs
+      app.kubernetes.io/name: {{ .Release.Name }}-dv
   strategy:
     type: Recreate
   template:
     metadata:
-      name: {{ .Release.Name }}-cs
+      name: {{ .Release.Name }}-dv
       labels:
-        app.kubernetes.io/name: {{ .Release.Name }}-cs
+        app.kubernetes.io/name: {{ .Release.Name }}-dv
     spec:
 {{- if .Values.nvidia }}
       runtimeClassName: nvidia
@@ -28,14 +28,14 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
-          image: {{ .Values.images.cs_ops }}
+          image: {{ .Values.images.dv_ops }}
           imagePullPolicy: IfNotPresent
           command:
-            - /usr/local/bin/cs_ops.sh
+            - /usr/local/bin/dv_ops.sh
             - setup
             - all
           volumeMounts:
-          - mountPath: /home/cs-user
+          - mountPath: /home/dv-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume
@@ -44,7 +44,7 @@ spec:
           - mountPath: /local
             name: ephemeral-volume
         - name: restore-all
-          image: {{ .Values.images.cs_ops }}
+          image: {{ .Values.images.dv_ops }}
           imagePullPolicy: IfNotPresent
           env:
           - name: SYNC_SERVER
@@ -54,18 +54,18 @@ spec:
           command:
             - /usr/local/bin/tini
             - --
-            - /usr/local/bin/cs_ops.sh
+            - /usr/local/bin/dv_ops.sh
             - restore
             - all
           volumeMounts:
-          - mountPath: /home/cs-user
+          - mountPath: /home/dv-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume
           - mountPath: /data
             name: data-volume
           - mountPath: /configmap
-            name: cs-config-volume
+            name: dv-config-volume
         - name: init-dev-env
           image: {{ .Values.images.codeserver }}
           imagePullPolicy: IfNotPresent
@@ -85,7 +85,7 @@ spec:
             - --
             - /usr/local/bin/init_dev_env.sh
           volumeMounts:
-          - mountPath: /home/cs-user
+          - mountPath: /home/dv-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume
@@ -94,7 +94,7 @@ spec:
           - mountPath: /local
             name: ephemeral-volume
           - mountPath: /configmap
-            name: cs-config-volume
+            name: dv-config-volume
       containers:
         - name: code-server
           image: {{ .Values.images.codeserver }}
@@ -122,14 +122,14 @@ spec:
             - /usr/local/bin/entrypoint.sh
             - /usr/local/bin/code-server
             - --bind-addr
-            - "0.0.0.0:8443"
+            - "0.0.0.0:3000"
             - --disable-telemetry
             - --auth
             - "none"
             - --app-name
             - code-server-for-{{ .Values.user }}
           volumeMounts:
-          - mountPath: /home/cs-user
+          - mountPath: /home/dv-user
             name: home-volume
           - mountPath: /tools
             name: tools-volume
@@ -138,7 +138,7 @@ spec:
           - mountPath: /local
             name: ephemeral-volume
           - mountPath: /configmap
-            name: cs-config-volume
+            name: dv-config-volume
 {{- if .Values.dns_resolv_content }}
           - mountPath: /etc/resolv.conf
             name: resolv-config-volume
@@ -152,19 +152,19 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
-            - containerPort: 8443
+            - containerPort: 3000
           livenessProbe:
             periodSeconds: 60
             timeoutSeconds: 2
             httpGet:
               path: /
-              port: 8443
+              port: 3000
           readinessProbe:
             periodSeconds: 60
             timeoutSeconds: 2
             httpGet:
               path: /
-              port: 8443
+              port: 3000
 {{- if .Values.node_label }}
       nodeSelector:
         "otvl-agent": {{ .Values.node_label }}
@@ -178,9 +178,9 @@ spec:
         emptyDir:
       - name: ephemeral-volume
         emptyDir:
-      - name: cs-config-volume
+      - name: dv-config-volume
         configMap:
-          name: {{ .Release.Name }}-cs-cmap
+          name: {{ .Release.Name }}-dv-cmap
 {{- if .Values.dns_resolv_content }}
       - name: resolv-config-volume
         configMap:

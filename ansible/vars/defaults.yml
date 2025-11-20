@@ -107,7 +107,7 @@ dv:
     # ext_hosts_aliases: true
     # node_label: with-this-gpu
     # kubeconfig: true
-  theia_items:
+  dv_ide_items:
   ows_build: false
   ows_apache_image: "ows-apache:1.3"
   ows_sync_image: "ows-sync:1.4"
