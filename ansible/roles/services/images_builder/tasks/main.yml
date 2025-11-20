@@ -73,6 +73,12 @@
 - name: Loop over images to build
   include_tasks: build_image.yml
   loop:
+  - image: "{{ cv.ows_apache.image }}"
+    do_build: "{{cv.ows_build | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/ows_apache
+  - image: "{{ cv.ows_sync.image }}"
+    do_build: "{{cv.ows_build | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/ows_sync
   - image: "{{ cv.dv_ops.image }}"
     do_build: "{{cv.dv_ops_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/dv_ops

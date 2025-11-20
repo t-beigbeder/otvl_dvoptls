@@ -25,11 +25,11 @@ RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
 RUN mkdir -p /usr/local/lib /usr/local/bin /home/dv-user \
   && curl -fL https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 -o /usr/local/bin/tini \
   && chmod +x /usr/local/bin/tini \
-  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash th-user
+  && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash dv-user
 COPY entrypoint.sh push_htd.sh init_dev_env.sh /usr/local/bin/
 
 USER 2001
 ENV LANG=en_US.UTF-8
-ENV USER=th-user
-ENV HOME=/home/th-user
+ENV USER=dv-user
+ENV HOME=/home/dv-user
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]

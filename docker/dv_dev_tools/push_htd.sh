@@ -50,7 +50,7 @@ push_htd() {
     fi
     vdd=$2
     if [ $vdd = home ] ; then
-        vld=/home/th-user
+        vld=/home/dv-user
     else
         vld=/$vdd
     fi    
