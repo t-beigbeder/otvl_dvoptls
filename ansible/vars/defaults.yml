@@ -88,6 +88,7 @@ dv:
       # https://open-vsx.org/extension/eclipse-theia/builtin-extension-pack
       # https://openvsxorg.blob.core.windows.net/resources/eclipse-theia/builtin-extension-pack/1.104.0/eclipse-theia.builtin-extension-pack-1.104.0.vsix
       # official IDE is 1.66.2 / 1.105.0
+      # https://github.com/eclipse-theia/vscode-builtin-extensions
       version: "1.66.2-p6"
   dv_ide:
     image:
