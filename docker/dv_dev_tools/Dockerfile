@@ -32,4 +32,7 @@ USER 2001
 ENV LANG=en_US.UTF-8
 ENV USER=dv-user
 ENV HOME=/home/dv-user
+ENV SHELL=/bin/bash
+ENV THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins
+ENV USE_LOCAL_GIT=true
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
