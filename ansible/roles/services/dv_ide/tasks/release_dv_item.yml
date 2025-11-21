@@ -1,0 +1,16 @@
+---
+# services/dv_ide/tasks/release_dv_item.yml
+
+- name: Here services/dv_ide/tasks/release_dv_item.yml
+  include_role:
+    name: commons
+    tasks_from: helm_release
+  vars:
+    title: "dv-ide application {{ current_item.release }}"
+    chart_sp: "dv_ide"
+    vf_template_sp: "dv_ide.yaml"
+    release_name: "{{ current_item.release }}"
+    uninstall: "{{ current_item.helm_uninstall | default(false) }}"
+  when: not current_item.skip_hdeploy | default(false)
+
+###

@@ -78,25 +78,24 @@ dv:
       pub: "ssh-ed25519 pubkey id-ed-build"
       pri: "id-ed-build file content"
   # gpu_operator: false
-  cs_build: false
-  code_server:
-    build_arg: "4.105.1"
-    image: "code-server-base:4.105.1"
-    default_image: "cs-python:4.105.1"
-  cs_ops:
-    image: "cs-ops:1.1.3"
-  k8s_clients:
-    image: "k8s-clients:1.0"
-  cs_kubdk:
-    image: "cs-kub-dk:4.105.1"
-  cs_python:
-    image: "cs-python:4.105.1"
-  cs_pythonk:
-    image: "cs-pythonk:4.105.1"
+  dv_ops:
+    image: dv-ops:1.0.0
+  dv_dev_tools:
+    image: dv-dev-tools:1.0.0
   theia:
-    build_arg: "1.66.2"
-    image: "theia-base:1.66.2-p6"
-    default_image: "theia-base:1.66.2"
+    image:
+      name: theia-build
+      # https://open-vsx.org/extension/eclipse-theia/builtin-extension-pack
+      # https://openvsxorg.blob.core.windows.net/resources/eclipse-theia/builtin-extension-pack/1.104.0/eclipse-theia.builtin-extension-pack-1.104.0.vsix
+      # official IDE is 1.66.2 / 1.105.0
+      # https://github.com/eclipse-theia/vscode-builtin-extensions
+      version: "1.66.2-p6"
+  dv_ide:
+    image:
+      name: dv-ide
+      version: "1.66.2-p6"
+  k8s_clients:
+    image: k8s-clients:1.0.1
   code_server_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
@@ -112,7 +111,7 @@ dv:
     # ext_hosts_aliases: true
     # node_label: with-this-gpu
     # kubeconfig: true
-  theia_items:
+  dv_ide_items:
   ows_build: false
   ows_apache_image: "ows-apache:1.3"
   ows_sync_image: "ows-sync:1.4"

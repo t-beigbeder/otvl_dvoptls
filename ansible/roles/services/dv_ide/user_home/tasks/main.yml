@@ -1,0 +1,10 @@
+---
+# services/dv_ide/user_home/tasks/main.yml
+
+- name: Loop over dv_ide items for user home create
+  include_tasks: uh_item.yml
+  loop: "{{ cv.dv_ide_items }}"
+  loop_control:
+    loop_var: current_item
+
+###

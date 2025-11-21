@@ -1,8 +1,9 @@
 FROM debian:12 AS builder
 
-ARG KCU=https://dl.k8s.io/release/v1.33.1/bin/linux/amd64/kubectl
-ARG HLU=https://get.helm.sh/helm-v3.17.0-linux-amd64.tar.gz
-ARG K9U=https://github.com/derailed/k9s/releases/download/v0.50.6/k9s_Linux_amd64.tar.gz
+# https://cdn.dl.k8s.io/release/stable.txt
+ARG KCU=https://dl.k8s.io/release/v1.34.2/bin/linux/amd64/kubectl
+ARG HLU=https://get.helm.sh/helm-v3.19.2-linux-amd64.tar.gz
+ARG K9U=https://github.com/derailed/k9s/releases/download/v0.50.16/k9s_Linux_amd64.tar.gz
 
 RUN apt-get update \
   && apt-get install -y \

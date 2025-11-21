@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-dv-cmap
+data:
+  spubk: {{ .Values.spubk }}
+  sprik: {{ .Values.sprik }}
