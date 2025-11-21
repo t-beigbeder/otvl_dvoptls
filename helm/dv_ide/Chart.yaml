@@ -3,4 +3,4 @@ name: otvl-dv-ide
 description: theia-ide with home, tools and data restored from server
 type: application
 version: 0.1.0
-appVersion: "1.66.2"
+appVersion: "4.106.2"
