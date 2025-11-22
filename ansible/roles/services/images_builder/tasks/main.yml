@@ -26,7 +26,6 @@
   include_tasks: synchronize_repository.yml
   loop:
   - otvl_dvoptls
-  - theia-ide
   - otvl_blog
   - otvl_adq
   loop_control:
