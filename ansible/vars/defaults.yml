@@ -85,18 +85,15 @@ dv:
   theia:
     image:
       name: theia-build
-      # https://open-vsx.org/extension/eclipse-theia/builtin-extension-pack
-      # https://openvsxorg.blob.core.windows.net/resources/eclipse-theia/builtin-extension-pack/1.104.0/eclipse-theia.builtin-extension-pack-1.104.0.vsix
-      # official IDE is 1.66.2 / 1.105.0
-      # https://github.com/eclipse-theia/vscode-builtin-extensions
       version: "1.66.2-p6"
   dv_ide:
     image:
-      name: dv-ide
-      version: "1.66.2-p6"
+      name: dv-cs
+      version: "4.106.2"
   k8s_clients:
     image: k8s-clients:1.0.1
   code_server_items:
+  dv_ide_items:
   # - image: "lscr.io/linuxserver/code-server:4.101.1"
     # release: code-server
     # skip_hdeploy: false
@@ -111,7 +108,6 @@ dv:
     # ext_hosts_aliases: true
     # node_label: with-this-gpu
     # kubeconfig: true
-  dv_ide_items:
   ows_build: false
   ows_apache_image: "ows-apache:1.3"
   ows_sync_image: "ows-sync:1.4"

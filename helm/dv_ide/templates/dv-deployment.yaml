@@ -120,10 +120,14 @@ spec:
             - /usr/local/bin/tini
             - --
             - /usr/local/bin/entrypoint.sh
-            - node
-            - /home/theia/applications/browser/lib/backend/main.js
-            - /home/dv-user
-            - --hostname=0.0.0.0
+            - /usr/local/bin/code-server
+            - --bind-addr
+            - "0.0.0.0:3000"
+            - --disable-telemetry
+            - --auth
+            - "none"
+            - --app-name
+            - code-server-for-otvl
           volumeMounts:
           - mountPath: /home/dv-user
             name: home-volume

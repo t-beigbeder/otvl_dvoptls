@@ -26,7 +26,6 @@
   include_tasks: synchronize_repository.yml
   loop:
   - otvl_dvoptls
-  - theia-ide
   - otvl_blog
   - otvl_adq
   loop_control:
@@ -89,11 +88,11 @@
     do_build: "{{cv.ide_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/k8s_clients
   - image: "{{ cv.theia.image.name }}:{{ cv.theia.image.version }}"
-    do_build: "{{cv.dv_ops_build | default(false) }}"
+    do_build: "{{cv.dv_theia_build | default(false) }}"
     dkb_cmd_dir: theia-ide
   - image: "{{ cv.dv_ide.image.name }}:{{ cv.dv_ide.image.version }}"
     do_build: "{{cv.ide_build | default(false) }}"
-    dkb_cmd_dir: otvl_dvoptls/docker/dv_ide
-    dkb_add_args: "--build-arg THEIA_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.theia.image.name }}:{{ cv.theia.image.version }} --build-arg K8S_CLIENTS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.k8s_clients.image }} --build-arg DV_DEV_TOOLS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.dv_dev_tools.image }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/dv_cs
+    dkb_add_args: "--build-arg CSV={{ cv.dv_ide.image.version }} --build-arg K8S_CLIENTS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.k8s_clients.image }} --build-arg DV_DEV_TOOLS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.dv_dev_tools.image }}"
   loop_control:
     loop_var: current_item

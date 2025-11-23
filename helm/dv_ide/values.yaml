@@ -1,7 +1,7 @@
 images:
   dv_ops: t-ctr.otvl.org/dv-ops:1.0.0-tbd
   dv_dev: t-ctr.otvl.org/dv-dev-tools:1.0.0-tbd
-  dv_ide: t-ctr.otvl.org/dv-ide:1.66.2-p1-tbd
+  dv_ide: t-ctr.otvl.org/dv-cs:4.106.2-p1-tbd
   traefik: traefik:v3.4
 nvidia: false
 resources:
