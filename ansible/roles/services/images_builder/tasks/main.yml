@@ -93,6 +93,6 @@
   - image: "{{ cv.dv_ide.image.name }}:{{ cv.dv_ide.image.version }}"
     do_build: "{{cv.ide_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/dv_cs
-    dkb_add_args: "--build-arg CSV={{ cv.dv_ide.image.version }} --build-arg K8S_CLIENTS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.k8s_clients.image }} --build-arg DV_DEV_TOOLS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.dv_dev_tools.image }}"
+    dkb_add_args: "--build-arg CSV={{ cv.dv_ide.image.upstream_version }} --build-arg K8S_CLIENTS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.k8s_clients.image }} --build-arg DV_DEV_TOOLS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.dv_dev_tools.image }}"
   loop_control:
     loop_var: current_item

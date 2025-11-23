@@ -84,6 +84,7 @@ spec:
             - /usr/local/bin/tini
             - --
             - /usr/local/bin/init_dev_env.sh
+            - --batch
           volumeMounts:
           - mountPath: /home/dv-user
             name: home-volume
