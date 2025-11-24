@@ -2,6 +2,9 @@
 
 disp() {
     echo >&2 "$@"
+    if [ "$vlog" ] ; then
+        echo "$@" >> $vlog
+    fi
 }
 
 log() {
@@ -27,12 +30,18 @@ cmd() {
     return $st
 }
 
-log $@ starting
+vlog=
+if [ "$1" = "--batch" ] ; then
+    vlog=/local/logs/idevenv/out-and-err.log
+    cmd mkdir -p /local/logs/idevenv || fat exiting
+fi
+log $0 $@ starting
 for vr in $HOME/locgit/* ; do
     if [ ! -d $vr/.otvl/init.d ] ; then continue ; fi
     for vs in `ls $vr/.otvl/init.d/*.sh 2> /dev/null` ; do
-        cmd $vs
+        cmd $vs $@
     done
 done
-log $@ stopping
+log $0 $@ stopping
+
 exit 0
