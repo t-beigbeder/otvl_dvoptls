@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-proxy-cmap
+data:
+  "static-config.yml": |
+    global:
+      sendAnonymousUsage: true
+    log:
+      level: INFO
+    accessLog:
+      format: json
+      fields:
+        defaultMode: keep
+    providers:
+      file:
+        filename: /traefik/dynamic-conf.yml
+        watch: true
+    entryPoints:
+      web:
+        address: ':5000'
+        transport:
+          respondingTimeouts:
+            readTimeout: 360
+        
+  "dynamic-conf.yml": |
+    http:
+      routers:
+        to-app:
+          rule: "PathPrefix(`/`)"
+          middlewares:
+            - basic-auth
+            - https-header
+          service: lbs
+      middlewares:
+        basic-auth:
+          basicAuth:
+            users:
+              - "{{ .Values.user }}:{{ .Values.apr_password }}"
+        https-header:
+          headers:
+            customRequestHeaders:
+              X-Forwarded-Proto: "https"
+      services:
+        "lbs":
+          loadBalancer:
+            servers:
+              - url: "http://{{ .Release.Name }}-lbs:8080"

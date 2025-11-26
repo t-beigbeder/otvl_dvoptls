@@ -127,3 +127,7 @@ dv:
 #    gbranch: br
 #    srepo: ssh-user@ssh-host:/path/to/5a7
 ###
+  mockup:
+    # lbs_build: false
+    image: label-studio:1.21
+    otvl_lbs_services:

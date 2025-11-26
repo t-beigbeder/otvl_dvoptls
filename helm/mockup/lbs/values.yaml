@@ -1,0 +1,12 @@
+images:
+  lbs: label-studio:1.21-chart
+  traefik: traefik:v3.4.3
+resources:
+  requests:
+    cpu: "2"
+    memory: 1Gi
+ingress:
+  enabled: true
+  # host: otvl-ctr.example.com, defaults to <release-name>.example.com
+user: lbs-user
+apr_password: "$apr1$eh5iCNFs$VsvLPBjU0fkP.0ZURuZjo1"
