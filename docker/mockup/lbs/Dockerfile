@@ -17,3 +17,9 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 RUN virtualenv /venv && \
     /venv/bin/pip install label-studio
+RUN mkdir -p /lbs && \
+  chown 2001:2001 /lbs
+
+  USER 2001
+ENV HOME /lbs
+WORKDIR /lbs

@@ -20,6 +20,11 @@ spec:
       containers:
         - name: lbs
           image: {{ .Values.images.lbs }}
+          env:
+          - name: TZ
+            value: Etc/UTC
+          command:
+            - /venv/bin/label-studio
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:

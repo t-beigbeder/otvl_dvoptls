@@ -7,8 +7,8 @@
     tasks_from: helm_release
   vars:
     title: "mockup label studio {{ current_item.release }}"
-    chart_sp: "mockup/otvl_lbs"
-    vf_template_sp: "mockup/otvl_lbs.yaml"
+    chart_sp: "mockup/lbs"
+    vf_template_sp: "mockup/lbs.yaml"
     release_name: "{{ current_item.release }}"
     uninstall: "{{ current_item.helm_uninstall | default(false) }}"
   when: not current_item.skip_hdeploy | default(false)

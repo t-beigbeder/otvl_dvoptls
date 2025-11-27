@@ -129,5 +129,6 @@ dv:
 ###
   mockup:
     # lbs_build: false
-    image: label-studio:1.21
+    lbs:
+      image: label-studio:1.21-p2
     otvl_lbs_services:
