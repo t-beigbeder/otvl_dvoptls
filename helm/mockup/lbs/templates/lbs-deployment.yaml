@@ -23,6 +23,18 @@ spec:
           env:
           - name: TZ
             value: Etc/UTC
+          - name: LABEL_STUDIO_HOST
+            value: https://{{ .Values.ingress.host }}
+          - name: LABEL_STUDIO_PROXY
+            value: "true"
+          - name: CSRF_TRUSTED_ORIGINS
+            value: https://{{ .Values.ingress.host }}
+          - name: LABEL_STUDIO_USERNAME
+            value: default_user@localhost
+          - name: LABEL_STUDIO_PASSWORD
+            value: default_user@localhost
+          - name: LABEL_STUDIO_USER_TOKEN
+            value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6ODA3MTU1MDYwOCwiaWF0IjoxNzY0MzUwNjA4LCJqdGkiOiI3YjkzNjNjNTNjMDU0NDhkODQ2NTNkNGRiMDllZjk0YyIsInVzZXJfaWQiOiIxIn0.M_0Gv3mMVI5pW3y73_IxtZBAVfHLNrQmkEsmbrdj1zE
           command:
             - /venv/bin/label-studio
           resources:
