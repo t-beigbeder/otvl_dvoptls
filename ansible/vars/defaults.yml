@@ -81,7 +81,7 @@ dv:
   dv_ops:
     image: dv-ops:1.0.0
   dv_dev_tools:
-    image: dv-dev-tools:1.0.4
+    image: dv-dev-tools:1.0.5
   theia:
     image:
       name: theia-build
@@ -90,7 +90,7 @@ dv:
     image:
       name: dv-cs
       upstream_version: "4.106.2"
-      version: "4.106.2-p4"
+      version: "4.106.2-p5"
   k8s_clients:
     image: k8s-clients:1.0.1
   code_server_items:
