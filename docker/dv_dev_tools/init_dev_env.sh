@@ -33,7 +33,7 @@ cmd() {
 vlog=
 if [ "$1" = "--batch" ] ; then
     vlog=/local/logs/idevenv/out-and-err.log
-    cmd mkdir -p /local/logs/idevenv || fat exiting
+    mkdir -p /local/logs/idevenv || fat exiting cannot mkdir -p /local/logs/idevenv
 fi
 log $0 $@ starting
 for vr in $HOME/locgit/* ; do
