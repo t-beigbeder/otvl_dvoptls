@@ -39,7 +39,7 @@ spec:
             - name: ctr-vol
               mountPath: /var/lib/registry
             - name: ctr-config-vol
-              mountPath: /etc/docker/registry
+              mountPath: /etc/distribution # v2 /etc/docker/registry
 
       volumes:
         - name: ctr-vol
