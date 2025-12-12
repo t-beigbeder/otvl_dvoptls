@@ -94,7 +94,7 @@ write_files:
       . /root/.otvl_ci_env
       export HOME=/root
       export pkgl="git virtualenv curl jq make gpg"
-      if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
+      if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd nftables" ; fi
       echo `date`: command $0 is starting
       if [ "`cat /root/clinit/persist/status`" = "final" ] ; then
         echo `date`: $0 installed status is final, exiting
