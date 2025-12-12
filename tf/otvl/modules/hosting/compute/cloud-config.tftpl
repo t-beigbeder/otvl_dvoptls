@@ -115,7 +115,7 @@ write_files:
       chmod 700 /root/.config/otvl_vlts && \
       echo ${tf_vlts_creds} > /root/.config/otvl_vlts/${tf_loc_hostname} && \
       cd /home/debian/locgit && \
-      curl -I $CI_DOT_REPO --retry 3 --retry-all --connect-timeout 3 && \
+      curl -I $CI_DOT_REPO --retry 3 --retry-all-errors --connect-timeout 3 && \
       rm -rf /home/debian/locgit/* && \
       git clone --branch $CI_DOT_BRANCH $CI_DOT_REPO && \
       chown -R debian:debian otvl_dvoptls && \
