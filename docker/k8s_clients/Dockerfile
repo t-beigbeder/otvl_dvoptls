@@ -1,4 +1,4 @@
-FROM debian:12 AS builder
+FROM debian:13 AS builder
 
 # https://cdn.dl.k8s.io/release/stable.txt
 ARG KCU=https://dl.k8s.io/release/v1.34.2/bin/linux/amd64/kubectl
