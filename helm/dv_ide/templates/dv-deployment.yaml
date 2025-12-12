@@ -74,6 +74,10 @@ spec:
             value: Etc/UTC
           - name: XDG_CACHE_HOME
             value: /local/cache
+          - name: TMPDIR
+            value: /local/tmp
+          - name: MYPY_CACHE_DIR
+            value: /local/cache/pypy
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER
@@ -84,6 +88,7 @@ spec:
             - /usr/local/bin/tini
             - --
             - /usr/local/bin/init_dev_env.sh
+            - --batch
           volumeMounts:
           - mountPath: /home/dv-user
             name: home-volume
@@ -106,6 +111,8 @@ spec:
             value: /local/cache
           - name: TMPDIR
             value: /local/tmp
+          - name: MYPY_CACHE_DIR
+            value: /local/cache/pypy
           - name: SYNC_SERVER
             value: {{ .Values.sync_server }}
           - name: SYNC_USER

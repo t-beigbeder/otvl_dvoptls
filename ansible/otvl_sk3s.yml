@@ -101,3 +101,19 @@
     - role: roles/services/dv_ide
       when: otvl_meta.dv_ide | default(false)
   tags: dv
+
+- hosts: images_builder_group
+  gather_facts: False
+  become: false
+  roles:
+    - services/images_builder/mockup
+  tags: ibm
+
+
+- hosts: sk3s_group
+  gather_facts: False
+  become: false
+  roles:
+    - role: roles/services/mockup
+      when: otvl_meta.dv_ide | default(false)
+  tags: hlm

@@ -1,0 +1,16 @@
+---
+# services/mockup/tasks/release_lbs_item.yml
+
+- name: Here services/mockup/tasks/release_lbs_item.yml
+  include_role:
+    name: commons
+    tasks_from: helm_release
+  vars:
+    title: "mockup label studio {{ current_item.release }}"
+    chart_sp: "mockup/lbs"
+    vf_template_sp: "mockup/lbs.yaml"
+    release_name: "{{ current_item.release }}"
+    uninstall: "{{ current_item.helm_uninstall | default(false) }}"
+  when: not current_item.skip_hdeploy | default(false)
+
+###

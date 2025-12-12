@@ -16,6 +16,7 @@ RUN apt-get update \
     virtualenv \
     make \
     dnsutils \
+    file \
   && rm -rf /var/lib/apt/lists/*
 
 # https://wiki.debian.org/Locale#Manually

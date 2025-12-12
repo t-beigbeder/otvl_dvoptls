@@ -1,0 +1,11 @@
+---
+# services/images_builder/mockup/tasks/main.yml
+
+- name: Loop over images to build
+  include_tasks: ../../tasks/build_image.yml
+  loop:
+  - image: "{{ cv.mockup.lbs.image }}"
+    do_build: "{{cv.mockup.lbs_build | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/mockup/lbs
+  loop_control:
+    loop_var: current_item
