@@ -22,8 +22,6 @@ cmd dpkg -i cuda-keyring_1.1-1_all.deb && \
 cmd rm cuda-keyring_1.1-1_all.deb && \
 cmd apt-get update && \
 cmd apt-get install -y linux-headers-`uname -r` && \
-cmd echo deb13 no need for apt-get install -y software-properties-common && \
-cmd add-apt-repository -y contrib && \
 cmd apt-get install -y cuda-toolkit-13-1 && \
 cmd apt-get install -y cuda-drivers && \  # in deb12 / toolkit-13 was: nvidia-driver-cuda nvidia-kernel-dkms
 cmd wget https://nvidia.github.io/libnvidia-container/gpgkey && \
