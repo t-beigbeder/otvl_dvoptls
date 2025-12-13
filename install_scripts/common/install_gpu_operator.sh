@@ -12,7 +12,7 @@ cmd helm repo update && \
 cmd helm install --wait --generate-name \
     -n gpu-operator --create-namespace \
     nvidia/gpu-operator \
-    --version=v25.3.4 \
+    --version=v25.10.1 \
     --set driver.enabled=false \
     --set toolkit.enabled=false \
     --set toolkit.env[0].name=CONTAINERD_CONFIG \

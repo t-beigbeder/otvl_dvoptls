@@ -15,17 +15,15 @@ if [ -z "`grep has_gpu /root/.config/otvl_vlts/install_otvl_meta`" ] ; then
     fat $0 failed
 fi
 export DEBIAN_FRONTEND=noninteractive
-export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1
+export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.18.1-1
 cmd cd /tmp && \
-cmd wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb && \
+cmd wget https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb && \
 cmd dpkg -i cuda-keyring_1.1-1_all.deb && \
 cmd rm cuda-keyring_1.1-1_all.deb && \
 cmd apt-get update && \
 cmd apt-get install -y linux-headers-`uname -r` && \
-cmd apt-get install -y software-properties-common && \
-cmd add-apt-repository -y contrib && \
-cmd apt-get install -y cuda-toolkit-13-0 && \
-cmd apt-get install -y nvidia-driver-cuda nvidia-kernel-dkms && \
+cmd apt-get install -y cuda-toolkit-13-1 && \
+cmd apt-get install -y cuda-drivers && \
 cmd wget https://nvidia.github.io/libnvidia-container/gpgkey && \
 cmd rm -f /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
 cmd gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg < gpgkey && \

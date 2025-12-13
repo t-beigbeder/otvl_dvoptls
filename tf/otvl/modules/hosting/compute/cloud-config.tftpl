@@ -1,6 +1,7 @@
 #cloud-config
 package_update: true
 package_upgrade: true
+package_reboot_if_required: true
 write_files:
   - content: |
       #!/bin/sh
@@ -93,8 +94,8 @@ write_files:
       EOF
       . /root/.otvl_ci_env
       export HOME=/root
-      export pkgl="git virtualenv curl jq make"
-      if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd" ; fi
+      export pkgl="git virtualenv curl jq make gpg"
+      if [ "$CI_SSH_EXPOSED" = "1" ] ; then pkgl="$pkgl fail2ban python3-systemd nftables" ; fi
       echo `date`: command $0 is starting
       if [ "`cat /root/clinit/persist/status`" = "final" ] ; then
         echo `date`: $0 installed status is final, exiting
