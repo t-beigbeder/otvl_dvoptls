@@ -21,7 +21,6 @@ cmd wget https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_6
 cmd dpkg -i cuda-keyring_1.1-1_all.deb && \
 cmd rm cuda-keyring_1.1-1_all.deb && \
 cmd apt-get update && \
-cmd apt-get install -y linux-headers-`uname -r` && \
 cmd apt-get install -y cuda-toolkit-13-1 && \
 cmd apt-get install -y cuda-drivers && \
 cmd wget https://nvidia.github.io/libnvidia-container/gpgkey && \
