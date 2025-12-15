@@ -38,6 +38,7 @@ resource "openstack_compute_instance_v2" "instances" {
   lifecycle {
     ignore_changes = [security_groups]
   }
+  depends_on = [ openstack_compute_keypair_v2.this ]
 }
 
 locals {
