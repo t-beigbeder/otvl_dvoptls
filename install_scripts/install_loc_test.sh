@@ -7,10 +7,11 @@ sd=`dirname $rp`
 ## endpre
 
 vrrd=`realpath $sd/..`
+vlrrd=`realpath $vrrd/lops_repo`
 
 launch_test_vlts() {
   log launch_test_vlts
-  cd $vrrd/tf/otvl/test/vlts
+  cd $vlrrd/tf/otvl/test/vlts
   tofu apply -auto-approve
   tofu output -json ipv4s
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
@@ -61,13 +62,13 @@ provision_test_vlts() {
   PYTHONPATH=src cmd venv/bin/python -m provisioner $vopts --hosts $vlh
 }
 
-launch_test_hosting() {
-  log launch_test_hosting
-  cd $vrrd/tf/otvl/test/vlts
+launch_test_k3sm() {
+  log launch_test_k3sm
+  cd $vlrrd/tf/otvl/test/vlts
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
-  cd $vrrd/tf/otvl/test/hosting
+  cd $vlrrd/tf/otvl/test/k3sm
   vaa="-auto-approve"
-  #vaa=
+  vaa=
   cmd tofu apply $vaa -var vlts_hostname=$vipv4s
 }
 
@@ -79,23 +80,41 @@ reset_ovh_dns() {
 
 set_ovh_dns() {
   log set_ovh_dns
-  cd $vrrd/tf/otvl/test/hosting
+  cd $vlrrd/tf/otvl/test/k3sm
   vip=`tofu output -json ipv4s | jq .[1][0] | sed -e 's="==g'`
   cd $vrrd/ovh_dns
   PYTHONPATH=src cmd venv/bin/python -m ovh_dns -i $INGRESS --ip $vip
 }
 
-destroy_test_hosting() {
-  log destroy_test_hosting
-  cd $vrrd/tf/otvl/test/vlts
+launch_test_k3sa() {
+  log launch_test_k3sa
+  cd $vlrrd/tf/otvl/test/vlts
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
-  cd $vrrd/tf/otvl/test/hosting
+  cd $vlrrd/tf/otvl/test/k3sa
+  vaa="-auto-approve"
+  vaa=
+  cmd tofu apply $vaa -var vlts_hostname=$vipv4s
+}
+
+destroy_test_k3sa() {
+  log destroy_test_k3sa
+  cd $vlrrd/tf/otvl/test/vlts
+  vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
+  cd $vlrrd/tf/otvl/test/k3sa
+  cmd tofu destroy -exclude module.compute.module.instances.openstack_blockstorage_volume_v3.volumes -var vlts_hostname=$vipv4s
+}
+
+destroy_test_k3sm() {
+  log destroy_test_k3sm
+  cd $vlrrd/tf/otvl/test/vlts
+  vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
+  cd $vlrrd/tf/otvl/test/k3sm
   cmd tofu destroy -exclude module.compute.module.instances.openstack_blockstorage_volume_v3.volumes -var vlts_hostname=$vipv4s
 }
 
 destroy_test_vlts() {
   log destroy_test_vlts
-  cd $vrrd/tf/otvl/test/vlts
+  cd $vlrrd/tf/otvl/test/vlts
   tofu destroy
 }
 
@@ -104,9 +123,11 @@ log $0 starting
 INGRESS="t-ctr t-alt-ctr t-cs t-csg t-cs-bis t-blog t-adq m-lbs"
 icmd "launch test vault server" launch_test_vlts n
 icmd "provision test secrets" provision_test_vlts n
-icmd "launch test hosting" launch_test_hosting n
+icmd "launch test k3sm" launch_test_k3sm n
 icmd "set OVH DNS for $INGRESS" set_ovh_dns n
-icmd "destroy test hosting" destroy_test_hosting n
+icmd "launch test k3sa" launch_test_k3sa n
+icmd "destroy test k3sa" destroy_test_k3sa n
+icmd "destroy test k3sm" destroy_test_k3sm n
 icmd "destroy test vault server" destroy_test_vlts n
 icmd "reset OVH DNS for $INGRESS" reset_ovh_dns n
 
