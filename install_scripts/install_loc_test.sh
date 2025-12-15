@@ -68,7 +68,7 @@ launch_test_k3sm() {
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
   cd $vlrrd/tf/otvl/test/k3sm
   vaa="-auto-approve"
-  vaa=
+  #vaa=
   cmd tofu apply $vaa -var vlts_hostname=$vipv4s
 }
 
@@ -92,7 +92,7 @@ launch_test_k3sa() {
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
   cd $vlrrd/tf/otvl/test/k3sa
   vaa="-auto-approve"
-  vaa=
+  #vaa=
   cmd tofu apply $vaa -var vlts_hostname=$vipv4s
 }
 
