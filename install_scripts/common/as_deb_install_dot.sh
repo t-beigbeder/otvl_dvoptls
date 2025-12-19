@@ -39,6 +39,14 @@ gen_ansible_group_vars() {
   for p in `cat .config/.otvl/install_otvl_meta` ; do
     echo "  $p: true"
   done
+  echo -n "  k3s_taints:"
+  for p in `cat .config/.otvl/install_otvl_meta` ; do
+    if [ "`echo $p | grep k3s_taint_`" ] ; then
+      vt=`echo $p | sed -e s/k3s_taint_//`
+      echo -n " --node-taint $vt=true:NoExecute"
+    fi
+  done
+  echo
   echo "install_env: `cat .config/.otvl/install_env`"
   echo "ci_env:"
   for vk in `cat .config/.otvl/ci_env | cut -d= -f1 | sed -e 's/export //'` ; do
