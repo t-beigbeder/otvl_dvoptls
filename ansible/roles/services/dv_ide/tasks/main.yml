@@ -1,6 +1,20 @@
 ---
 # services/dv_ide/tasks/main.yml
 
+- name: Here services/dv_ide/tasks/main.yml to install secrets
+  include_role:
+    name: commons
+    tasks_from: kapply_from_template
+  vars:
+    kapp_message: "Install secrets for dev"
+    template: "dv_secrets.yaml"
+
+- name: Loop over dspg items for release with helm
+  include_tasks: release_dspg_item.yml
+  loop: "{{ cv.dspg_items }}"
+  loop_control:
+    loop_var: current_item
+
 - name: Loads kubeconfig
   ansible.builtin.slurp:
     src: "{{ remote_user_home }}/.kube/config"

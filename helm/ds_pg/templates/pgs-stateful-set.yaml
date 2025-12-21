@@ -21,7 +21,7 @@ spec:
           image: {{ .Values.images.pg }}
           env:
           - name: POSTGRES_PASSWORD_FILE
-            value: /run/ds-pods-secrets/postgres-passwd
+            value: /run/ds-pods-secrets/postgres_passwd
           readinessProbe:
             exec:
               command:

@@ -156,6 +156,9 @@ spec:
             name: kubeconfig-config-volume
             subPath: kubeconfig.yml
 {{- end }}
+          - mountPath: /run/ds-pods-secrets
+            name: ds-pods-secrets-volume
+            readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
@@ -204,6 +207,9 @@ spec:
           - key: kubeconfig.yml
             path: kubeconfig.yml
 {{- end }}
+      - name: ds-pods-secrets-volume
+        secret:
+          secretName: ds-pods-secrets
 {{- if .Values.tolerations }}
       tolerations:
         {{- toYaml .Values.tolerations | nindent 8 }}
