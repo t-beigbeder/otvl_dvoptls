@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-pgs
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}-pgs
+  serviceName: {{ .Release.Name }}-pgs
+  template:
+    metadata:
+      name: {{ .Release.Name }}-pgs
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}-pgs
+    spec:
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+      containers:
+        - name: pgs
+          image: {{ .Values.images.pg }}
+          env:
+          - name: POSTGRES_PASSWORD
+            value: changeit
+          volumeMounts:
+          - mountPath: /var/lib/postgresql
+            name: data-volume
+
+      volumes:
+      - name: data-volume
+        emptyDir:
