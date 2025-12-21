@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-pgs
+spec:
+  selector:
+    app.kubernetes.io/name: {{ .Release.Name }}-pgs
+  ports:
+    - name: "pgs-port"
+      port: 5432
+      protocol: TCP
+  clusterIP: None

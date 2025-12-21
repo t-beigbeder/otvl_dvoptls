@@ -20,12 +20,15 @@ spec:
         - name: pgs
           image: {{ .Values.images.pg }}
           env:
-          - name: POSTGRES_PASSWORD
-            value: changeit
+          - name: POSTGRES_PASSWORD_FILE
+            value: /run/ds-pods-secrets/postgres-passwd
           volumeMounts:
-          - mountPath: /var/lib/postgresql
-            name: data-volume
-
+          - name: ds-pods-secrets-volume
+            readOnly: true
+            mountPath: /run/ds-pods-secrets
       volumes:
       - name: data-volume
         emptyDir:
+      - name: ds-pods-secrets-volume
+        secret:
+          secretName: ds-pods-secrets
