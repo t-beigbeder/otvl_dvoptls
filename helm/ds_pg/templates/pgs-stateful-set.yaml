@@ -41,9 +41,19 @@ spec:
           - name: ds-pods-secrets-volume
             readOnly: true
             mountPath: /run/ds-pods-secrets
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
       - name: data-volume
         emptyDir:
       - name: ds-pods-secrets-volume
         secret:
           secretName: ds-pods-secrets
+{{- if .Values.tolerations }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
+{{- end }}
+{{- if .Values.affinity }}
+      affinity:
+        {{- toYaml .Values.affinity | nindent 8 }}
+{{- end }}
