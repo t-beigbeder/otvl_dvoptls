@@ -120,7 +120,7 @@ destroy_test_vlts() {
 
 log $0 starting
 . $HOME/.osenvrc
-INGRESS="t-ctr t-alt-ctr t-alt-ctr-bis t-cs t-csg t-cs-bis t-blog t-adq m-lbs"
+INGRESS="t-ctr t-alt-ctr t-alt-ctr-bis t-cs t-csg t-cs-bis t-blog t-adq t-rook-ceph m-lbs"
 icmd "launch test vault server" launch_test_vlts n
 icmd "provision test secrets" provision_test_vlts n
 icmd "launch test k3sm" launch_test_k3sm n
