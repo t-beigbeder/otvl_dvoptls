@@ -27,7 +27,8 @@ variable "instances_attrs" {
     image_name    = string
     flavor_name   = string
     is_sync_server = optional(bool, false)
-    sync_disk_size = optional(number, 0)
+    has_add_storage = optional(bool, false)
+    add_disk_size = optional(number, 0)
     user_data     = string
   }))
 }
