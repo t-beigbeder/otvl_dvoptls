@@ -1,0 +1,6 @@
+images:
+  pg: postgres:18-tbd
+resources:
+  requests:
+    cpu: "0.5"
+    memory: 0.5Gi

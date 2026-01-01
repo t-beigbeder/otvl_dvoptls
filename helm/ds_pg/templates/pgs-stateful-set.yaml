@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-pgs
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}-pgs
+  serviceName: {{ .Release.Name }}-pgs
+  template:
+    metadata:
+      name: {{ .Release.Name }}-pgs
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}-pgs
+    spec:
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+      containers:
+        - name: pgs
+          image: {{ .Values.images.pg }}
+          env:
+          - name: POSTGRES_PASSWORD_FILE
+            value: /run/ds-pods-secrets/postgres_passwd
+          readinessProbe:
+            exec:
+              command:
+              - psql
+              - -c
+              - select 1
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          livenessProbe:
+            exec:
+              command:
+              - psql
+              - -c
+              - select 1
+            periodSeconds: 60
+          volumeMounts:
+          - name: ds-pods-secrets-volume
+            readOnly: true
+            mountPath: /run/ds-pods-secrets
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: data-volume
+        emptyDir:
+      - name: ds-pods-secrets-volume
+        secret:
+          secretName: ds-pods-secrets
+{{- if .Values.tolerations }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
+{{- end }}
+{{- if .Values.affinity }}
+      affinity:
+        {{- toYaml .Values.affinity | nindent 8 }}
+{{- end }}

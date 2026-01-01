@@ -1,0 +1,16 @@
+---
+# services/dv_ide/tasks/release_dspg_item.yml
+
+- name: Here services/dv_ide/tasks/release_dspg_item.yml
+  include_role:
+    name: commons
+    tasks_from: helm_release
+  vars:
+    title: "ds_pg instance {{ current_item.release }}"
+    chart_sp: "ds_pg"
+    vf_template_sp: "ds_pg.yaml"
+    release_name: "{{ current_item.release }}"
+    uninstall: "{{ current_item.helm_uninstall | default(false) }}"
+  when: not current_item.skip_hdeploy | default(false)
+
+###

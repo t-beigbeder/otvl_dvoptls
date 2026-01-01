@@ -38,23 +38,24 @@ resource "openstack_compute_instance_v2" "instances" {
   lifecycle {
     ignore_changes = [security_groups]
   }
+  depends_on = [ openstack_compute_keypair_v2.this ]
 }
 
 locals {
-  syncs_instances_indexes = [for ii, ia in var.instances_attrs: ii if ia.is_sync_server]
+  adds_instances_indexes = [for ii, ia in var.instances_attrs: ii if ia.has_add_storage]
 }
 
 resource "openstack_blockstorage_volume_v3" "volumes" {
-  count = length(local.syncs_instances_indexes)
-  name = var.instances_attrs[local.syncs_instances_indexes[count.index]].name
-  size = var.instances_attrs[local.syncs_instances_indexes[count.index]].sync_disk_size
+  count = length(local.adds_instances_indexes)
+  name = var.instances_attrs[local.adds_instances_indexes[count.index]].name
+  size = var.instances_attrs[local.adds_instances_indexes[count.index]].add_disk_size
   lifecycle {
     prevent_destroy = true
   }
 }
 
 resource "openstack_compute_volume_attach_v2" "volatts" {
-  count = length(local.syncs_instances_indexes)
-  instance_id = openstack_compute_instance_v2.instances[local.syncs_instances_indexes[count.index]].id
+  count = length(local.adds_instances_indexes)
+  instance_id = openstack_compute_instance_v2.instances[local.adds_instances_indexes[count.index]].id
   volume_id = openstack_blockstorage_volume_v3.volumes[count.index].id
 }
