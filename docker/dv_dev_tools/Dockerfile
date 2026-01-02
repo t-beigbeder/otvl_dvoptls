@@ -1,5 +1,7 @@
 FROM debian:13
 
+ARG GOU=https://go.dev/dl/go1.25.5.linux-amd64.tar.gz
+
 USER root
 RUN apt-get update \
   && apt-get install -y \
@@ -19,6 +21,11 @@ RUN apt-get update \
     file \
   && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /tmp
+RUN mkdir -p /usr/local/bin && \
+  curl -fL $GOU -o go.linux-amd64.tar.gz && \
+  rm -rf /usr/local/go && tar -C /usr/local -xzf go.linux-amd64.tar.gz
+  
 # https://wiki.debian.org/Locale#Manually
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
   && locale-gen
