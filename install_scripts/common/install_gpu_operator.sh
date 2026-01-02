@@ -7,6 +7,11 @@ sd=`dirname $rp`
 ## endpre
 
 log $0 starting
+if [ "`helm list -n gpu-operator --no-headers`" ] ; then
+    log $0 nvidia/gpu-operator was already installed
+    log $0 stopping
+    exit 0
+fi
 cmd helm repo add nvidia https://helm.ngc.nvidia.com/nvidia && \
 cmd helm repo update && \
 cmd helm install --wait --generate-name \
