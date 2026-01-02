@@ -29,8 +29,6 @@ cmd() {
 
 set -eu
 cd $HOME
-pwd
-ls -al
 if [ ! -f .bashrc ] ; then
     cp /etc/skel/.bashrc .bashrc
 fi
