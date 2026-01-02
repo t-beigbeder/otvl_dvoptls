@@ -24,9 +24,9 @@ launch_prod_k3sm() {
   log launch_prod_k3sm
   cd $vlrrd/tf/otvl/test/vlts
   vipv4s=`tofu output -json ipv4s | sed -e 's/.//' | sed -e 's/.$//' | sed -e 's/"//g'| sed -e 's/,/ /'`
-  cd $vlrrd/tf/otvl/test/k3sm
+  cd $vlrrd/tf/otvl/prod/k3sm
   vaa="-auto-approve"
-  #vaa=
+  vaa=
   cmd tofu apply $vaa -var vlts_hostname=$vipv4s
 }
 
