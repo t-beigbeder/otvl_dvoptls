@@ -24,6 +24,7 @@ run_parted() {
   fi
   cmd parted -s /dev/${vdk} mklabel msdos && \
   cmd parted -s -a optimal /dev/${vdk} mkpart primary ext4 0% 100% && \
+  cmd sleep 1 && \
   true
   return $?
 }
@@ -45,6 +46,7 @@ upd_fstab_and_mount() {
     vuid=`blkid -o value /dev/${vdk}1 | head -1`
     echo "UUID=$vuid /$vmdir ext4 defaults 0 0" >> /etc/fstab && \
     cmd mount /$vmdir && \
+    cmd systemctl daemon-reload && \
     true
     return $?
 }

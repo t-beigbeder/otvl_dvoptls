@@ -93,7 +93,7 @@ if [ -f /root/.otvl_ci_env ] ; then
   . /root/.otvl_ci_env
 fi
 if [ "$CI_SYNC_SVR" = "1" ]; then
-  cmd $sd/common/install_sync_svr.sh
+  cmd $sd/common/install_sync_svr.sh || fat $0 failed
 fi
 
 install_dot || fat $0 failed
