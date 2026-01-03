@@ -1,5 +1,8 @@
 images:
   pg: postgres:18-tbd
+  pg_cli: t-ctr.otvl.org/otvl-pg-cli:0.7-tbd
+s3:
+  url_prefix: s3://bucket-tbd/ds-pg-backups
 resources:
   requests:
     cpu: "0.5"

@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-script-cmap
+data:
+  "finalBackup.sh": |
+    rm -f $HOME/.pgpass
+    echo > $HOME/.pgpass "*:*:*:postgres:`cat /var/run/ds-pods-secrets/postgres_passwd`"
+    chmod go-rw $HOME/.pgpass
+    /usr/bin/pg_dumpall -h localhost -c > /backups/pg_dumpall_`date -Iseconds`.sql 2> /backups/finalBackup.err
+    touch /backups/FINAL_DONE.flag
+  "continuousBackup.sh": |
+    log() {
+        echo "`date -Iseconds`" "$@"
+    }
+    do_save_s3() {
+      log do_save_s3
+
+      vlf=`ls pg_dumpall* | tail -1`
+      if [ ! "$vlf" ] ; then
+        log "no s3 to save"
+        return 0
+      fi
+      log do_save_s3 $vlf simulated
+      log /venv/bin/aws s3 cp $vlf $PGS_S3_PREFIX/$vlf
+      /venv/bin/aws s3 cp $vlf $PGS_S3_PREFIX/$vlf
+      if [ $? -ne 0 ] ; then
+        log "s3 save failed, aborting"
+        return 1
+      fi
+
+      vnd=`ls pg_dumpall* | wc -l`
+      if [ $vnd -ge 6 ] ; then
+        vnrm=`expr $vnd - 5`
+        vtbr=`ls pg_dumpall* | head -$vnrm`
+        for vtbri in $vtbr ; do
+          log /venv/bin/aws s3 rm $PGS_S3_PREFIX/$vtbri
+          /venv/bin/aws s3 rm $PGS_S3_PREFIX/$vtbri
+          if [ $? -ne 0 ] ; then
+            log "s3 cleanup failed, aborting"
+            return 1
+          fi
+        done
+        log rm -f $vtbr
+        rm -f $vtbr
+      fi
+      log do_save_s3 done
+    }
+    do_backup() {
+      log /usr/bin/pg_dumpall -h $PGS_DNS_SERVICE_NAME -c into /backups/pg_dumpall_`date -Iseconds`.sql
+      /usr/bin/pg_dumpall -h $PGS_DNS_SERVICE_NAME -c > /backups/pg_dumpall_`date -Iseconds`.sql
+      log backup done
+    }
+    rm -f $HOME/.pgpass
+    echo > $HOME/.pgpass "*:*:*:postgres:`cat /var/run/ds-pods-secrets/postgres_passwd`"
+    chmod go-rw $HOME/.pgpass
+    mkdir -p $HOME/.aws
+    vak=`cat /var/run/ds-pods-secrets/aws_access_key_id`
+    vsk=`cat /var/run/ds-pods-secrets/aws_secret_access_key`
+    cat > $HOME/.aws/config <<EOF
+    [default]
+    region = gra
+    endpoint_url = https://s3.gra.io.cloud.ovh.net/
+    aws_access_key_id = $vak
+    aws_secret_access_key = $vsk
+    EOF
+    cd /backups
+    sleep 20
+    count=0
+    while [ ! -f /backups/FINAL_DONE.flag ] ; do
+      count=`expr $count + 1`
+      if [ $count -ge 1440 ] ; then
+        count=0
+        do_backup
+        do_save_s3
+      fi
+      sleep 10
+    done
+    log file /backups/FINAL_DONE.flag created
+    log cat /backups/finalBackup.err
+    cat /backups/finalBackup.err
+    do_save_s3
+    log sidecar ct-bck is exiting now

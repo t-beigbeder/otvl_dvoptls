@@ -14,11 +14,36 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}-pgs
     spec:
       securityContext:
-        runAsUser: 999
-        runAsGroup: 999
+        fsGroup: 2001
+      initContainers:
+        - name: ct-bck
+          image: {{ .Values.images.pg_cli }}
+          securityContext:
+            runAsUser: 101
+            runAsGroup: 103
+          env:
+          - name: POSTGRES_PASSWORD_FILE
+            value: /run/ds-pods-secrets/postgres_passwd
+          - name: PGS_DNS_SERVICE_NAME
+            value: {{ .Release.Name }}-pgs
+          - name: PGS_S3_PREFIX
+            value: {{ .Values.s3.url_prefix }}/{{ .Release.Name }}-pgs
+          restartPolicy: Always
+          command: [ "/bin/sh", "/scripts/continuousBackup.sh" ]
+          volumeMounts:
+          - name: backup-volume
+            mountPath: /backups
+          - name: ds-pods-secrets-volume
+            readOnly: true
+            mountPath: /run/ds-pods-secrets
+          - name: ds-pg-scripts-volume
+            mountPath: /scripts
       containers:
         - name: pgs
           image: {{ .Values.images.pg }}
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
           env:
           - name: POSTGRES_PASSWORD_FILE
             value: /run/ds-pods-secrets/postgres_passwd
@@ -32,23 +57,32 @@ spec:
             periodSeconds: 20
           livenessProbe:
             exec:
-              command:
-              - psql
-              - -c
-              - select 1
+              command: ["psql", "-c", "select 1"]
             periodSeconds: 60
+          terminationGracePeriodSeconds: 180
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "/bin/sh", "/scripts/finalBackup.sh" ]
           volumeMounts:
+          - name: backup-volume
+            mountPath: /backups
           - name: ds-pods-secrets-volume
             readOnly: true
             mountPath: /run/ds-pods-secrets
+          - name: ds-pg-scripts-volume
+            mountPath: /scripts
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-      - name: data-volume
+      - name: backup-volume
         emptyDir:
       - name: ds-pods-secrets-volume
         secret:
           secretName: ds-pods-secrets
+      - name: ds-pg-scripts-volume
+        configMap:
+          name: {{ .Release.Name }}-script-cmap
 {{- if .Values.tolerations }}
       tolerations:
         {{- toYaml .Values.tolerations | nindent 8 }}
