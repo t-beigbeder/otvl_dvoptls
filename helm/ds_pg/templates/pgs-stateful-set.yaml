@@ -59,7 +59,6 @@ spec:
             exec:
               command: ["psql", "-c", "select 1"]
             periodSeconds: 60
-          terminationGracePeriodSeconds: 180
           lifecycle:
             preStop:
               exec:
@@ -74,6 +73,7 @@ spec:
             mountPath: /scripts
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      terminationGracePeriodSeconds: 180
       volumes:
       - name: backup-volume
         emptyDir:

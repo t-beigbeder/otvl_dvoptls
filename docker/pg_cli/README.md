@@ -1,9 +1,10 @@
-docker build -t t-ctr.otvl.org/otvl-pg-cli:0.1 .
-docker push t-ctr.otvl.org/otvl-pg-cli:0.1
-kubectl run -it dvops --rm --image=t-ctr.otvl.org/otvl-pg-cli:0.1 -- bash
-helm install t-db-2 ./ds_pg --set images.pg=postgres:18 --set images.pg_cli=t-ctr.otvl.org/otvl-pg-cli:0.7 --set s3.url_prefix=s3://otvl-backups/ds-pg-backups
+docker build -t t-ctr.otvl.org/otvl-pg-cli:0.8 .
+docker push t-ctr.otvl.org/otvl-pg-cli:0.8
+kubectl run -it dvops --rm --image=t-ctr.otvl.org/otvl-pg-cli:0.8 -- bash
+helm install t-db ./ds_pg --set images.pg=postgres:18 --set images.pg_cli=t-ctr.otvl.org/otvl-pg-cli:0.8 --set s3.url_prefix=s3://otvl-backups/ds-pg-backups
 
     # time pg_dump -Fc test_load_wiki_fr > /tmp/test_load_wiki_fr.pgd
+/venv/bin/aws s3 cp --only-show-errors s3://otvl-backups/test_load_wiki_fr-20260101.pgd .
 pg_restore -h t-db-pgs -c -C -d postgres test_load_wiki_fr-20260101.pgd
 
 pg_dumpall -h t-db-pgs -c > /tmp/all.pgd
