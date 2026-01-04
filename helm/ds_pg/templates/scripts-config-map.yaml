@@ -21,9 +21,8 @@ data:
         log "no s3 to save"
         return 0
       fi
-      log do_save_s3 $vlf simulated
-      log /venv/bin/aws s3 cp $vlf $PGS_S3_PREFIX/$vlf
-      /venv/bin/aws s3 cp $vlf $PGS_S3_PREFIX/$vlf
+      log /venv/bin/aws s3 cp --only-show-errors $vlf $PGS_S3_PREFIX/$vlf
+      /venv/bin/aws s3 cp --only-show-errors $vlf $PGS_S3_PREFIX/$vlf
       if [ $? -ne 0 ] ; then
         log "s3 save failed, aborting"
         return 1
@@ -66,7 +65,7 @@ data:
     EOF
     cd /backups
     sleep 20
-    count=0
+    count=1428
     while [ ! -f /backups/FINAL_DONE.flag ] ; do
       count=`expr $count + 1`
       if [ $count -ge 1440 ] ; then
@@ -80,4 +79,6 @@ data:
     log cat /backups/finalBackup.err
     cat /backups/finalBackup.err
     do_save_s3
+    log debug sleeping 30s more
+    sleep 30
     log sidecar ct-bck is exiting now
