@@ -78,6 +78,9 @@
   - image: "{{ cv.ows_sync_image }}"
     do_build: "{{cv.ows_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/ows_sync
+  - image: "{{ cv.pg_cli.image }}"
+    do_build: "{{cv.pg_cli | default(false) }}"
+    dkb_cmd_dir: otvl_dvoptls/docker/pg_cli
   - image: "{{ cv.dv_ops.image }}"
     do_build: "{{cv.dv_ops_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/dv_ops

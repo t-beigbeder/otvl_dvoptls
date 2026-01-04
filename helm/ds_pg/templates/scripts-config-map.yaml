@@ -50,6 +50,25 @@ data:
       /usr/bin/pg_dumpall -h $PGS_DNS_SERVICE_NAME -c > /backups/pg_dumpall_`date -Iseconds`.sql
       log backup done
     }
+    do_restore() {
+      log do_restore starting
+      /venv/bin/aws s3 ls $PGS_S3_PREFIX/
+      log /venv/bin/aws s3 ls $PGS_S3_PREFIX/ \| sed -e 's/\s\+/ /g' \| cut -d' ' -f4 \| tail -1
+      vrst=`/venv/bin/aws s3 ls $PGS_S3_PREFIX/ | sed -e 's/\s\+/ /g' | cut -d' ' -f4 | tail -1`
+      if [ -z "$vrst" ] ; then
+        log nothing to restore
+        return 0
+      fi
+      log /venv/bin/aws s3 cp $PGS_S3_PREFIX/$vrst /tmp/$vrst
+      /venv/bin/aws s3 cp $PGS_S3_PREFIX/$vrst /tmp/$vrst
+      if [ $? -ne 0 ] ; then
+        log aborting restore
+        return 1
+      fi
+      log psql -h $PGS_DNS_SERVICE_NAME -d postgres < /tmp/$vrst
+      psql -h $PGS_DNS_SERVICE_NAME -d postgres < /tmp/$vrst
+      log do_restore done
+    }
     rm -f $HOME/.pgpass
     echo > $HOME/.pgpass "*:*:*:postgres:`cat /var/run/ds-pods-secrets/postgres_passwd`"
     chmod go-rw $HOME/.pgpass
@@ -63,10 +82,11 @@ data:
     aws_access_key_id = $vak
     aws_secret_access_key = $vsk
     EOF
-    cd /backups
     sleep 20
-    count=1428
-    while [ ! -f /backups/FINAL_DONE.flag ] ; do
+    do_restore
+    count=1410
+    cd /backups
+    while [ ! -f FINAL_DONE.flag ] ; do
       count=`expr $count + 1`
       if [ $count -ge 1440 ] ; then
         count=0
@@ -79,6 +99,4 @@ data:
     log cat /backups/finalBackup.err
     cat /backups/finalBackup.err
     do_save_s3
-    log debug sleeping 30s more
-    sleep 30
     log sidecar ct-bck is exiting now
