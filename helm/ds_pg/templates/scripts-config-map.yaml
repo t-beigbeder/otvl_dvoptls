@@ -59,8 +59,8 @@ data:
         log nothing to restore
         return 0
       fi
-      log /venv/bin/aws s3 cp $PGS_S3_PREFIX/$vrst /tmp/$vrst
-      /venv/bin/aws s3 cp $PGS_S3_PREFIX/$vrst /tmp/$vrst
+      log /venv/bin/aws s3 cp --only-show-errors $PGS_S3_PREFIX/$vrst /tmp/$vrst
+      /venv/bin/aws s3 cp --only-show-errors $PGS_S3_PREFIX/$vrst /tmp/$vrst
       if [ $? -ne 0 ] ; then
         log aborting restore
         return 1
