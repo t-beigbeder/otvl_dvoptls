@@ -100,6 +100,6 @@
     dkb_add_args: "--build-arg CSV={{ cv.dv_ide.image.upstream_version }} --build-arg K8S_CLIENTS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.k8s_clients.image }} --build-arg DV_DEV_TOOLS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.dv_dev_tools.image }}"
   - image: "{{ cv.workflow_task.image }}"
     do_build: "{{cv.workflow_build | default(false) }}"
-    dkb_cmd_dir: otvl_dstr/docker/workflow_task
+    dkb_cmd_dir: otvl_dstr/c01-general
   loop_control:
     loop_var: current_item
