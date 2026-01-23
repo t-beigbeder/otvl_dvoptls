@@ -28,6 +28,7 @@
   - otvl_dvoptls
   - otvl_blog
   - otvl_adq
+  - otvl_dstr
   loop_control:
     loop_var: current_item
 
@@ -79,7 +80,7 @@
     do_build: "{{cv.ows_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/ows_sync
   - image: "{{ cv.pg_cli.image }}"
-    do_build: "{{cv.pg_cli | default(false) }}"
+    do_build: "{{cv.pg_cli_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/pg_cli
   - image: "{{ cv.dv_ops.image }}"
     do_build: "{{cv.dv_ops_build | default(false) }}"
@@ -97,5 +98,8 @@
     do_build: "{{cv.ide_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/dv_cs
     dkb_add_args: "--build-arg CSV={{ cv.dv_ide.image.upstream_version }} --build-arg K8S_CLIENTS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.k8s_clients.image }} --build-arg DV_DEV_TOOLS_IMAGE={{ cv.ctr.ingress_host }}/{{ cv.dv_dev_tools.image }}"
+  - image: "{{ cv.workflow_task.image }}"
+    do_build: "{{cv.workflow_build | default(false) }}"
+    dkb_cmd_dir: otvl_dstr/docker/workflow_task
   loop_control:
     loop_var: current_item

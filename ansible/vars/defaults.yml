@@ -89,14 +89,16 @@ dv:
   dv_ide:
     image:
       name: dv-cs
-      upstream_version: "4.106.3"
-      version: "4.106.3-p2"
+      upstream_version: "4.108.1"
+      version: "4.108.1"
   postgres:
     image: postgres:18.1
   pg_cli:
     image: otvl-pg-cli:18.1
   k8s_clients:
     image: k8s-clients:1.1.0
+  workflow_task:
+    image: workflow-task:0.1
   code_server_items:
   dv_secrets:
     postgres_passwd: postgres_passwd_value
