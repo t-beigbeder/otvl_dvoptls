@@ -27,7 +27,6 @@ data:
           rule: "PathPrefix(`/`)"
           middlewares:
             - basic-auth
-            - https-header
           service: awf
       middlewares:
 {{- if .Values.apr_credentials }}
@@ -35,11 +34,8 @@ data:
           basicAuth:
             users:
               - "{{ .Values.apr_credentials }}"
+            removeHeader: true
 {{- end }}
-        https-header:
-          headers:
-            customRequestHeaders:
-              X-Forwarded-Proto: "https"
       services:
         "awf":
           loadBalancer:
