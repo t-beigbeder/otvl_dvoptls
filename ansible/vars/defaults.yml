@@ -104,6 +104,8 @@ dv:
     postgres_passwd: postgres_passwd_value
     aws_access_key_id: aws_access_key_id_value
     aws_secret_access_key: aws_secret_access_key_value
+    s3_tests_access_key_id: s3_tests_access_key_id_value
+    s3_tests_secret_access_key: s3_tests_secret_access_key_value
   # ======================================================
   # DEV PG instances
   dspg_items:
