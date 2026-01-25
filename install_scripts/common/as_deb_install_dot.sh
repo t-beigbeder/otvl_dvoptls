@@ -65,7 +65,7 @@ as_deb_install_dot() {
   cmd gen_ansible_hosts > .config/.otvl/hosts.yml && \
   cmd gen_ansible_group_vars > .config/.otvl/group_vars/all.yaml && \
   cd $sd/../../ansible && \
-  cmd make venv-ins && \
+  cmd make venv && \
   cmd venv/bin/ansible-galaxy collection install kubernetes.core community.crypto ansible.posix && \
   true
   return $?
