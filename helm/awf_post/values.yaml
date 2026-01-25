@@ -1,0 +1,8 @@
+images:
+  traefik: traefik:v3.4
+ingress:
+  enabled: true
+  # host: awfs-app.example.com, defaults to <release-name>.example.com
+apr_credentials:
+service_name: argo-wfs-argo-workflows-server
+server_port: 2746

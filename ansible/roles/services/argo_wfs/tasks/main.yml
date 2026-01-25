@@ -1,0 +1,35 @@
+---
+
+- name: "Add argo helm repo"
+  block:
+    - command:
+        cmd: "helm repo add argo https://argoproj.github.io/argo-helm"
+      register: hra
+      ignore_errors: true
+    - debug: var=hra.cmd
+    - debug: var=hra.stderr_lines
+    - debug: var=hra.stdout_lines
+    - fail:
+      when: hra.rc != 0
+
+- name: "Install Argo workflows with helm"
+  kubernetes.core.helm:
+    name: argo-wfs
+    chart_ref: "argo/argo-workflows"
+    release_namespace: default
+    values_files:
+      - "{{ playbook_dir }}/roles/services/argo_wfs/files/values.yaml"
+
+- name: Here services/argo_wfs/tasks/main.yml
+  include_role:
+    name: commons
+    tasks_from: helm_release
+  vars:
+    title: "argo workflows post installation"
+    chart_sp: "awf_post"
+    vf_template_sp: "awf_post.yaml"
+    release_name: "awf-post"
+    uninstall: "{{ cv.awf_post.helm_uninstall | default(false) }}"
+  when: not cv.awf_post.skip_hdeploy | default(false)
+
+###

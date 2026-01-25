@@ -1,0 +1,4 @@
+singleNamespace: false
+server:
+  ingress:
+    enabled: false

@@ -142,6 +142,9 @@ dv:
 #    gbranch: br
 #    srepo: ssh-user@ssh-host:/path/to/5a7
 ###
+  awf_post:
+    skip_hdeploy: true
+    helm_uninstall: true
   mockup:
     # lbs_build: false
     lbs:
