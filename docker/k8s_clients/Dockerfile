@@ -4,6 +4,7 @@ FROM debian:13 AS builder
 ARG KCU=https://dl.k8s.io/release/v1.34.2/bin/linux/amd64/kubectl
 ARG HLU=https://get.helm.sh/helm-v3.19.2-linux-amd64.tar.gz
 ARG K9U=https://github.com/derailed/k9s/releases/download/v0.50.16/k9s_Linux_amd64.tar.gz
+ARG AWU=https://github.com/argoproj/argo-workflows/releases/download/v3.7.7/argo-linux-amd64.gz
 
 RUN apt-get update \
   && apt-get install -y \
@@ -19,6 +20,10 @@ RUN mkdir -p /usr/local/bin && \
     curl -fL $K9U -o k9.tgz && \
     tar xf k9.tgz && \
     cp k9s /usr/local/bin && \
+    curl -fL $AWU -o argo.gz && \
+    gzip -d argo.gz && \
+    cp argo /user/local/bin/argo && \
+    chmod 755 /user/local/bin/argo && \
     true
 
 FROM scratch

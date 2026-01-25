@@ -81,7 +81,7 @@ dv:
   dv_ops:
     image: dv-ops:1.0.0
   dv_dev_tools:
-    image: dv-dev-tools:1.2.0
+    image: dv-dev-tools:1.3.0
   theia:
     image:
       name: theia-build
@@ -96,7 +96,7 @@ dv:
   pg_cli:
     image: otvl-pg-cli:18.1
   k8s_clients:
-    image: k8s-clients:1.1.0
+    image: k8s-clients:1.2.0
   workflow_task:
     image: workflow-task:0.1
   code_server_items:

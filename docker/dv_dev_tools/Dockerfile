@@ -35,7 +35,7 @@ RUN mkdir -p /usr/local/lib /usr/local/bin /home/dv-user \
   && chmod +x /usr/local/bin/tini \
   && adduser --gecos '' --disabled-password --uid 2001 --shell /bin/bash dv-user \
   && chown -R 2001:2001 /home/dv-user
-COPY entrypoint.sh push_htd.sh init_dev_env.sh /usr/local/bin/
+COPY entrypoint.sh push_htd.sh init_dev_env.sh awf_token.sh /usr/local/bin/
 
 USER 2001
 ENV LANG=en_US.UTF-8
