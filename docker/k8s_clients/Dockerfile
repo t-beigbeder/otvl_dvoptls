@@ -22,8 +22,8 @@ RUN mkdir -p /usr/local/bin && \
     cp k9s /usr/local/bin && \
     curl -fL $AWU -o argo.gz && \
     gzip -d argo.gz && \
-    cp argo /user/local/bin/argo && \
-    chmod 755 /user/local/bin/argo && \
+    cp argo /usr/local/bin/argo && \
+    chmod 755 /usr/local/bin/argo && \
     true
 
 FROM scratch
