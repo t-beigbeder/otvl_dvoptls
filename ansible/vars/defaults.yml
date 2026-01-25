@@ -98,7 +98,7 @@ dv:
   k8s_clients:
     image: k8s-clients:1.2.0
   workflow_task:
-    image: workflow-task:0.1
+    image: workflow-task:0.12
   code_server_items:
   dv_secrets:
     postgres_passwd: postgres_passwd_value
