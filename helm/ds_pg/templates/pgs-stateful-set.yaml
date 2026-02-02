@@ -21,6 +21,7 @@ spec:
           securityContext:
             runAsUser: 101
             runAsGroup: 103
+          restartPolicy: Always
           env:
           - name: POSTGRES_PASSWORD_FILE
             value: /run/ds-pods-secrets/postgres_passwd
@@ -28,7 +29,6 @@ spec:
             value: {{ .Release.Name }}-pgs
           - name: PGS_S3_PREFIX
             value: {{ .Values.s3.url_prefix }}/{{ .Release.Name }}-pgs
-          restartPolicy: Always
           command: [ "/bin/sh", "/scripts/continuousBackup.sh" ]
           volumeMounts:
           - name: backup-volume
