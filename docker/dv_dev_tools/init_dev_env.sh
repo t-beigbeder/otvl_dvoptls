@@ -42,6 +42,10 @@ for vr in $HOME/locgit/* ; do
         cmd $vs $@
     done
 done
-log $0 $@ stopping
+if [ "$1" = "--batch" ] ; then
+    cmd sleep 1001d
+else
+    log $0 $@ stopping
+fi
 
 exit 0
