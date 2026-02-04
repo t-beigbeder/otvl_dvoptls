@@ -26,6 +26,14 @@ RUN mkdir -p /usr/local/bin && \
   curl -fL $GOU -o go.linux-amd64.tar.gz && \
   rm -rf /usr/local/go && tar -C /usr/local -xzf go.linux-amd64.tar.gz
 
+RUN apt-get update \
+  && apt-get install -y ca-certificates \
+  && curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
+  && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable" > /etc/apt/sources.list.d/download_docker_com_linux_debian.list \
+  && apt-get update \
+  && apt-get install -y docker-ce-cli \
+  && rm -rf /var/lib/apt/lists/*
+
 # https://wiki.debian.org/Locale#Manually
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
   && locale-gen
