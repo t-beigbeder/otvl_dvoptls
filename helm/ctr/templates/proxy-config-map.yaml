@@ -22,7 +22,7 @@ data:
         transport:
           respondingTimeouts:
             readTimeout: 360
-        
+
   "dynamic-conf.yml": |
     http:
       routers:
@@ -37,6 +37,7 @@ data:
           basicAuth:
             users:
               - "{{ .Values.apr_credentials }}"
+            removeHeader: true
         https-header:
           headers:
             customRequestHeaders:
