@@ -90,7 +90,7 @@ dv:
   pg_cli:
     image: otvl-pg-cli:18.1
   k8s_clients:
-    image: k8s-clients:1.2.0
+    image: k8s-clients:1.3.0
   workflow_task:
     image: workflow-task:0.12
   code_server_items:
