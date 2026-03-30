@@ -1,9 +1,9 @@
 FROM debian:13 AS builder
 
 # https://cdn.dl.k8s.io/release/stable.txt
-ARG KCU=https://dl.k8s.io/release/v1.34.2/bin/linux/amd64/kubectl
-ARG HLU=https://get.helm.sh/helm-v3.19.2-linux-amd64.tar.gz
-ARG K9U=https://github.com/derailed/k9s/releases/download/v0.50.16/k9s_Linux_amd64.tar.gz
+ARG KCU=https://dl.k8s.io/v1.35.1/bin/linux/amd64/kubectl
+ARG HLU=https://get.helm.sh/helm-v3.20.1-linux-amd64.tar.gz
+ARG K9U=https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Linux_amd64.tar.gz
 ARG AWU=https://github.com/argoproj/argo-workflows/releases/download/v3.7.7/argo-linux-amd64.gz
 
 RUN apt-get update \

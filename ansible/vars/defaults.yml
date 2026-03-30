@@ -31,8 +31,8 @@ dv:
     release_url: "https://github.com/cert-manager/cmctl/releases/download/v2.4.1/cmctl_linux_amd64.tar.gz"
     sha: "78e66db213d95604e9072c34d3424d3667cbc92fc852e8e39acb6942742cb7e5"
   helm:
-    release_url: "https://get.helm.sh/helm-v4.1.3-linux-amd64.tar.gz"
-    sha: "02ce9722d541238f81459938b84cf47df2fdf1187493b4bfb2346754d82a4700"
+    release_url: "https://get.helm.sh/helm-v3.20.1-linux-amd64.tar.gz"
+    sha: "0165ee4a2db012cc657381001e593e981f42aa5707acdd50658326790c9d0dc3"
   k9s:
     release_url: "https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_Linux_amd64.tar.gz"
     sha: "0b697ed4aa80997f7de4deeed6f1fba73df191b28bf691b1f28d2f45fa2a9e9b"
