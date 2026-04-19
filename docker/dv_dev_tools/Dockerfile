@@ -19,6 +19,7 @@ RUN apt-get update \
     make \
     dnsutils \
     file \
+    unzip \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
