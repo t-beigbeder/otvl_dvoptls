@@ -40,8 +40,8 @@ dv:
     release_url: "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_linux_amd64.tar.gz"
     sha: "e73868ab8abaca15d3c974dcf6a5e878860d6f2212867433aa3d8f2b43a492d9"
   cert_manager:
-    release_url: "https://github.com/cert-manager/cert-manager/releases/download/v1.20.1/cert-manager.yaml"
-    sha: "08e1efdade16f2132c3d96094280f2deda396af50ade8edeacd7580186465fbe"
+    release_url: "https://github.com/cert-manager/cert-manager/releases/download/v1.20.2/cert-manager.yaml"
+    sha: "1ce11cae912adecc69e6bb623435fafc9ed21505f9efff98bd71d7b80f01db1f"
     le_url: "https://acme-v02.api.letsencrypt.org/directory"
     le_email: "acme@example.com"
   k3s:
