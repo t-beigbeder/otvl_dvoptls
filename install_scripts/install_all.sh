@@ -48,6 +48,8 @@ install_dot() {
   get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
   get_secret ghp_creds > /home/debian/.git-credentials && \
   get_secret k3s_token > /root/.config/.otvl/.secrets/k3s_token && \
+  get_file_secret sca_key_pem_sample > /root/.config/.otvl/.secrets/sca_key_pem_sample && \
+  get_file_secret sca_cert_pem_sample > /root/.config/.otvl/.secrets/sca_cert_pem_sample && \
   chmod go-rw /root/.config/.otvl/.secrets/k3s_token && \
   cmd cp /root/.config/otvl_vlts/install_env /home/debian/.config/.otvl/install_env && \
   cmd cp /root/.config/otvl_vlts/install_otvl_meta /home/debian/.config/.otvl/install_otvl_meta && \

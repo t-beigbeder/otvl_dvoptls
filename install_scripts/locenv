@@ -67,3 +67,7 @@ get_secret() {
     echo $vv
 }
 
+get_file_secret() {
+    vk=$1
+    yq .$vk /root/.config/otvl_vlts/${CI_LHN}.yaml | sed -e 's/"//g' | sed -e 's/\\n/\n/g'
+}
