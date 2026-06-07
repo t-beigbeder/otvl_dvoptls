@@ -48,8 +48,13 @@ install_dot() {
   get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
   get_secret ghp_creds > /home/debian/.git-credentials && \
   get_secret k3s_token > /root/.config/.otvl/.secrets/k3s_token && \
-  get_file_secret sca_key_pem_sample > /root/.config/.otvl/.secrets/sca_key_pem_sample && \
-  get_file_secret sca_cert_pem_sample > /root/.config/.otvl/.secrets/sca_cert_pem_sample && \
+  get_file_secret ca_cert > /home/debian/.config/.otvl/.secrets/ca_cert && \
+  get_file_secret server_key > /home/debian/.config/.otvl/.secrets/server_key && \
+  get_file_secret server_cert > /home/debian/.config/.otvl/.secrets/server_cert && \
+  get_file_secret plugin_key > /home/debian/.config/.otvl/.secrets/plugin_key && \
+  get_file_secret plugin_cert > /home/debian/.config/.otvl/.secrets/plugin_cert && \
+  get_file_secret client_key > /home/debian/.config/.otvl/.secrets/client_key && \
+  get_file_secret client_cert > /home/debian/.config/.otvl/.secrets/client_cert && \
   chmod go-rw /root/.config/.otvl/.secrets/k3s_token && \
   cmd cp /root/.config/otvl_vlts/install_env /home/debian/.config/.otvl/install_env && \
   cmd cp /root/.config/otvl_vlts/install_otvl_meta /home/debian/.config/.otvl/install_otvl_meta && \
