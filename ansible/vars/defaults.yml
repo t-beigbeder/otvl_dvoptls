@@ -64,6 +64,11 @@ dv:
     # apr_credentials: "everybody:$apr1$hd/Cq048$bx71KTBads2TZYNhCVzja1"
   traefik:
     image: "traefik:v3.4"
+  vdasync:
+    release_url: "https://github.com/t-beigbeder/vdasync/releases/download/v0.10.1/vdasync-linux-amd64-v0.10.1.tgz"
+    sha: "bbdc1d4080b9ccea344a82bf7043a3f3c04cf065a23bca24e295fa3c957b647f"
+    server_fqdn: vdaserver.example.com
+    server_port: 443
   build:
     vm: build-hostname
     ssh:

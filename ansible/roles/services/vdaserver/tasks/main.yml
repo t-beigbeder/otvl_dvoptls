@@ -1,0 +1,39 @@
+---
+# services/vdaserver/tasks/main.yml
+
+- name: Install vdasync utilities on the file server host
+  include_role:
+    name: commons
+    tasks_from: install_from_ghr
+  vars:
+    url: "{{ cv.vdasync.release_url }}"
+    tgz_name: "vdasync.1.tgz"
+    sha: "{{ cv.vdasync.sha }}"
+    dir_content: true
+    binary_name: "vdasync"
+    binary_path: "."
+    dest_dir_content: "/usr/local/bin"
+
+- name: "Create otvl_default_route systemd service file"
+  template:
+    src: systemd/vdaserver.service
+    dest: /etc/systemd/system/vdaserver.service
+    owner: root
+    group: root
+    mode: 0644
+  register: vdas_config
+
+- name: Create and run systemd service for vdaserver
+  block:
+    - name: Enable vdaserver systemd service
+      systemd:
+        name: "vdaserver"
+        enabled: yes
+    - name: Restart vdaserver systemd service
+      systemd:
+        name: "vdaserver"
+        state: restarted
+        daemon_reload: yes
+  when: vdas_config.changed
+
+###

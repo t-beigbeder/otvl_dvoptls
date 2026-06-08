@@ -1,0 +1,12 @@
+[Unit]
+Description=vdaserver
+After=network.target local-fs.target
+
+[Service]
+Environment=CERTS_DIR={{ remote_user_home }}/.config/.otvl/.secrets
+ExecStart=/usr/local/bin/vdaserver -host {{ cv.vdasync.server_fqdn }} -port {{ cv.vdasync.server_port }} -log stderr -level INFO -cert ${CERTS_DIR}/server_cert -key ${CERTS_DIR}/server_key -clientca ${CERTS_DIR}/ca_cert
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target

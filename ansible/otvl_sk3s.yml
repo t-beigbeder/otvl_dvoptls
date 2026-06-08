@@ -29,6 +29,14 @@
     - hostconfig
   tags: hc
 
+- hosts: sk3s_group
+  gather_facts: False
+  become: true
+  roles:
+    - role: roles/services/vdaserver
+      when: otvl_meta.k3s_server | default(false)
+  tags: vda
+
 - hosts: docker_run_group
   gather_facts: False
   become: true
