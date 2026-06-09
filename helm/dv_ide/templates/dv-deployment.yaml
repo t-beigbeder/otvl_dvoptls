@@ -66,6 +66,8 @@ spec:
             name: data-volume
           - mountPath: /configmap
             name: dv-config-volume
+          - mountPath: /etc/vdasync
+            name: vdasync-config-volume
         - name: init-dev-env
           image: {{ .Values.images.dv_dev }}
           imagePullPolicy: IfNotPresent
@@ -101,6 +103,8 @@ spec:
             name: ephemeral-volume
           - mountPath: /configmap
             name: dv-config-volume
+          - mountPath: /etc/vdasync
+            name: vdasync-config-volume
       containers:
         - name: code-server
           image: {{ .Values.images.dv_ide }}
@@ -157,6 +161,8 @@ spec:
             name: kubeconfig-config-volume
             subPath: kubeconfig.yml
 {{- end }}
+          - mountPath: /etc/vdasync
+            name: vdasync-config-volume
           - mountPath: /run/ds-pods-secrets
             name: ds-pods-secrets-volume
             readOnly: true
@@ -208,6 +214,20 @@ spec:
           - key: kubeconfig.yml
             path: kubeconfig.yml
 {{- end }}
+      - name: vdasync-config-volume
+        configMap:
+          name: {{ .Release.Name }}-vdasync-cmap
+          items:
+          - key: ca_cert
+            path: ca_cert
+          - key: client_key
+            path: client_key
+          - key: client_cert
+            path: client_cert
+          - key: plugin_key
+            path: plugin_key
+          - key: plugin_cert
+            path: plugin_cert
       - name: ds-pods-secrets-volume
         secret:
           secretName: ds-pods-secrets

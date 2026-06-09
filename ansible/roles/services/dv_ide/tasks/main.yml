@@ -15,6 +15,31 @@
   register: kubeconfig
   # TODO: when host configured for it
 
+- name: Loads vdasync ca_cert
+  ansible.builtin.slurp:
+    src: "{{ remote_user_home }}/.config/.otvl/.secrets/ca_cert"
+  register: vda_ca_cert
+
+- name: Loads vdasync client_key
+  ansible.builtin.slurp:
+    src: "{{ remote_user_home }}/.config/.otvl/.secrets/client_key"
+  register: vda_client_key
+
+- name: Loads vdasync client_cert
+  ansible.builtin.slurp:
+    src: "{{ remote_user_home }}/.config/.otvl/.secrets/client_cert"
+  register: vda_client_cert
+
+- name: Loads vdasync plugin_key
+  ansible.builtin.slurp:
+    src: "{{ remote_user_home }}/.config/.otvl/.secrets/plugin_key"
+  register: vda_plugin_key
+
+- name: Loads vdasync plugin_cert
+  ansible.builtin.slurp:
+    src: "{{ remote_user_home }}/.config/.otvl/.secrets/plugin_cert"
+  register: vda_plugin_cert
+
 - name: Loads _exthosts.yaml
   ansible.builtin.slurp:
     src: "{{ remote_user_home }}/.config/.otvl/ext_hosts.yaml"

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-vdasync-cmap
+binaryData:
+  ca_cert: {{ .Values.vda_ca_cert }}
+  client_key: {{ .Values.vda_client_key }}
+  client_cert: {{ .Values.vda_client_cert }}
+  plugin_key: {{ .Values.vda_plugin_key }}
+  plugin_cert: {{ .Values.vda_plugin_cert }}
