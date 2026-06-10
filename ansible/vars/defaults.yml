@@ -69,6 +69,8 @@ dv:
     sha: "bbdc1d4080b9ccea344a82bf7043a3f3c04cf065a23bca24e295fa3c957b647f"
     server_fqdn: vdaserver.example.com
     server_port: 443
+    uid: 2002
+    user: vdaserver
   build:
     vm: build-hostname
     ssh:

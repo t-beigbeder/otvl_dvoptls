@@ -1,6 +1,32 @@
 ---
 # services/vdaserver/tasks/main.yml
 
+- name: Create a group {{ cv.vdasync.user }}
+  ansible.builtin.group:
+    name: "{{ cv.vdasync.user }}"
+    gid: "{{ cv.vdasync.uid }}"
+
+- name: Create a user {{ cv.vdasync.user }}
+  ansible.builtin.user:
+    name: "{{ cv.vdasync.user }}"
+    uid: "{{ cv.vdasync.uid }}"
+    group: "{{ cv.vdasync.user }}"
+    home: "/data/home/{{ cv.vdasync.user }}"
+    create_home: false
+    shell: /bin/bash
+
+- name: Create vdasync server /home/{{ cv.vdasync.user }}/htd directory
+  file:
+    path: "/data/home/{{ cv.vdasync.user }}/{{ item }}"
+    state: directory
+    owner: "{{ cv.vdasync.user }}"
+    group: "{{ cv.vdasync.user }}"
+    mode: 0750
+  with_items:
+    - home
+    - tools
+    - data
+
 - name: Install vdasync utilities on the file server host
   include_role:
     name: commons
