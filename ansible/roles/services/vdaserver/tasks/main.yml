@@ -11,6 +11,8 @@
     name: "{{ cv.vdasync.user }}"
     uid: "{{ cv.vdasync.uid }}"
     group: "{{ cv.vdasync.user }}"
+    groups:
+    - "{{ remote_user }}"
     home: "/data/home/{{ cv.vdasync.user }}"
     create_home: false
     shell: /bin/bash

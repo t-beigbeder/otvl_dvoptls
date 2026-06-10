@@ -60,7 +60,9 @@ install_dot() {
   cmd cp /root/.config/otvl_vlts/install_otvl_meta /home/debian/.config/.otvl/install_otvl_meta && \
   cmd cp /root/.config/otvl_vlts/install_groups /home/debian/.config/.otvl/install_groups && \
   cmd cp /root/.otvl_ci_env /home/debian/.config/.otvl/ci_env && \
-  cmd chmod -R go-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
+  cmd chmod -R o-rwX /home/debian/.config/.otvl/.secrets /home/debian/.git-credentials && \
+  cmd chmod -R g+rX /home/debian/.config/.otvl/.secrets && \
+  cmd chmod g+rX /home/debian/.config/.otvl /home/debian/.config /home/debian && \
   cmd chown -R debian:debian /home/debian && \
   cmd su - debian -c "$sd/common/as_deb_install_dot.sh $CI_LOPS_REPO" && \
   true
