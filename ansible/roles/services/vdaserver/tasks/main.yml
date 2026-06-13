@@ -1,12 +1,12 @@
 ---
 # services/vdaserver/tasks/main.yml
 
-- name: Create a group {{ cv.vdasync.user }}
+- name: Create a group "{{ cv.vdasync.user }}"
   ansible.builtin.group:
     name: "{{ cv.vdasync.user }}"
     gid: "{{ cv.vdasync.uid }}"
 
-- name: Create a user {{ cv.vdasync.user }}
+- name: Create a user "{{ cv.vdasync.user }}"
   ansible.builtin.user:
     name: "{{ cv.vdasync.user }}"
     uid: "{{ cv.vdasync.uid }}"

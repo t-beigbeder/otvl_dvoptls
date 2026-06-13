@@ -20,6 +20,7 @@
   - name: Define var for non-root remote_user
     set_fact:
       remote_user_home: "{{ ansible_env.HOME }}"
+      remote_user: "{{ ansible_user_id }}"
   tags: always
 
 - hosts: all
