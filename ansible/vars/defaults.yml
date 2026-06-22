@@ -65,8 +65,8 @@ dv:
   traefik:
     image: "traefik:v3.4"
   vdasync:
-    release_url: "https://github.com/t-beigbeder/vdasync/releases/download/v0.10.1/vdasync-linux-amd64-v0.10.1.tgz"
-    sha: "bbdc1d4080b9ccea344a82bf7043a3f3c04cf065a23bca24e295fa3c957b647f"
+    release_url: "https://github.com/t-beigbeder/vdasync/releases/download/v0.12.2/vdasync-linux-amd64-v0.12.2.tgz"
+    sha: "22645a17333635a2084d952fa2b473f9402982aa8065eb7dce46afa4ffba1711"
     server_fqdn: vdaserver.example.com
     server_port: 443
     uid: 2002
@@ -80,7 +80,7 @@ dv:
       pri: "id-ed-build file content"
   # gpu_operator: false
   dv_ops:
-    image: dv-ops:1.0.0
+    image: dv-ops:1.1.0
   dv_dev_tools:
     image: dv-dev-tools:1.5.1
   theia:
@@ -90,8 +90,8 @@ dv:
   dv_ide:
     image:
       name: dv-cs
-      upstream_version: "4.116.0" # don't prefix with v!
-      version: "4.116.0-p1"
+      upstream_version: "4.125.0" # don't prefix with v!
+      version: "4.125.0-p1"
   postgres:
     image: postgres:18.1
   pg_cli:

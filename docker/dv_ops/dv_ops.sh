@@ -28,7 +28,7 @@ cmd() {
 }
 
 set_sprik() {
-    if [ -e /configmap/sprik ] ; then 
+    if [ -e /configmap/sprik ] ; then
         vb64f=/configmap/sprik
     else
         vb64f=/tmp/sprik
@@ -38,17 +38,36 @@ set_sprik() {
     true || return 1
 }
 
-dvo_restore() {
+dvo_restore_vdasync() {
     vdd=$1
     if [ $vdd = home ] ; then
         vld=/home/dv-user
     else
         vld=/$vdd
-    fi    
-    log dvo_restore $vdd start
+    fi
+    log dvo_restore_vdasync $vdd start
+    cmd vdasync -rm -source dss://$vsh:9443/data/home/$vsu/$vdd -target $vld -conc 8 -ca /etc/vdasync/ca_cert -clientcert /etc/vdasync/client_cert -clientkey /etc/vdasync/client_key || return $?
+    log dvo_restore_vdasync $vdd done
+}
+
+dvo_restore_ssh() {
+    vdd=$1
+    if [ $vdd = home ] ; then
+        vld=/home/dv-user
+    else
+        vld=/$vdd
+    fi
+    log dvo_restore_ssh $vdd start
     log "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf -"
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/id_ssh_sync $vsu@$vsh tar -C /data/home/$vsu/$vdd -cf - . | tar -C $vld --no-overwrite-dir -xf - || return $?
-    log dvo_restore $vdd done
+    log dvo_restore_ssh $vdd done
+}
+
+dvo_restore_any() {
+    dvo_restore_vdasync $*
+    if [ $? -ne 0 ] ; then
+        dvo_restore_ssh $*
+    fi
 }
 
 if [ $# -ne 2 ] ; then
@@ -74,10 +93,10 @@ fi
 if [ $1 = restore ] ; then
     if [ $2 = all ] ; then
         for vt in home tools data ; do
-            dvo_restore $vt || fat $* failed
+            dvo_restore_any $vt || fat $* failed
         done
     else
-        dvo_restore $2 || fat $* failed
+        dvo_restore_any $2 || fat $* failed
     fi
     log $@ stopping
     exit 0
