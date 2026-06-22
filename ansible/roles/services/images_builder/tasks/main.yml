@@ -89,6 +89,7 @@
   - image: "{{ cv.dv_dev_tools.image }}"
     do_build: "{{cv.dv_ops_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/dv_dev_tools
+    dkb_add_args: "--build-arg VDASURL={{ cv.vdasync.release_url }}"
   - image: "{{ cv.k8s_clients.image }}"
     do_build: "{{cv.ide_build | default(false) }}"
     dkb_cmd_dir: otvl_dvoptls/docker/k8s_clients

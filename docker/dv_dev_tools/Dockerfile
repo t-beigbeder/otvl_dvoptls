@@ -1,6 +1,7 @@
 FROM debian:13
 
 ARG GOU=https://go.dev/dl/go1.25.5.linux-amd64.tar.gz
+ARG VDASURL=https://github.com/t-beigbeder/vdasync/releases/download/v0.12.2-tbd/vdasync-linux-amd64-v0.12.2-tbd.tgz
 
 USER root
 RUN apt-get update \
@@ -25,7 +26,10 @@ RUN apt-get update \
 WORKDIR /tmp
 RUN mkdir -p /usr/local/bin && \
   curl -fL $GOU -o go.linux-amd64.tar.gz && \
-  rm -rf /usr/local/go && tar -C /usr/local -xzf go.linux-amd64.tar.gz
+  rm -rf /usr/local/go && tar -C /usr/local -xzf go.linux-amd64.tar.gz && \
+  curl -fL $VDASURL -o /tmp/vdasync.tgz && \
+  tar xf /tmp/vdasync.tgz -C /usr/local/bin ./vdasync && \
+  rm *.tgz
 
 RUN apt-get update \
   && apt-get install -y ca-certificates \
