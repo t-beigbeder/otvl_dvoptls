@@ -91,7 +91,7 @@ dv:
     image:
       name: dv-cs
       upstream_version: "4.125.0" # don't prefix with v!
-      version: "4.125.0-p1"
+      version: "4.125.0-p2"
   postgres:
     image: postgres:18.1
   pg_cli:
