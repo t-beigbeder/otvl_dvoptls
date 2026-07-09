@@ -55,7 +55,7 @@ push_htd_vsync() {
         vld=/$vdd
     fi
     log push_htd_vsync $vop $vdd start
-    cmd vdasync -source $vld -target dss://$vsh:9443/data/home/$vsu/$vdd -ca /etc/vdasync/ca_cert -clientcert /etc/vdasync/client_cert -clientkey /etc/vdasync/client_key -conc 8 $vop -rm
+    cmd vdasync -source $vld -target dss://$vsh:9443/data/home/$vsu/$vdd -ca /etc/vdasync/ca_cert -clientcert /etc/vdasync/client_cert -clientkey /etc/vdasync/client_key -conc 12 $vop -rm
 }
 
 push_htd_ssh() {

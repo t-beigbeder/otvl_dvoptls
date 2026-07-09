@@ -1,6 +1,6 @@
 FROM debian:13
 
-ARG GOU=https://go.dev/dl/go1.25.5.linux-amd64.tar.gz
+ARG GOU=https://go.dev/dl/go1.26.5.linux-amd64.tar.gz
 ARG VDASURL=https://github.com/t-beigbeder/vdasync/releases/download/v0.12.2-tbd/vdasync-linux-amd64-v0.12.2-tbd.tgz
 
 USER root
