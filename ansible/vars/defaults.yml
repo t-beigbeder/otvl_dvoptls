@@ -65,8 +65,8 @@ dv:
   traefik:
     image: "traefik:v3.4"
   vdasync:
-    release_url: "https://github.com/t-beigbeder/vdasync/releases/download/v0.13.3/vdasync-linux-amd64-v0.13.3.tgz"
-    sha: "82c046e73e43017753b24a89361d79f7fa42a5c1777381feb46de25588b66b37"
+    release_url: "https://github.com/t-beigbeder/vdasync/releases/download/v0.15.1/vdasync-linux-amd64-v0.15.1.tgz"
+    sha: "9b4dfbcdcb8dad87e3d5cdf0b7c20fe329b84997694a419ce70eaa214b71b4be"
     server_fqdn: vdaserver.example.com
     server_port: 443
     uid: 2002
