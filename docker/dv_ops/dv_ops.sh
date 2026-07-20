@@ -46,7 +46,7 @@ dvo_restore_vdasync() {
         vld=/$vdd
     fi
     log dvo_restore_vdasync $vdd start
-    cmd vdasync -rm -source dss://$vsh:9443/data/home/$vsu/$vdd -target $vld -conc 4 -ca /etc/vdasync/ca_cert -clientcert /etc/vdasync/client_cert -clientkey /etc/vdasync/client_key || return $?
+    cmd vdasync -rm -source dss://$vsh:9443/data/home/$vsu/$vdd -target $vld -conc 8 -ca /etc/vdasync/ca_cert -clientcert /etc/vdasync/client_cert -clientkey /etc/vdasync/client_key || return $?
     log dvo_restore_vdasync $vdd done
 }
 
