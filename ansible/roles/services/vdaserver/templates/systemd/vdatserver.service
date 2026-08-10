@@ -1,0 +1,13 @@
+[Unit]
+Description=vdatserver
+After=network.target local-fs.target
+
+[Service]
+User={{ cv.vdasync.user }}
+Environment=CERTS_DIR={{ remote_user_home }}/.config/.otvl/.secrets
+ExecStart=/usr/local/bin/vdatserver -host {{ cv.vdasync.tserver_fqdn }} -port {{ cv.vdasync.tserver_port }} -log stderr -level INFO -cert ${CERTS_DIR}/server_cert -key ${CERTS_DIR}/server_key -clientca ${CERTS_DIR}/ca_cert -ageidf ${CERTS_DIR}/age_tids -root {{ cv.vdasync.tserver_root }}
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target

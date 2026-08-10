@@ -42,7 +42,7 @@
     binary_path: "."
     dest_dir_content: "/usr/local/bin"
 
-- name: "Create otvl_default_route systemd service file"
+- name: "Create vdaserver systemd service file"
   template:
     src: systemd/vdaserver.service
     dest: /etc/systemd/system/vdaserver.service
@@ -63,5 +63,27 @@
         state: restarted
         daemon_reload: yes
   when: vdas_config.changed
+
+- name: "Create vdatserver systemd service file"
+  template:
+    src: systemd/vdatserver.service
+    dest: /etc/systemd/system/vdatserver.service
+    owner: root
+    group: root
+    mode: 0644
+  register: vdats_config
+
+- name: Create and run systemd service for vdatserver
+  block:
+    - name: Enable vdatserver systemd service
+      systemd:
+        name: "vdatserver"
+        enabled: yes
+    - name: Restart vdatserver systemd service
+      systemd:
+        name: "vdatserver"
+        state: restarted
+        daemon_reload: yes
+  when: vdats_config.changed
 
 ###

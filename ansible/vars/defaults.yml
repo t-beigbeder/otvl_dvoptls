@@ -69,6 +69,9 @@ dv:
     sha: "c229a7277965d9c9d8b2a09bea8fcb4121a4890a1b01574f3bf0e36ad9241bb1"
     server_fqdn: vdaserver.example.com
     server_port: 443
+    tserver_fqdn: vdatserver.example.com
+    tserver_port: 443
+    tserver_root: /home/vdaserver/tserver/eroot
     uid: 2002
     user: vdaserver
   build:

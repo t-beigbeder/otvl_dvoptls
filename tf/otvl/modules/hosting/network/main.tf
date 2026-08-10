@@ -44,6 +44,16 @@ resource "openstack_networking_secgroup_rule_v2" "ext_alt_https" {
   security_group_id = openstack_networking_secgroup_v2.ext.id
 }
 
+resource "openstack_networking_secgroup_rule_v2" "ext_alt2_https" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 9543
+  port_range_max    = 9543
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = openstack_networking_secgroup_v2.ext.id
+}
+
 resource "openstack_networking_secgroup_rule_v2" "ext_ssh" {
   count             = var.hosting_ssh_exposed ? 1 : 0
   direction         = "ingress"
