@@ -28,7 +28,7 @@ RUN mkdir -p /usr/local/bin && \
   curl -fL $GOU -o go.linux-amd64.tar.gz && \
   rm -rf /usr/local/go && tar -C /usr/local -xzf go.linux-amd64.tar.gz && \
   curl -fL $VDASURL -o /tmp/vdasync.tgz && \
-  tar xf /tmp/vdasync.tgz -C /usr/local/bin ./vdasync && \
+  tar xf /tmp/vdasync.tgz -C /usr/local/bin vdasync && \
   rm *.tgz
 
 RUN apt-get update \
