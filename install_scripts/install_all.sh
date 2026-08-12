@@ -48,6 +48,7 @@ install_dot() {
   get_secret ansible_vault_pass > /home/debian/.config/.otvl/.secrets/otvl_lops_an_vl.txt && \
   get_secret ghp_creds > /home/debian/.git-credentials && \
   get_secret k3s_token > /root/.config/.otvl/.secrets/k3s_token && \
+  get_secret age_tids > /home/debian/.config/.otvl/.secrets/age_tids && \
   get_file_secret ca_cert > /home/debian/.config/.otvl/.secrets/ca_cert && \
   get_file_secret server_key > /home/debian/.config/.otvl/.secrets/server_key && \
   get_file_secret server_cert > /home/debian/.config/.otvl/.secrets/server_cert && \
