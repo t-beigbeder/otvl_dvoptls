@@ -85,7 +85,7 @@ dv:
   dv_ops:
     image: dv-ops:1.1.0
   dv_dev_tools:
-    image: dv-dev-tools:1.5.1
+    image: dv-dev-tools:1.5.2
   theia:
     image:
       name: theia-build
@@ -93,8 +93,8 @@ dv:
   dv_ide:
     image:
       name: dv-cs
-      upstream_version: "4.125.0" # don't prefix with v!
-      version: "4.125.0-p2"
+      upstream_version: "4.145.2" # don't prefix with v!
+      version: "4.145.2-p1"
   postgres:
     image: postgres:18.1
   pg_cli:
