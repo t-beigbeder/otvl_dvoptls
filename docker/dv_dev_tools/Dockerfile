@@ -21,6 +21,7 @@ RUN apt-get update \
     dnsutils \
     file \
     unzip \
+    c-icap \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
