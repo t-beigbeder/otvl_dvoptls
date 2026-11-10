@@ -35,7 +35,7 @@
     tasks_from: install_from_ghr
   vars:
     url: "{{ cv.vdasync.release_url }}"
-    tgz_name: "vdasync.1.tgz"
+    tgz_name: "vdasync.2.tgz"
     sha: "{{ cv.vdasync.sha }}"
     dir_content: true
     binary_name: "vdasync"
