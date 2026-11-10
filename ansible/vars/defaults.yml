@@ -83,9 +83,9 @@ dv:
       pri: "id-ed-build file content"
   # gpu_operator: false
   dv_ops:
-    image: dv-ops:1.2.0
+    image: dv-ops:1.2.1
   dv_dev_tools:
-    image: dv-dev-tools:1.6.0
+    image: dv-dev-tools:1.6.1
   theia:
     image:
       name: theia-build
@@ -94,7 +94,7 @@ dv:
     image:
       name: dv-cs
       upstream_version: "4.125.0" # don't prefix with v!
-      version: "4.125.0-p3"
+      version: "4.125.0-p4"
   postgres:
     image: postgres:18.1
   pg_cli:
