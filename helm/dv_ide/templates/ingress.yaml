@@ -9,6 +9,7 @@ spec:
   tls:
     - hosts:
         - {{ include "otvl-dv-ingress-hostname" . }}
+        - {{ include "otvl-dv-ingress-alt-hostname" . }}
       secretName: {{ .Release.Name }}
   rules:
     - host: {{ include "otvl-dv-ingress-hostname" . }}
