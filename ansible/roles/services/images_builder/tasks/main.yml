@@ -29,6 +29,7 @@
   - otvl_blog
   - otvl_adq
   - otvl_dstr
+  - otvl_pdp
   loop_control:
     loop_var: current_item
 
